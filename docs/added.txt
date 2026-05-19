@@ -1,0 +1,179 @@
+New Architecture Features
+=========================
+
+Historical note: this file records earlier architecture improvements. The
+current physics-based simulator is documented in `architecture.md`,
+`physics_simulation.md`, and `system_walkthrough.md`.
+
+Velocity estimation architecture
+--------------------------------
+
+The filter layer now derives vertical velocity from filtered altitude. This is
+important because a rocket should not make flight-phase decisions directly from
+raw sensor samples. In real avionics, altitude can contain barometer noise,
+vibration effects, pressure transients, and sensor update jitter.
+
+The data flow is:
+
+raw simulated altitude
+-> filtered altitude
+-> vertical velocity
+-> FSM apogee decision
+
+The descending condition is now derived from filtered-altitude velocity rather
+than being set by the simulator. This matters for real flight because the
+vehicle must be able to detect descent from sensor data after the simulator is
+removed.
+
+Apogee confirmation is two-stage. `Ascent` first detects an apogee candidate
+from negative vertical velocity. `Apogee_confirm` then waits a sub-second
+window and keeps checking for resumed upward motion. If velocity becomes
+positive again, the state safely returns to `Ascent`.
+
+Launch detection architecture
+-----------------------------
+
+`Launch_Pad` no longer launches because a fixed timer expired. The simulator
+may create a physical launch event after a configurable delay, but the FSM only
+transitions to `Ascent` when derived vertical velocity crosses the configured
+launch threshold.
+
+This distinction is important. In real avionics, launch should be detected by
+sensor evidence such as acceleration or rapid altitude change. A timer is fine
+for a desktop simulator to schedule a fake event, but mission logic must not
+confuse that schedule with launch detection.
+
+Timing architecture
+-------------------
+
+Timing is centralized in `timing.cpp`. The main loop updates mission time and
+delta time once per cycle. State handlers ask for elapsed time through the
+timing layer instead of creating their own time calculations.
+
+The timing layer provides both second and millisecond elapsed-time queries.
+Millisecond timing is required for apogee confirmation because a 500 ms to
+1000 ms confirmation window cannot be represented accurately by integer
+seconds.
+
+This matters in embedded systems because timing often changes during migration.
+A desktop program uses `steady_clock`; an STM32 project may use HAL ticks,
+timer interrupts, or an RTOS task period. Centralizing time prevents every
+state handler from needing to change later.
+
+Configuration architecture
+--------------------------
+
+Configuration constants live in `config.hpp`. This includes state durations,
+filter coefficients, simulation rates, telemetry intervals, velocity
+thresholds, apogee confirmation time, landing stationary time, and watchdog
+limits.
+
+Central configuration makes tuning safer. For example, changing the apogee
+threshold or filter coefficient should not require editing mission-state logic.
+This also makes review easier because constants are visible in one place.
+
+Event-based logging improvements
+--------------------------------
+
+Mission logging now records event time and event category. A log entry is no
+longer just a sentence; it carries context about when the event occurred and
+which subsystem produced it.
+
+This matters in avionics because post-flight review depends on event order.
+Knowing that arming, launch detection, apogee confirmation, deployment, and
+landing occurred in a sensible sequence is more useful than seeing the messages
+alone.
+
+Sensor noise simulation
+-----------------------
+
+The simulation layer contains a deterministic noise pattern that can be applied
+to raw altitude. The default amplitude is currently zero to preserve baseline
+mission behavior, but enabling it only requires changing the configuration
+constant.
+
+The simulator now advances altitude using elapsed time instead of one altitude
+step per loop. This keeps simulated motion consistent with millisecond apogee
+confirmation and avoids tying physics to console-print speed.
+
+Noise belongs in the simulation layer because mission logic should not know
+whether data came from clean simulation, noisy simulation, or real hardware.
+The filter layer receives raw data and produces stable processed data either
+way.
+
+Landing detection architecture
+------------------------------
+
+Landing is detected by sustained near-zero vertical velocity during `Descent`.
+This is more realistic than requiring altitude to return to exactly zero,
+because barometric pressure drift can make the ground read as a positive or
+negative altitude after flight.
+
+The data flow is:
+
+filtered altitude
+-> vertical velocity
+-> stationary-time accumulator
+-> landing detected
+
+The accumulator resets whenever velocity moves outside the configured
+stationary band. This means a brief pause or noisy sample should not instantly
+declare landing.
+
+Watchdog and failsafe architecture
+----------------------------------
+
+The watchdog checks whether the current state has exceeded its configured
+timeout. If it does, it raises a fault independently of the FSM.
+
+This design matters because faults are cross-cutting safety concerns. Adding a
+fault state to the mission FSM would force every state to reason about fault
+transitions. Keeping the watchdog separate makes the safety path easier to
+extend without changing the mission state list.
+
+Deployment logic abstraction
+----------------------------
+
+Payload deployment is now triggered through `triggerPayloadDeployment()`.
+Currently that function records deployment and logs the event. In a future
+STM32 version, the same function can command a servo, pyro channel, MOSFET,
+or deployment controller.
+
+The payload-separation state only asks for deployment. It does not know the
+hardware details. That keeps mission logic portable.
+
+Landed power management
+-----------------------
+
+The `Landed` state now calls a power-management abstraction to disable
+unnecessary high-rate systems. In the desktop version this updates flags and
+logs the action. In an STM32 version, the same interface can stop IMU sampling,
+reduce SD logging, disable flight telemetry, or switch peripherals into a low
+power mode.
+
+The recovery beacon is enabled separately in `Beacon`. This keeps flight
+telemetry shutdown distinct from recovery signaling.
+
+Packetized telemetry structure
+------------------------------
+
+Telemetry now builds a `TelemetryPacket` before printing. The packet contains
+state, mission time, filtered altitude, vertical velocity, arming status, fault
+status, descent status, and deployment status.
+
+This is useful because printing to the console is only a desktop stand-in. A
+future radio or UART implementation can serialize the packet without asking
+the FSM for data directly.
+
+Scalability implications
+------------------------
+
+Each new feature was added as a small layer instead of as extra logic inside a
+single state handler. This keeps the project scalable:
+
+- New sensors can be added under the sensor abstraction.
+- New filters can be added without changing the FSM.
+- New telemetry transports can reuse the packet structure.
+- New deployment hardware can stay behind the deployment interface.
+- New power-saving actions can be implemented behind the power interface.
+- New fault checks can be added without changing the ten mission states.
