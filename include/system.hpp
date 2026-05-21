@@ -57,6 +57,10 @@ struct RocketSystem
     bool sensor_failure;
     bool watchdog_enabled;
 
+    bool IMU_Ready = false;
+    bool Telemetry_Ready = false;
+    bool SD_Card_Ready = false;
+
     bool payload_deployed;
     bool mission_complete;
     bool thrust_active;
@@ -99,4 +103,5 @@ struct RocketSystem
     std::chrono::steady_clock::time_point previous_update_time;
     std::chrono::steady_clock::time_point current_time;
     std::chrono::steady_clock::time_point state_entry_time;
+    std::chrono::steady_clock::time_point boot_start_time;
 };

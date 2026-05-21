@@ -32,44 +32,71 @@ static bool enterState(RocketSystem &system)
 // IMU, telemetry, and storage readiness before mission logic continues.
 void runBootState(RocketSystem &system)
 {
-    if(enterState(system))
+    // ---------- State Entry ----------
+    if (enterState(system))
     {
         std::cout << "\n[BOOT]\n";
         std::cout << "Initializing systems...\n";
+        // Start boot timer
+        system.boot_start_time =
+            std::chrono::steady_clock::now();
+        // Initialize ONCE
+        system.IMU_Ready =
+            initialize_IMU();
+        system.Telemetry_Ready =
+            initialize_telemetry();
+        system.SD_Card_Ready =
+            initialize_SD_card();
     }
-
-    bool IMU_Ready =
-        initialize_IMU();
-
-    if(!IMU_Ready)
+    // ---------- Timeout Protection ----------
+    const uint32_t BOOT_TIMEOUT_MS = 5000;
+    long elapsed_time =
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            system.current_time - system.boot_start_time
+        ).count();
+    if (elapsed_time > BOOT_TIMEOUT_MS)
+    {
+        raiseFault(system,
+                   "BOOT timeout",
+                   true);
+        return;
+    }
+    // ---------- IMU Failure ----------
+    if (!system.IMU_Ready)
     {
         raiseFault(system,
                    "IMU initialization failed",
                    true);
-
         return;
     }
-
-    bool Telemetry_Ready =
-        initialize_telemetry();
-
-    bool SD_Card_Ready =
-        initialize_SD_card();
-
-    if(IMU_Ready &&
-       Telemetry_Ready &&
-       SD_Card_Ready)
+    // ---------- Telemetry Failure ----------
+    if (!system.Telemetry_Ready)
     {
-        std::cout << "All systems initialized.\n";
-
+        raiseFault(system,
+                   "Telemetry initialization failed",
+                   false); // Recoverable warning
+    }
+    // ---------- SD Card Failure ----------
+    if (!system.SD_Card_Ready)
+    {
+        raiseFault(system,
+                   "SD Card initialization failed",
+                   false); // Recoverable warning
+    }
+    // ---------- Success Condition ----------
+    if (system.IMU_Ready &&
+        system.Telemetry_Ready &&
+        system.SD_Card_Ready)
+    {
+        std::cout
+            << "All systems initialized.\n";
         logEvent(system,
                  "BOOT: Systems initialized",
                  Event_System);
-
-        system.current_state = TEST_MODE;
+        system.current_state =
+            TEST_MODE;
     }
 }
-
 // Represents ground diagnostics. This state is deliberately time-gated because
 // diagnostics are a preflight operation rather than a flight event detected from
 // sensors.
