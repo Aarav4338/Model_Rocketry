@@ -47,8 +47,14 @@ void updateVelocity(RocketSystem &system)
             FlightConfig::MIN_VELOCITY_DELTA_TIME_SECONDS;
     }
 
-    system.vertical_velocity =
+    float instant_velocity =
         altitude_delta / delta_time;
+
+    // Apply exponential moving average to the derived velocity to prevent
+    // derivative explosion from high-frequency barometric noise.
+    system.vertical_velocity =
+        (system.vertical_velocity * 0.95f) +
+        (instant_velocity * 0.05f);
 
     system.last_filtered_altitude_for_velocity =
         current_altitude;

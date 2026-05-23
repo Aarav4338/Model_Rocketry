@@ -3,10 +3,12 @@
 #include "system.hpp"
 
 bool initialize_IMU();
+bool initialize_redundant_altimeter();
 bool initialize_telemetry();
 bool initialize_SD_card();
 
 float readAltitude(RocketSystem &system);
+void updateSensors(RocketSystem &system);
 bool isDescending(RocketSystem &system);
 
 bool canEnterAscent(RocketSystem &system);

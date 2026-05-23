@@ -72,6 +72,12 @@ static void integrateVerticalMotion(RocketSystem &system)
         system.vertical_acceleration *
         system.delta_time_seconds;
 
+    if (system.current_state >= Descent && system.simulated_vertical_velocity < FlightConfig::SIM_PARACHUTE_DESCENT_VELOCITY_MPS)
+    {
+        system.simulated_vertical_velocity = FlightConfig::SIM_PARACHUTE_DESCENT_VELOCITY_MPS;
+        system.vertical_acceleration = 0.0f;
+    }
+
     system.simulated_true_altitude +=
         system.simulated_vertical_velocity *
         system.delta_time_seconds;
@@ -140,42 +146,59 @@ static void updateFlightPhase(RocketSystem &system)
     system.current_flight_phase = Flight_Ballistic_Descent;
 }
 
+#include <cstdlib>
+
 static float simulatedNoiseSample(const RocketSystem &system)
 {
-    static const float pattern[] =
-    {
-        0.0f,
-        0.6f,
-        -0.4f,
-        0.2f,
-        -0.6f,
-        0.4f
-    };
-
-    const unsigned int pattern_size =
-        sizeof(pattern) / sizeof(pattern[0]);
-
-    return pattern[system.simulation_step % pattern_size] *
-           FlightConfig::SENSOR_NOISE_AMPLITUDE_METERS;
+    // Generate a random float between -1.0 and 1.0 to simulate barometric white noise
+    float random_factor = (static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * 2.0f - 1.0f;
+    return random_factor * FlightConfig::SENSOR_NOISE_AMPLITUDE_METERS;
 }
 
 // Advances the desktop physics model by one loop delta. The simulation owns
 // true acceleration, true velocity, motor burn state, and true altitude; it then
 // exposes only raw sensor-like altitude to the rest of the avionics pipeline.
-void updateSimulation(RocketSystem &system)
+void updateSimulation(RocketSystem &system, SimulationScenario scenario)
 {
     if(shouldIgniteMotor(system))
     {
         igniteMotor(system);
     }
 
+    if (scenario == SCENARIO_MOTOR_FAILURE && system.thrust_active && system.motor_burn_time_remaining < FlightConfig::SIM_MOTOR_BURN_DURATION_SECONDS * 0.5f)
+    {
+        // Simulate motor dying halfway through
+        system.motor_burn_time_remaining = 0.0f;
+    }
+
     integrateVerticalMotion(system);
+
+    if (scenario == SCENARIO_PARACHUTE_FAILURE && system.simulated_vertical_velocity == FlightConfig::SIM_PARACHUTE_DESCENT_VELOCITY_MPS)
+    {
+        // Override parachute descent velocity to simulate ballistic fall
+        system.simulated_vertical_velocity = -30.0f;
+        system.vertical_acceleration = -FlightConfig::SIM_GRAVITY_MPS2;
+        system.simulated_true_altitude += system.simulated_vertical_velocity * system.delta_time_seconds;
+        if(isAtGround(system)) {
+            system.simulated_true_altitude = FlightConfig::SIM_GROUND_ALTITUDE_METERS;
+            system.simulated_vertical_velocity = 0.0f;
+        }
+    }
+
     updateMotorBurn(system);
     updateFlightPhase(system);
 
-    system.raw_altitude =
-        system.simulated_true_altitude +
-        simulatedNoiseSample(system);
+    if (scenario == SCENARIO_SENSOR_FAILURE && system.current_flight_phase == Flight_Coast)
+    {
+        // Flatline sensor during coast to test watchdog / altimeter faults
+        system.raw_altitude = 200.0f;
+    }
+    else
+    {
+        system.raw_altitude =
+            system.simulated_true_altitude +
+            simulatedNoiseSample(system);
+    }
 
     system.simulation_step++;
 }

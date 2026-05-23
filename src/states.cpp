@@ -41,10 +41,13 @@ void runBootState(RocketSystem &system)
     bool IMU_Ready =
         initialize_IMU();
 
-    if(!IMU_Ready)
+    bool Redundant_Altimeter_Ready =
+        initialize_redundant_altimeter();
+
+    if(!IMU_Ready || !Redundant_Altimeter_Ready)
     {
         raiseFault(system,
-                   "IMU initialization failed",
+                   "Sensor initialization failed",
                    true);
 
         return;
@@ -57,6 +60,7 @@ void runBootState(RocketSystem &system)
         initialize_SD_card();
 
     if(IMU_Ready &&
+       Redundant_Altimeter_Ready &&
        Telemetry_Ready &&
        SD_Card_Ready)
     {

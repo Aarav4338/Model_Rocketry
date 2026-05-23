@@ -7,6 +7,7 @@
 #include "faults.hpp"
 #include "filters.hpp"
 #include "power.hpp"
+#include "sensors.hpp"
 #include "simulation.hpp"
 #include "states.hpp"
 #include "telemetry.hpp"
@@ -123,13 +124,16 @@ static void dispatchState(RocketSystem &system)
     }
 }
 
-// Main avionics loop. Each cycle updates time, advances the physics simulator,
-// filters sensor-like data, derives velocity, emits telemetry, runs the FSM, and
-// finally performs independent watchdog supervision.
-int main()
+#include <cstdlib>
+#include <ctime>
+
+void runSimulation(SimulationScenario scenario, const char* scenario_name)
 {
-    RocketSystem system =
-        createInitialSystem();
+    std::cout << "\n========================================\n";
+    std::cout << "RUNNING SCENARIO: " << scenario_name << "\n";
+    std::cout << "========================================\n";
+
+    RocketSystem system = createInitialSystem();
 
     while(!system.mission_complete)
     {
@@ -141,10 +145,18 @@ int main()
             std::cout << system.error_message
                       << std::endl;
 
-            break;
+            // In a real system, the rocket might try to recover or stop.
+            // For the simulation, we'll fast-forward the physics to ground impact
+            // to show the end result, or just break depending on the fault.
+            // But the FSM states like descent will handle landing. 
+            // If the fault is terminal, break:
+            if(system.current_flight_phase == Flight_Grounded) {
+                break;
+            }
         }
 
-        updateSimulation(system);
+        updateSimulation(system, scenario);
+        updateSensors(system);
         filterAltitude(system);
         updateVelocity(system);
 
@@ -162,7 +174,25 @@ int main()
                 std::chrono::milliseconds(
                     FlightConfig::MAIN_LOOP_SLEEP_MILLISECONDS));
         }
+
+        // Failsafe break to avoid infinite loops if something goes horribly wrong
+        if(system.mission_elapsed_seconds > 300.0f) {
+            std::cout << "Simulation timeout limit reached.\n";
+            break;
+        }
     }
+}
+
+// Main avionics loop wrapper. Runs the desktop simulation across multiple 
+// scenarios (success, sensor failure, etc.) for testing.
+int main()
+{
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
+    runSimulation(SCENARIO_SUCCESS, "Nominal Flight (Success)");
+    runSimulation(SCENARIO_MOTOR_FAILURE, "Motor Thrust Failure (Early Burnout)");
+    runSimulation(SCENARIO_SENSOR_FAILURE, "Altimeter Sensor Failure (Flatline)");
+    runSimulation(SCENARIO_PARACHUTE_FAILURE, "Parachute Deployment Failure (Ballistic)");
 
     return 0;
 }

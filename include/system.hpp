@@ -80,11 +80,23 @@ struct RocketSystem
     float launch_reference_altitude;
     float landing_stationary_time_seconds;
 
+    // Additional sensor data for IN-SPACe telemetry
+    float pressure;
+    float temperature;
+    float voltage;
+    long gnss_time;
+    double gnss_latitude;
+    double gnss_longitude;
+    float gnss_altitude;
+    int gnss_sats;
+    float gyro_spin_rate;
+
     unsigned int simulation_step;
     unsigned int telemetry_sequence;
 
     float delta_time_seconds;
     float mission_elapsed_seconds;
+    float state_entry_time_seconds;
     float last_telemetry_time_seconds;
 
     char error_message[FlightConfig::ERROR_MESSAGE_CAPACITY];
