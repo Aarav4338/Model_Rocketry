@@ -188,9 +188,14 @@ void updateSimulation(RocketSystem &system, SimulationScenario scenario)
     updateMotorBurn(system);
     updateFlightPhase(system);
 
-    if (scenario == SCENARIO_SENSOR_FAILURE && system.current_flight_phase == Flight_Coast)
+    if (scenario == SCENARIO_SENSOR_FAILURE && system.simulated_true_altitude > 200.0f)
     {
-        // Flatline sensor during coast to test watchdog / altimeter faults
+        system.sensor_failure = true;
+    }
+
+    if (system.sensor_failure)
+    {
+        // Permanent flatline at 200m to trigger watchdog fault
         system.raw_altitude = 200.0f;
     }
     else

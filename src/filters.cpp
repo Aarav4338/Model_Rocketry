@@ -69,6 +69,10 @@ void updateVelocity(RocketSystem &system)
         system.vertical_velocity <=
         FlightConfig::DESCENT_DETECTION_VELOCITY_MPS;
 
+    if (system.descending && system.vertical_velocity < system.max_descent_velocity) {
+        system.max_descent_velocity = system.vertical_velocity;
+    }
+
     if(system.current_state == Descent &&
        std::fabs(system.vertical_velocity) <=
        FlightConfig::LANDING_STATIONARY_VELOCITY_MPS)

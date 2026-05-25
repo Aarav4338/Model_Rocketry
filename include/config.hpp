@@ -23,7 +23,7 @@ constexpr float SIM_MOTOR_BURN_DURATION_SECONDS = 3.0f;
 constexpr float SIM_GROUND_ALTITUDE_METERS = 0.0f;
 constexpr float SIM_PARACHUTE_DESCENT_VELOCITY_MPS = -3.5f; // Complies with 2 to 5 m/s requirement
 constexpr long SIM_MOTOR_IGNITION_DELAY_MILLISECONDS = 5000;
-constexpr long MAIN_LOOP_SLEEP_MILLISECONDS = 0;
+constexpr long MAIN_LOOP_SLEEP_MILLISECONDS = 20;
 
 // Adds a realistic level of barometric noise to make FSM filtering work harder
 // and to provide varied altitude readings for each simulation run.

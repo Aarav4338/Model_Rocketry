@@ -162,9 +162,9 @@ void runAscentState(RocketSystem &system)
         std::cout << "\n[ASCENT]\n";
     }
 
-    std::cout << "Altitude: "
+    std::cout << "Time: " << system.mission_elapsed_seconds << "s | Altitude: "
               << readAltitude(system)
-              << std::endl;
+              << " m" << std::endl;
 
     if(canConfirmApogee(system))
     {
@@ -259,9 +259,15 @@ void runDescentState(RocketSystem &system)
                  Event_Flight);
     }
 
-    std::cout << "Altitude: "
+    std::cout << "Time: " << system.mission_elapsed_seconds << "s | Altitude: "
               << readAltitude(system)
-              << std::endl;
+              << " m" << std::endl;
+
+    if (!system.parachute_failure_detected && system.vertical_velocity < -10.0f) {
+        system.parachute_failure_detected = true;
+        std::cout << "Parachute failure detected!\n";
+        logEvent(system, "PARACHUTE FAILURE DETECTED: High descent velocity", Event_Fault);
+    }
 
     if(hasDetectedLanding(system))
     {
@@ -281,7 +287,14 @@ void runLandedState(RocketSystem &system)
     if(enterState(system))
     {
         std::cout << "\n[LANDED]\n";
-        std::cout << "Rocket landed safely.\n";
+        
+        if (system.max_descent_velocity < -10.0f) {
+            std::cout << "CRASH DETECTED: High-velocity impact (" << system.max_descent_velocity << " m/s).\n";
+            logEvent(system, "CRASH DETECTED: High-velocity impact", Event_Fault);
+        } else {
+            std::cout << "Rocket landed safely.\n";
+            logEvent(system, "LANDED SAFELY", Event_Flight);
+        }
 
         powerDownLandedSystems(system);
     }
@@ -312,8 +325,7 @@ void runBeaconState(RocketSystem &system)
     {
         std::cout << "\n=== MISSION LOG ===\n";
 
-        std::cout << system.mission_log
-                  << std::endl;
+        std::cout << system.mission_log << std::endl;
 
         std::cout << "Mission Complete.\n";
 

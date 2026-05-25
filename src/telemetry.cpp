@@ -124,11 +124,19 @@ void sendTelemetry(RocketSystem &system)
     TelemetryPacket packet =
         buildTelemetryPacket(system);
 
-    // Open file in append mode
-    std::ofstream out("Flight_2026_IN-SPACe-PVC.csv", std::ios::app);
+    std::ios_base::openmode mode = std::ios::app;
+    if (packet.sequence == 0) {
+        mode = std::ios::trunc;
+    }
+    
+    std::ofstream out("data.csv", mode);
     if (!out) {
         std::cerr << "Failed to open CSV file for telemetry\n";
         return;
+    }
+
+    if (packet.sequence == 0) {
+        out << "TEAM ID,TIME STAMPING,PACKET COUNT,ALTITUDE,PRESSURE,TEMP,VOLTAGE,GNSS TIME,GNSS LATITUDE,GNSS LONGITUDE,GNSS ALTITUDE,GNSS SATS,ACCELEROMETER DATA,GYRO SPIN RATE,FLIGHT SOFTWARE STATE,ANY OPTIONAL DATA\n";
     }
 
     // <TEAM ID>, <TIME STAMPING>, <PACKET COUNT>, <ALTITUDE>, <PRESSURE>,

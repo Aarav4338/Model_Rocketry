@@ -61,6 +61,7 @@ struct RocketSystem
     bool mission_complete;
     bool thrust_active;
     bool burnout_detected;
+    bool parachute_failure_detected;
 
     bool imu_powered;
     bool high_rate_logging_enabled;
@@ -79,6 +80,7 @@ struct RocketSystem
     float motor_burn_time_remaining;
     float launch_reference_altitude;
     float landing_stationary_time_seconds;
+    float max_descent_velocity;
 
     // Additional sensor data for IN-SPACe telemetry
     float pressure;
