@@ -50,7 +50,7 @@ void runBootState(RocketSystem &system)
     }
     // ---------- Timeout Protection ----------
     const uint32_t BOOT_TIMEOUT_MS = 5000;
-    long elapsed_time =
+    uint32_t elapsed_time =
         std::chrono::duration_cast<std::chrono::milliseconds>(
             system.current_time - system.boot_start_time
         ).count();
