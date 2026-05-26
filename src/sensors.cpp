@@ -128,9 +128,42 @@ bool canEnterDescent(RocketSystem &system)
 bool hasDetectedLanding(RocketSystem &system)
 {
     return system.landing_stationary_time_seconds >=
-           (FlightConfig::LANDING_STATIONARY_DURATION_MILLISECONDS /
-            1000.0f);
+           FlightConfig::DESCENT_STABLE_DURATION_SECONDS;
 }
+
+// Hardware abstraction to verify payload deployment mechanically.
+// In hardware, this would check a microswitch or servo feedback.
+// In simulation, we fake it using a flag set by the simulator logic.
+bool isPayloadReleased(RocketSystem &system)
+{
+    // Stub implementation: true if payload is deployed and simulation acknowledges it.
+    // In our sim, we will just return system.payload_deployed (which will be set by the simulator in the next step).
+    return system.payload_deployed;
+}
+
+// Checks IMU for sudden high-G shock indicative of landing impact.
+bool hasLandingImpact(const RocketSystem &system)
+{
+    return system.landing_impact_detected;
+}
+
+// Hardware abstraction to save flight data to persistence (e.g. SD card)
+void saveFlightDataToSD(RocketSystem &system)
+{
+    if(!system.flight_data_saved)
+    {
+        // On hardware, write mission_log and metadata to FATFS here.
+        system.flight_data_saved = true;
+    }
+}
+
+// Hardware abstraction to read GPS coords
+void updateGPSReadings(RocketSystem &system)
+{
+    // No-op for desktop, simulator fills this in.
+    (void)system;
+}
+
 
 // ---------- Prelaunch sensor checks ----------
 

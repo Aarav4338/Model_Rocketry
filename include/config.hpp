@@ -69,7 +69,18 @@ constexpr float PRELAUNCH_MAX_TILT_DEG = 15.0f;
 // fault is raised rather than letting the FSM hang indefinitely.
 constexpr long PRELAUNCH_TIMEOUT_SECONDS = 10;
 constexpr long APOGEE_CONFIRM_DURATION_MILLISECONDS = 750;
+constexpr float APOGEE_CONFIRM_CLIMB_DEBOUNCE_SECONDS = 0.25f;
+constexpr float APOGEE_CONFIRM_EMERGENCY_DESCENT_VELOCITY_MPS = -20.0f;
+
 constexpr long PAYLOAD_SEPARATION_DURATION_SECONDS = 3;
+constexpr int DEPLOYMENT_MAX_RETRIES = 3;
+constexpr float DEPLOYMENT_RETRY_INTERVAL_SECONDS = 0.3f;
+constexpr float DEPLOYMENT_TIMEOUT_SECONDS = 1.5f;
+
+constexpr float DESCENT_BALLISTIC_WARNING_VELOCITY_MPS = -40.0f;
+constexpr float DESCENT_STABLE_DURATION_SECONDS = 3.0f;
+constexpr float LANDING_IMPACT_ACCEL_THRESHOLD_MPS2 = 25.0f;
+
 constexpr long LANDED_DURATION_SECONDS = 2;
 constexpr long BEACON_DURATION_SECONDS = 3;
 

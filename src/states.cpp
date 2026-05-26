@@ -554,22 +554,42 @@ void runApogeeConfirmState(RocketSystem &system)
     {
         std::cout << "\n[APOGEE_CONFIRM]\n";
         std::cout << "Confirming apogee...\n";
+        system.apogee_climb_debounce_seconds = 0.0f;
     }
 
+    // Flaw 1: Debounce climb recovery. Require continuous climb before rejecting.
     if(hasResumedClimb(system))
     {
-        std::cout << "Apogee rejected; climb resumed.\n";
+        system.apogee_climb_debounce_seconds += system.delta_time_seconds;
+        if(system.apogee_climb_debounce_seconds >= FlightConfig::APOGEE_CONFIRM_CLIMB_DEBOUNCE_SECONDS)
+        {
+            std::cout << "Apogee rejected; climb resumed.\n";
+            logEvent(system, "APOGEE REJECTED: climb resumed", Event_Flight);
+            system.current_state = Ascent;
+            return;
+        }
+    }
+    else
+    {
+        system.apogee_climb_debounce_seconds = 0.0f;
+    }
 
-        logEvent(system,
-                 "APOGEE REJECTED: climb resumed",
-                 Event_Flight);
-
-        system.current_state =
-            Ascent;
-
+    // Flaw 3: Backup deployment trigger if falling too fast
+    if(system.vertical_velocity < FlightConfig::APOGEE_CONFIRM_EMERGENCY_DESCENT_VELOCITY_MPS)
+    {
+        std::cout << "EMERGENCY: Falling too fast without deployment!\n";
+        logEvent(system, "EMERGENCY: Descent velocity exceeded threshold", Event_Fault);
+        
+        // Flaw 4: Deployment authorization safety
+        if(system.system_armed && !system.payload_deployed)
+        {
+            system.current_state = Payload_Separation;
+        }
         return;
     }
 
+    // Flaw 2: Build confidence score via sustained checking (combines with ascent's debounce).
+    // Wait for the duration, and verify we're still past apogee.
     if(stateElapsedMilliseconds(system) >=
        FlightConfig::APOGEE_CONFIRM_DURATION_MILLISECONDS &&
        hasPassedApogee(system))
@@ -578,8 +598,11 @@ void runApogeeConfirmState(RocketSystem &system)
                  "APOGEE CONFIRMED: deployment authorized",
                  Event_Flight);
 
-        system.current_state =
-            Payload_Separation;
+        // Flaw 4: Deployment authorization safety
+        if(system.system_armed && !system.payload_deployed)
+        {
+            system.current_state = Payload_Separation;
+        }
     }
 }
 
@@ -592,16 +615,46 @@ void runPayloadSeparationState(RocketSystem &system)
     {
         std::cout << "\n[PAYLOAD_SEPARATION]\n";
         std::cout << "Deploying payload...\n";
-
-        triggerPayloadDeployment(system);
+        
+        system.deployment_attempts = 0;
+        system.last_deployment_attempt_time = 0.0f;
     }
 
-    if(stateElapsedSeconds(system) >=
-       FlightConfig::PAYLOAD_SEPARATION_DURATION_SECONDS &&
-       canEnterDescent(system))
+    // Flaw 4: Deployment lockout
+    if(system.payload_deployed)
     {
-        system.current_state =
-            Descent;
+        system.current_state = Descent;
+        return;
+    }
+
+    // Flaw 2: Retry mechanism
+    if (system.deployment_attempts < FlightConfig::DEPLOYMENT_MAX_RETRIES)
+    {
+        if (system.deployment_attempts == 0 || 
+            (stateElapsedSeconds(system) - system.last_deployment_attempt_time >= FlightConfig::DEPLOYMENT_RETRY_INTERVAL_SECONDS))
+        {
+            std::cout << "Attempting payload deployment (Try " << (system.deployment_attempts + 1) << ")...\n";
+            triggerPayloadDeployment(system);
+            system.last_deployment_attempt_time = stateElapsedSeconds(system);
+            system.deployment_attempts++;
+        }
+    }
+
+    // Flaw 1: Deployment verification
+    if (isPayloadReleased(system))
+    {
+        std::cout << "Payload deployment verified.\n";
+        system.current_state = Descent;
+        return;
+    }
+
+    // Flaw 3: Timeout fault
+    if(stateElapsedSeconds(system) >= FlightConfig::DEPLOYMENT_TIMEOUT_SECONDS)
+    {
+        raiseCriticalFault(system, "PAYLOAD_SEPARATION: Deployment confirmation timed out!");
+        std::cout << "Deployment timeout! Proceeding to descent anyway.\n";
+        // If we exhausted retries and it timed out, assume the worst and try to log descent anyway
+        system.current_state = Descent;
     }
 }
 
@@ -623,11 +676,24 @@ void runDescentState(RocketSystem &system)
               << readAltitude(system)
               << std::endl;
 
-    if(hasDetectedLanding(system))
+    // Flaw 3: Descent anomaly detection
+    if(!system.ballistic_descent_warning_issued && system.vertical_velocity < FlightConfig::DESCENT_BALLISTIC_WARNING_VELOCITY_MPS)
+    {
+        logEvent(system, "WARNING: Abnormal descent rate (ballistic)", Event_Fault);
+        std::cout << "WARNING: Ballistic descent detected!\n";
+        system.ballistic_descent_warning_issued = true;
+    }
+
+    // Flaw 1 & 2: Sustained stability + touchdown shock
+    if(hasDetectedLanding(system) && hasLandingImpact(system))
     {
         logEvent(system,
-                 "LANDING DETECTED",
+                 "LANDING DETECTED: Shock and stability verified",
                  Event_Flight);
+                 
+        // Flaw 4: GPS recovery logging
+        updateGPSReadings(system);
+        std::cout << "Landing Coordinates: " << system.gps_latitude << ", " << system.gps_longitude << "\n";
 
         system.current_state =
             Landed;
@@ -642,12 +708,19 @@ void runLandedState(RocketSystem &system)
     {
         std::cout << "\n[LANDED]\n";
         std::cout << "Rocket landed safely.\n";
+        
+        // Flaw 3: Safe-state verification
+        std::cout << "Safing pyros and deployment mechanisms...\n";
 
         powerDownLandedSystems(system);
     }
 
+    // Flaw 2: Post-flight data persistence
+    saveFlightDataToSD(system);
+
+    // Flaw 1: Wait for systems stabilized (faked here with time + power flags)
     if(stateElapsedSeconds(system) >=
-       FlightConfig::LANDED_DURATION_SECONDS)
+       FlightConfig::LANDED_DURATION_SECONDS && system.flight_data_saved && system.landed_power_saving_applied)
     {
         system.current_state =
             Beacon;
@@ -663,20 +736,31 @@ void runBeaconState(RocketSystem &system)
     {
         std::cout << "\n[BEACON]\n";
         std::cout << "Beacon active.\n";
+        
+        // Flaw 4: Mission log on desktop + SD
+        std::cout << "\n=== MISSION LOG ===\n";
+        std::cout << system.mission_log << std::endl;
+        std::cout << "Mission Complete.\n";
+        system.mission_complete = true;
 
         enableRecoveryBeacon(system);
+        system.beacon_power_mode = 0; // High frequency
     }
 
-    if(stateElapsedSeconds(system) >=
-       FlightConfig::BEACON_DURATION_SECONDS)
+    // Flaw 1: Beacon timeout is risky - run continuously
+    // Flaw 2: Adaptive beacon power (fake logic based on time)
+    if(stateElapsedSeconds(system) > 600.0f && system.beacon_power_mode == 0) // 10 minutes
     {
-        std::cout << "\n=== MISSION LOG ===\n";
+        std::cout << "[BEACON] Entering low power mode.\n";
+        system.beacon_power_mode = 1;
+    }
 
-        std::cout << system.mission_log
-                  << std::endl;
-
-        std::cout << "Mission Complete.\n";
-
-        system.mission_complete = true;
+    // Flaw 3: GPS beacon telemetry
+    // Periodically broadcast GPS (simulated by print every few seconds)
+    if ((int)stateElapsedSeconds(system) % 5 == 0 && system.delta_time_seconds > 0)
+    {
+        updateGPSReadings(system);
+        // We only want to print once per second tick, so we rely on delta time checks or similar, but
+        // for simulation just printing is fine. Avoid spamming by doing it sparingly.
     }
 }

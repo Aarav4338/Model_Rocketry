@@ -21,6 +21,18 @@ bool hasDetectedLanding(RocketSystem &system);
 // Used as a third sensor-fusion channel in the apogee detection gate.
 bool isNearFreefall(const RocketSystem &system);
 
+// Returns true if the payload has successfully separated (e.g., via switch or servo feedback).
+bool isPayloadReleased(RocketSystem &system);
+
+// Returns true if the IMU detects a sudden high-G shock indicative of a landing impact.
+bool hasLandingImpact(const RocketSystem &system);
+
+// Saves flight metadata and logs to persistent storage (e.g., SD card).
+void saveFlightDataToSD(RocketSystem &system);
+
+// Updates the GPS location fields from hardware/simulation.
+void updateGPSReadings(RocketSystem &system);
+
 // ---------- Prelaunch sensor checks ----------
 // Populates imu_accel_magnitude, imu_gyro_rate, tilt_angle_deg, and
 // battery_voltage from hardware (or simulation stubs). Call once per tick.

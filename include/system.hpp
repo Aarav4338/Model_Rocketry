@@ -135,6 +135,17 @@ struct RocketSystem
     // below ASCENT_MIN_APOGEE_ALTITUDE_M above the launch reference (Flaw 3).
     float peak_altitude_m;
 
+    // ---------- Post-Ascent State fields ----------
+    float apogee_climb_debounce_seconds;
+    int deployment_attempts;
+    float last_deployment_attempt_time;
+    bool landing_impact_detected;
+    bool ballistic_descent_warning_issued;
+    bool flight_data_saved;
+    int beacon_power_mode; // 0 = High frequency, 1 = Low power mode
+    float gps_latitude;
+    float gps_longitude;
+
     unsigned int simulation_step;
     unsigned int telemetry_sequence;
 

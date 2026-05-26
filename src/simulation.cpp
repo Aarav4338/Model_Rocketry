@@ -204,6 +204,19 @@ void updateSimulation(RocketSystem &system)
     updateFlightPhase(system);
     simulateIMUAndPower(system);
 
+    // Simulate GPS coordinates
+    system.gps_latitude = 35.3331f + (system.simulation_step * 0.000001f);
+    system.gps_longitude = -117.803f + (system.simulation_step * 0.000001f);
+
+    // Simulate landing impact shock
+    if (system.current_flight_phase == Flight_Landed && !system.landing_impact_detected)
+    {
+        // One-time shock detection when touching down
+        if (system.previous_state == Descent || system.current_state == Descent) {
+            system.landing_impact_detected = true;
+        }
+    }
+
     system.raw_altitude =
         system.simulated_true_altitude +
         simulatedNoiseSample(system);

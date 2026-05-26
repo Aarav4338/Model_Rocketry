@@ -76,6 +76,18 @@ static RocketSystem createInitialSystem()
     system.apogee_debounce_seconds   = 0.0f;
     system.peak_altitude_m           = 0.0f;
 
+    // Post-ascent state fields
+    system.apogee_climb_debounce_seconds = 0.0f;
+    system.deployment_attempts = 0;
+    system.last_deployment_attempt_time = 0.0f;
+    system.landing_impact_detected = false;
+    system.ballistic_descent_warning_issued = false;
+    system.flight_data_saved = false;
+    system.beacon_power_mode = 0;
+    system.gps_latitude = 0.0f;
+    system.gps_longitude = 0.0f;
+
+
     system.simulation_step = 0;
     system.telemetry_sequence = 0;
 
