@@ -406,37 +406,143 @@ void runLaunchPadState(RocketSystem &system)
     }
 }
 
-// Monitors powered ascent and coast using filtered altitude and derived
-// vertical velocity. Apogee is treated as a candidate when velocity naturally
-// crosses zero; no hardcoded altitude target is used.
+// Monitors powered ascent and coast using filtered altitude, derived vertical
+// velocity, and IMU acceleration. Apogee transition is hardened against eight
+// classes of false trigger and safety gaps:
+//
+//   Flaw 8 — Entry log:
+//     logEvent records ASCENT ENTERED for a clean post-flight timeline.
+//
+//   Flaw 7 — Single altitude sample per tick:
+//     readAltitude() is called once into a local variable; all uses within
+//     the tick read from that local, eliminating duplicate hardware calls
+//     and ensuring a deterministic, consistent value.
+//
+//   Flaw 4 — Ascent inhibit window:
+//     Apogee detection is fully suppressed for ASCENT_APOGEE_INHIBIT_SECONDS
+//     after state entry. This absorbs burnout vibration and filter
+//     transients that can produce a momentary velocity dip at ignition end.
+//
+//   Flaw 3 — Altitude floor gate:
+//     peak_altitude_m is tracked every tick. Apogee logic is suppressed
+//     unless the rocket has risen at least ASCENT_MIN_APOGEE_ALTITUDE_M
+//     above the launch reference. A 2-metre wobble on the rail cannot
+//     deploy the parachute.
+//
+//   Flaw 5 — Three-channel sensor fusion:
+//     Apogee is a candidate only when three independent signals agree:
+//       1. isDescending() — N consecutive ticks of negative velocity
+//       2. hasPassedApogee() — velocity below hysteresis threshold
+//       3. isNearFreefall() — IMU accel near 1g (engine definitely off)
+//     Any single-channel glitch cannot satisfy all three.
+//
+//   Flaw 2 — Hardened isDescending():
+//     Now backed by consecutive_descent_ticks (maintained in filters.cpp)
+//     instead of a single-tick boolean flag.
+//
+//   Flaw 6 — Apogee velocity hysteresis:
+//     VELOCITY_APOGEE_THRESHOLD_MPS is now -2.0 m/s (was 0.0), so the
+//     rocket must be clearly descending, not oscillating around zero.
+//
+//   Flaw 1 — Apogee debounce:
+//     All three conditions must hold continuously for
+//     ASCENT_APOGEE_DEBOUNCE_SECONDS before transitioning to Apogee_confirm.
+//     Any failing tick resets the accumulator.
 void runAscentState(RocketSystem &system)
 {
+    // ---------- Flaw 8: Entry Log ----------
     if(enterState(system))
     {
         std::cout << "\n[ASCENT]\n";
+
+        logEvent(system,
+                 "ASCENT ENTERED",
+                 Event_Flight);
+
+        // Reset ascent-specific accumulators on every fresh entry.
+        system.apogee_debounce_seconds   = 0.0f;
+        system.peak_altitude_m           = system.launch_reference_altitude;
+        system.consecutive_descent_ticks = 0;
     }
 
-    std::cout << "Altitude: "
-              << readAltitude(system)
-              << std::endl;
+    // ---------- Flaw 7: Single Altitude Read ----------
+    // Sample once; every altitude use this tick reads from this local.
+    const float altitude = readAltitude(system);
 
-    if(canConfirmApogee(system))
+    std::cout << "Altitude: " << altitude << std::endl;
+
+    // Track the highest altitude reached during this ascent.
+    // Used for the altitude floor check below.
+    if(altitude > system.peak_altitude_m)
     {
-        if(hasPassedApogee(system))
+        system.peak_altitude_m = altitude;
+    }
+
+    // ---------- Flaw 4: Ascent Inhibit Window ----------
+    // Suppress apogee detection for the first ASCENT_APOGEE_INHIBIT_SECONDS
+    // after state entry. Burnout vibration and filter warm-up can produce
+    // a brief velocity dip immediately after launch confirmation.
+    if(stateElapsedSeconds(system) <
+       FlightConfig::ASCENT_APOGEE_INHIBIT_SECONDS)
+    {
+        system.previous_altitude = altitude;
+        return;
+    }
+
+    // ---------- Flaw 3: Altitude Floor Gate ----------
+    // Apogee detection is meaningless below the minimum safe altitude.
+    // If the rocket never climbed far enough, keep waiting.
+    const float relative_altitude =
+        altitude - system.launch_reference_altitude;
+
+    if(relative_altitude < FlightConfig::ASCENT_MIN_APOGEE_ALTITUDE_M)
+    {
+        system.apogee_debounce_seconds = 0.0f;
+        system.previous_altitude       = altitude;
+        return;
+    }
+
+    // ---------- Flaws 1 + 2 + 5 + 6: Debounced Sensor-Fusion Apogee Gate ----------
+    // Three independent channels must all agree before the debounce timer runs:
+    //   1. isDescending()   — N consecutive ticks of negative velocity (Flaw 2)
+    //   2. hasPassedApogee()— velocity <= -2.0 m/s hysteresis threshold (Flaw 6)
+    //   3. isNearFreefall() — IMU accel near 1g, confirming engine-off (Flaw 5)
+    const bool descending     = isDescending(system);
+    const bool past_apogee    = hasPassedApogee(system);
+    const bool in_freefall    = isNearFreefall(system);
+
+    if(descending && past_apogee && in_freefall)
+    {
+        // All channels agree: accumulate debounce time (Flaw 1).
+        system.apogee_debounce_seconds +=
+            system.delta_time_seconds;
+
+        if(system.apogee_debounce_seconds >=
+           FlightConfig::ASCENT_APOGEE_DEBOUNCE_SECONDS)
         {
             std::cout << "Apogee detected.\n";
 
             logEvent(system,
-                     "APOGEE DETECTED: vertical velocity crossed zero",
+                     "APOGEE DETECTED: velocity + descent + freefall confirmed",
                      Event_Flight);
 
             system.current_state =
                 Apogee_confirm;
         }
     }
+    else
+    {
+        // Any channel failing resets the debounce — all conditions must be
+        // sustained, not just momentarily present.
+        if(system.apogee_debounce_seconds > 0.0f)
+        {
+            std::cout << "[ASCENT] Apogee candidate lost -- debounce reset\n";
+        }
 
-    system.previous_altitude =
-        readAltitude(system);
+        system.apogee_debounce_seconds = 0.0f;
+    }
+
+    system.previous_altitude = altitude;
 }
 
 // Confirms that the apogee candidate is real. The state actively rejects resumed

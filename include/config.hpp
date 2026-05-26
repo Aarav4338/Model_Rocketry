@@ -17,7 +17,11 @@ constexpr long MAIN_LOOP_SLEEP_MILLISECONDS = 20;
 // noise-injection architecture ready for controlled tests.
 constexpr float SENSOR_NOISE_AMPLITUDE_METERS = 0.0f;
 
-constexpr float VELOCITY_APOGEE_THRESHOLD_MPS = 0.0f;
+// Velocity threshold for apogee detection (m/s).
+// Set to -2.0 rather than 0.0 to add hysteresis: the rocket must be
+// clearly descending, not oscillating around zero due to baro noise.
+// (Flaw 6 fix — was 0.0f)
+constexpr float VELOCITY_APOGEE_THRESHOLD_MPS = -2.0f;
 constexpr float LAUNCH_DETECTION_VELOCITY_MPS = 2.0f;
 constexpr float LAUNCH_DETECTION_ALTITUDE_DELTA_METERS = 0.5f;
 constexpr float DESCENT_DETECTION_VELOCITY_MPS = 0.0f;
@@ -68,6 +72,33 @@ constexpr long APOGEE_CONFIRM_DURATION_MILLISECONDS = 750;
 constexpr long PAYLOAD_SEPARATION_DURATION_SECONDS = 3;
 constexpr long LANDED_DURATION_SECONDS = 2;
 constexpr long BEACON_DURATION_SECONDS = 3;
+
+// ---------- Ascent State ----------
+// Minimum altitude above the launch reference (m) before apogee detection
+// is allowed. Prevents a low-altitude wobble or false launch from triggering
+// parachute deployment on the rail.
+constexpr float ASCENT_MIN_APOGEE_ALTITUDE_M = 20.0f;
+
+// Time after entering Ascent during which apogee detection is fully suppressed.
+// Protects against burnout vibration and filter transients immediately after
+// launch confirmation.
+constexpr float ASCENT_APOGEE_INHIBIT_SECONDS = 1.5f;
+
+// Apogee candidate conditions must be satisfied continuously for this many
+// seconds before the FSM transitions to Apogee_confirm.
+// (Flaw 1 fix — replaces instant single-tick transition)
+constexpr float ASCENT_APOGEE_DEBOUNCE_SECONDS = 0.3f;
+
+// Number of consecutive ticks for which vertical_velocity must be
+// negative (descending) before isDescending() reports true.
+// Guards against single-sample baro noise faking a descent.
+// (Flaw 2 fix)
+constexpr int ASCENT_CONSECUTIVE_DESCENT_TICKS = 5;
+
+// Accelerometer magnitude must be within this band around 1g to be
+// counted as near-freefall (engine off, drag only).
+// Used in the sensor-fusion apogee gate (Flaw 5 fix).
+constexpr float ASCENT_FREEFALL_ACCEL_TOLERANCE_MPS2 = 4.0f;
 
 // ---------- Launch Pad ----------
 // Number of altitude samples averaged together to produce the pad

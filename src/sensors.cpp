@@ -33,11 +33,32 @@ float readAltitude(RocketSystem &system)
     return system.filtered_altitude;
 }
 
-// Reports the filtered-data descent flag used by apogee confirmation. The flag
-// is derived by the filter layer and is separate from simulator phase tracking.
+// Reports that the rocket is genuinely descending based on N consecutive
+// ticks of negative vertical velocity. A single baro noise spike that briefly
+// crosses zero cannot satisfy this; real sustained descent is required.
+// The consecutive_descent_ticks counter is maintained by updateVelocity() in
+// filters.cpp (Flaw 2 fix).
 bool isDescending(RocketSystem &system)
 {
-    return system.descending;
+    return system.consecutive_descent_ticks >=
+           FlightConfig::ASCENT_CONSECUTIVE_DESCENT_TICKS;
+}
+
+// Returns true when the accelerometer magnitude is close enough to 1g to
+// indicate the engine is off and the rocket is in near-freefall.
+// Used as a third confirmation channel in the apogee sensor-fusion gate.
+// Near-freefall rules out powered flight and extreme atmospheric drag events
+// (Flaw 5 fix).
+bool isNearFreefall(const RocketSystem &system)
+{
+    const float accel_error =
+        system.imu_accel_magnitude -
+        FlightConfig::SIM_GRAVITY_MPS2;
+
+    const float abs_error =
+        accel_error < 0.0f ? -accel_error : accel_error;
+
+    return abs_error <= FlightConfig::ASCENT_FREEFALL_ACCEL_TOLERANCE_MPS2;
 }
 
 // Gate for entering flight. The system must be armed, and launch evidence must

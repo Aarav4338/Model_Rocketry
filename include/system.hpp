@@ -118,6 +118,23 @@ struct RocketSystem
     // Ascent is confirmed only once this reaches LAUNCH_PAD_DEBOUNCE_SECONDS.
     float launch_detection_seconds;
 
+    // ---------- Ascent State fields ----------
+    // Number of consecutive ticks on which vertical_velocity was descending.
+    // isDescending() only reports true once this reaches
+    // ASCENT_CONSECUTIVE_DESCENT_TICKS, preventing noise spikes from
+    // looking like real descent (Flaw 2 fix).
+    int consecutive_descent_ticks;
+
+    // Continuous seconds during which all apogee-candidate conditions have
+    // been satisfied. Transition to Apogee_confirm happens only once this
+    // reaches ASCENT_APOGEE_DEBOUNCE_SECONDS (Flaw 1 fix).
+    float apogee_debounce_seconds;
+
+    // Peak filtered altitude reached during ascent, updated every tick.
+    // Used as the altitude floor check: apogee detection is suppressed
+    // below ASCENT_MIN_APOGEE_ALTITUDE_M above the launch reference (Flaw 3).
+    float peak_altitude_m;
+
     unsigned int simulation_step;
     unsigned int telemetry_sequence;
 

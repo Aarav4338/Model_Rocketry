@@ -71,6 +71,11 @@ static RocketSystem createInitialSystem()
     system.launch_pad_altitude_sample_count = 0;
     system.launch_detection_seconds         = 0.0f;
 
+    // Ascent state fields — reset here; state entry resets them again.
+    system.consecutive_descent_ticks = 0;
+    system.apogee_debounce_seconds   = 0.0f;
+    system.peak_altitude_m           = 0.0f;
+
     system.simulation_step = 0;
     system.telemetry_sequence = 0;
 

@@ -17,6 +17,10 @@ bool hasResumedClimb(RocketSystem &system);
 bool canEnterDescent(RocketSystem &system);
 bool hasDetectedLanding(RocketSystem &system);
 
+// Returns true when the IMU accelerometer indicates near-freefall (engine off).
+// Used as a third sensor-fusion channel in the apogee detection gate.
+bool isNearFreefall(const RocketSystem &system);
+
 // ---------- Prelaunch sensor checks ----------
 // Populates imu_accel_magnitude, imu_gyro_rate, tilt_angle_deg, and
 // battery_voltage from hardware (or simulation stubs). Call once per tick.
