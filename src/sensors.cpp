@@ -51,6 +51,12 @@ bool canEnterAscent(RocketSystem &system)
 // Detects launch from processed flight evidence rather than a mission-state
 // timer. The simulator may choose when ignition occurs, but the FSM only sees
 // the resulting filtered altitude rise or derived upward velocity.
+//
+// Both conditions must be satisfied simultaneously (AND, not OR).
+// Rationale: a single IMU bump raises velocity but not altitude; a barometer
+// glitch raises apparent altitude but not velocity. Requiring agreement from
+// both independent channels gives multi-sensor confirmation and prevents
+// single-sensor false positives (Flaw 3 fix).
 bool hasDetectedLaunch(RocketSystem &system)
 {
     const bool velocity_indicates_launch =
@@ -62,7 +68,8 @@ bool hasDetectedLaunch(RocketSystem &system)
          system.launch_reference_altitude) >=
         FlightConfig::LAUNCH_DETECTION_ALTITUDE_DELTA_METERS;
 
-    return velocity_indicates_launch ||
+    // Both sensors must agree before we trust the evidence.
+    return velocity_indicates_launch &&
            altitude_indicates_launch;
 }
 

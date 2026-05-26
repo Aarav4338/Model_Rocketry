@@ -259,30 +259,150 @@ void runPrelaunchCheckState(RocketSystem &system)
     }
 }
 
-// Waits on the pad for filtered flight evidence. The simulator may ignite the
-// motor after a configured delay, but this state enters `Ascent` only when
-// processed altitude or derived velocity shows launch motion.
+// Waits on the pad for confirmed, sustained, multi-sensor flight evidence.
+// The state is hardened against six classes of false positive / safety gaps:
+//
+//   Flaw 5 — Arming verification:
+//     On entry the system confirms system_armed is set. If somehow the FSM
+//     reaches this state without arming, a critical fault is raised immediately.
+//
+//   Flaw 4 — 30-minute launch timeout:
+//     If no launch is detected within LAUNCH_PAD_TIMEOUT_SECONDS the mission
+//     is considered aborted and a critical fault halts the system safely.
+//
+//   Flaw 6 — Post-entry inhibit window:
+//     Launch detection is suppressed for LAUNCH_PAD_INHIBIT_SECONDS after
+//     state entry. This absorbs bumps from rail placement and residual
+//     vibration immediately after the arming transition.
+//
+//   Flaw 1 — Averaged altitude reference:
+//     During the inhibit window the state collects LAUNCH_PAD_ALTITUDE_AVG_SAMPLES
+//     altitude readings and averages them. The mean is far more resistant to
+//     a single barometric noise spike than one instantaneous reading.
+//
+//   Flaw 3 — Multi-sensor AND confirmation:
+//     canEnterAscent() delegates to hasDetectedLaunch(), which now requires
+//     BOTH vertical velocity AND altitude rise to agree (AND fusion, not OR).
+//     A single IMU bump raises velocity but not altitude; a baro glitch raises
+//     altitude but not velocity. Both channels must fire together.
+//
+//   Flaw 2 — Debounced detection:
+//     All launch criteria must remain satisfied continuously for
+//     LAUNCH_PAD_DEBOUNCE_SECONDS before ascent is confirmed. A single
+//     passing tick is never enough; any failing tick resets the accumulator.
 void runLaunchPadState(RocketSystem &system)
 {
+    // ---------- Flaw 5: Arming Verification (State Entry) ----------
+    // The FSM should never reach Launch_Pad without system_armed being true.
+    // If it does, something went badly wrong in Prelaunch_Check; abort now.
     if(enterState(system))
     {
         std::cout << "\n[LAUNCH_PAD]\n";
-        std::cout << "Waiting for launch...\n";
 
-        system.launch_reference_altitude =
-            readAltitude(system);
+        if(!system.system_armed)
+        {
+            raiseCriticalFault(
+                system,
+                "LAUNCH_PAD: entered without system armed");
+            return;
+        }
+
+        std::cout << "Waiting for launch...\n";
+        std::cout << "[LAUNCH_PAD] Inhibit window active ("
+                  << FlightConfig::LAUNCH_PAD_INHIBIT_SECONDS
+                  << " s) -- collecting altitude baseline...\n";
+
+        // Reset averaging and debounce accumulators on every fresh entry.
+        system.launch_pad_altitude_accumulator  = 0.0f;
+        system.launch_pad_altitude_sample_count = 0;
+        system.launch_detection_seconds         = 0.0f;
     }
 
+    // ---------- Flaw 4: 30-Minute Launch Timeout ----------
+    // If no launch is detected within the allowed window, raise a critical
+    // fault. This handles: ignition failure, operator abort, dead igniter.
+    if(stateElapsedSeconds(system) >=
+       FlightConfig::LAUNCH_PAD_TIMEOUT_SECONDS)
+    {
+        raiseCriticalFault(
+            system,
+            "LAUNCH_PAD ABORT: no launch detected within 30-minute window");
+        return;
+    }
+
+    // ---------- Flaws 1 + 6: Inhibit Window + Altitude Averaging ----------
+    // For the first LAUNCH_PAD_INHIBIT_SECONDS after entry:
+    //   - All launch detection is suppressed (protects against rail bumps).
+    //   - Altitude samples are collected to build a stable reference mean.
+    // Once the inhibit window expires the averaged reference is locked in
+    // and detection begins on the next tick.
+    if(stateElapsedSeconds(system) <
+       FlightConfig::LAUNCH_PAD_INHIBIT_SECONDS)
+    {
+        // Accumulate samples toward the averaged baseline.
+        if(system.launch_pad_altitude_sample_count <
+           FlightConfig::LAUNCH_PAD_ALTITUDE_AVG_SAMPLES)
+        {
+            system.launch_pad_altitude_accumulator +=
+                readAltitude(system);
+
+            system.launch_pad_altitude_sample_count++;
+
+            // Once we have the target sample count, compute and lock the mean.
+            if(system.launch_pad_altitude_sample_count ==
+               FlightConfig::LAUNCH_PAD_ALTITUDE_AVG_SAMPLES)
+            {
+                system.launch_reference_altitude =
+                    system.launch_pad_altitude_accumulator /
+                    static_cast<float>(
+                        FlightConfig::LAUNCH_PAD_ALTITUDE_AVG_SAMPLES);
+
+                std::cout << "[LAUNCH_PAD] Altitude baseline locked: "
+                          << system.launch_reference_altitude
+                          << " m (avg of "
+                          << FlightConfig::LAUNCH_PAD_ALTITUDE_AVG_SAMPLES
+                          << " samples)\n";
+            }
+        }
+
+        // Detection suppressed — still inside inhibit window.
+        return;
+    }
+
+    // ---------- Flaws 2 + 3: Debounced Multi-Sensor Launch Detection ----------
+    // canEnterAscent() checks system_armed AND hasDetectedLaunch().
+    // hasDetectedLaunch() now requires velocity AND altitude to both confirm
+    // (AND fusion — single-sensor spikes cannot trigger a false launch).
+    // The result must remain true for LAUNCH_PAD_DEBOUNCE_SECONDS continuously.
     if(canEnterAscent(system))
     {
-        std::cout << "Launch detected!\n";
+        system.launch_detection_seconds +=
+            system.delta_time_seconds;
 
-        logEvent(system,
-                 "LAUNCH DETECTED",
-                 Event_Flight);
+        if(system.launch_detection_seconds >=
+           FlightConfig::LAUNCH_PAD_DEBOUNCE_SECONDS)
+        {
+            std::cout << "Launch detected!\n";
 
-        system.current_state =
-            Ascent;
+            logEvent(system,
+                     "LAUNCH DETECTED",
+                     Event_Flight);
+
+            system.current_state =
+                Ascent;
+        }
+    }
+    else
+    {
+        // Any failing tick resets the counter — launch evidence must be
+        // sustained, not just momentarily present.
+        if(system.launch_detection_seconds > 0.0f)
+        {
+            std::cout << "[LAUNCH_PAD] Launch evidence lost — "
+                         "debounce reset\n";
+        }
+
+        system.launch_detection_seconds = 0.0f;
     }
 }
 

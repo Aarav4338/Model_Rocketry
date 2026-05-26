@@ -103,6 +103,21 @@ struct RocketSystem
     // after this reaches PRELAUNCH_DEBOUNCE_SECONDS.
     float prelaunch_conditions_met_seconds;
 
+    // ---------- Launch Pad fields ----------
+    // Altitude accumulator used during the inhibit window to build a
+    // noise-resistant pad reference from multiple samples.
+    float launch_pad_altitude_accumulator;
+
+    // Number of samples collected into launch_pad_altitude_accumulator
+    // so far. When this reaches LAUNCH_PAD_ALTITUDE_AVG_SAMPLES the
+    // final average is written to launch_reference_altitude.
+    int launch_pad_altitude_sample_count;
+
+    // Continuous seconds during which ALL launch-detection criteria have
+    // been satisfied simultaneously. Resets to zero on any failing tick.
+    // Ascent is confirmed only once this reaches LAUNCH_PAD_DEBOUNCE_SECONDS.
+    float launch_detection_seconds;
+
     unsigned int simulation_step;
     unsigned int telemetry_sequence;
 

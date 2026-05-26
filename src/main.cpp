@@ -66,6 +66,11 @@ static RocketSystem createInitialSystem()
     system.prelaunch_conditions_met_seconds = 0.0f;
     system.has_critical_fault               = false;
 
+    // Launch Pad state fields — reset here; state entry resets them again.
+    system.launch_pad_altitude_accumulator  = 0.0f;
+    system.launch_pad_altitude_sample_count = 0;
+    system.launch_detection_seconds         = 0.0f;
+
     system.simulation_step = 0;
     system.telemetry_sequence = 0;
 

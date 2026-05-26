@@ -69,10 +69,32 @@ constexpr long PAYLOAD_SEPARATION_DURATION_SECONDS = 3;
 constexpr long LANDED_DURATION_SECONDS = 2;
 constexpr long BEACON_DURATION_SECONDS = 3;
 
+// ---------- Launch Pad ----------
+// Number of altitude samples averaged together to produce the pad
+// reference altitude on state entry. More samples = more stable baseline
+// against barometric noise spikes.
+constexpr int LAUNCH_PAD_ALTITUDE_AVG_SAMPLES = 50;
+
+// How long after entering Launch_Pad to ignore launch detection entirely.
+// Protects against false triggers from bumps while placing the rocket on
+// the rail or from residual vibration immediately after arming.
+constexpr float LAUNCH_PAD_INHIBIT_SECONDS = 2.0f;
+
+// Launch detection conditions must all pass continuously for this many
+// seconds before ascent is confirmed. Prevents single-frame spikes
+// (IMU bump, barometer glitch) from triggering a false launch.
+constexpr float LAUNCH_PAD_DEBOUNCE_SECONDS = 0.1f;
+
+// Maximum time the rocket is allowed to remain in Launch_Pad.
+// After this the mission is considered aborted (ignition failure,
+// operator cancellation, etc.) and a critical fault is raised.
+// Set to 30 minutes = 1800 seconds as requested.
+constexpr long LAUNCH_PAD_TIMEOUT_SECONDS = 1800;
+
 constexpr long WATCHDOG_BOOT_TIMEOUT_SECONDS = 5;
 constexpr long WATCHDOG_TEST_MODE_TIMEOUT_SECONDS = 10;
 constexpr long WATCHDOG_PRELAUNCH_TIMEOUT_SECONDS = 12;
-constexpr long WATCHDOG_LAUNCH_PAD_TIMEOUT_SECONDS = 15;
+constexpr long WATCHDOG_LAUNCH_PAD_TIMEOUT_SECONDS = 1800;
 constexpr long WATCHDOG_ASCENT_TIMEOUT_SECONDS = 30;
 constexpr long WATCHDOG_APOGEE_CONFIRM_TIMEOUT_SECONDS = 8;
 constexpr long WATCHDOG_PAYLOAD_SEPARATION_TIMEOUT_SECONDS = 10;
