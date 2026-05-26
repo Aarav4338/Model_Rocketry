@@ -57,6 +57,11 @@ struct RocketSystem
     bool sensor_failure;
     bool watchdog_enabled;
 
+    // Set true by raiseCriticalFault(). Prelaunch check treats any
+    // critical fault as an immediate abort; non-critical (warning)
+    // faults from boot (e.g. telemetry degraded) do not block arming.
+    bool has_critical_fault;
+
     bool IMU_Ready = false;
     bool Telemetry_Ready = false;
     bool SD_Card_Ready = false;
@@ -83,6 +88,20 @@ struct RocketSystem
     float motor_burn_time_remaining;
     float launch_reference_altitude;
     float landing_stationary_time_seconds;
+
+    // Live IMU readings filled by updateIMUReadings() each tick.
+    // Used by prelaunch checks for sanity, stationary, and tilt.
+    float imu_accel_magnitude;   // 3-axis accelerometer vector magnitude (m/s²)
+    float imu_gyro_rate;         // 3-axis gyroscope vector magnitude (rad/s)
+    float tilt_angle_deg;        // estimated tilt from vertical (degrees)
+
+    // Battery voltage read by the power subsystem stub.
+    float battery_voltage;
+
+    // Debounce accumulator for prelaunch checks (seconds).
+    // Resets to zero whenever any check fails; arming only happens
+    // after this reaches PRELAUNCH_DEBOUNCE_SECONDS.
+    float prelaunch_conditions_met_seconds;
 
     unsigned int simulation_step;
     unsigned int telemetry_sequence;

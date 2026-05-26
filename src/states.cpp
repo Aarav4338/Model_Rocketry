@@ -122,25 +122,136 @@ void runTestModeState(RocketSystem &system)
     }
 }
 
-// Arms the flight computer after prelaunch checks. Arming only allows launch
-// detection; it does not itself prove the rocket has moved.
+// Arms the flight computer only after every preflight condition has been
+// satisfied continuously for PRELAUNCH_DEBOUNCE_SECONDS. This replaces the
+// original time-only arming logic with evidence-based arming:
+//
+//   Critical checks (abort on first failure):
+//     - No prior critical fault from boot
+//     - IMU producing sane accelerometer values (~1g, not garbage)
+//     - Battery voltage above minimum safe threshold
+//     - Overall timeout not exceeded
+//
+//   Non-critical checks (reset debounce and warn, but do not abort):
+//     - Rocket stationary (gyro quiet, accel stable at 1g)
+//     - Rocket vertical (tilt within rail-alignment threshold)
+//
+//   Arming gate:
+//     - All checks passing continuously for PRELAUNCH_DEBOUNCE_SECONDS
+//
+// FSM exit paths:
+//   success  → Launch_Pad   (all conditions met, debounce satisfied)
+//   critical → fault halt   (via raiseCriticalFault + main-loop fault guard)
 void runPrelaunchCheckState(RocketSystem &system)
 {
+    // ---------- State Entry ----------
     if(enterState(system))
     {
         std::cout << "\n[PRELAUNCH_CHECK]\n";
         std::cout << "Checking launch conditions...\n";
+        system.prelaunch_conditions_met_seconds = 0.0f;
     }
 
+    // ---------- Hard Timeout (Abort Path) ----------
+    // If the overall window expires without a successful arm, something is
+    // wrong. Raise a critical fault rather than hanging in this state forever.
     if(stateElapsedSeconds(system) >=
-       FlightConfig::PRELAUNCH_CHECK_DURATION_SECONDS)
+       FlightConfig::PRELAUNCH_TIMEOUT_SECONDS)
+    {
+        raiseCriticalFault(
+            system,
+            "PRELAUNCH ABORT: conditions not met within timeout");
+        return;
+    }
+
+    // ---------- Flaw 6 / 11: Critical Fault Gate ----------
+    // If a prior state (e.g. BOOT) already raised a critical fault, refuse
+    // to arm regardless of current sensor readings. Non-critical faults
+    // (telemetry degraded, SD card warning) do NOT block arming.
+    if(system.has_critical_fault)
+    {
+        raiseCriticalFault(
+            system,
+            "PRELAUNCH ABORT: critical fault already active");
+        return;
+    }
+
+    // ---------- Flaw 2: IMU Sanity Check (Critical) ----------
+    // The IMU must be producing physically plausible values.
+    // A dead, railed, or glitching IMU is an immediate hard abort;
+    // there is no safe flight without attitude data.
+    if(!isIMUSane(system))
+    {
+        raiseCriticalFault(
+            system,
+            "PRELAUNCH ABORT: IMU sanity check failed");
+        return;
+    }
+
+    // ---------- Flaw 3: Stationary Check (Non-Critical) ----------
+    // Gyro quiet + accel stable at 1g. If the rocket is being carried
+    // or disturbed, reset the debounce counter and warn. Do not abort;
+    // the operator may be finishing setup and will stabilise shortly.
+    if(!isStationary(system))
+    {
+        system.prelaunch_conditions_met_seconds = 0.0f;
+        std::cout << "[PRELAUNCH] WARNING: rocket not stationary "
+                     "-- debounce reset\n";
+        return;
+    }
+
+    // ---------- Flaw 8: Verticality Check (Non-Critical) ----------
+    // Tilt must be within the launch-rail alignment threshold.
+    // A tilted rocket is dangerous but may be a temporary condition
+    // (someone adjusting the rail), so reset debounce instead of aborting.
+    if(!isVertical(system))
+    {
+        system.prelaunch_conditions_met_seconds = 0.0f;
+        std::cout << "[PRELAUNCH] WARNING: tilt out of range ("
+                  << system.tilt_angle_deg
+                  << " deg) -- debounce reset\n";
+        return;
+    }
+
+    // ---------- Flaw 5: Battery Check (Critical) ----------
+    // Battery voltage must be above the minimum safe threshold.
+    // A low battery mid-flight can cause an MCU brownout at the worst
+    // possible moment (pyro firing). No negotiation.
+    if(!isBatteryOk(system))
+    {
+        raiseCriticalFault(
+            system,
+            "PRELAUNCH ABORT: battery voltage below minimum safe level");
+        return;
+    }
+
+    // ---------- Flaws 4 / 9: Debounce Accumulator ----------
+    // All checks have passed this tick. Accumulate continuous good time.
+    // Any single failing tick above resets the counter, so the rocket
+    // must sustain a fully clean window before it is allowed to arm.
+    system.prelaunch_conditions_met_seconds +=
+        system.delta_time_seconds;
+
+    std::cout << "[PRELAUNCH] All checks passing ("
+              << system.prelaunch_conditions_met_seconds
+              << " / "
+              << FlightConfig::PRELAUNCH_DEBOUNCE_SECONDS
+              << " s)\n";
+
+    // ---------- Flaw 1 / 7: Evidence-Based Arming ----------
+    // The system arms only when conditions have been continuously satisfied
+    // for the full debounce window. Time alone is not sufficient;
+    // evidence is required.
+    if(system.prelaunch_conditions_met_seconds >=
+       FlightConfig::PRELAUNCH_DEBOUNCE_SECONDS)
     {
         system.system_armed = true;
 
         std::cout << "System armed.\n";
 
         logEvent(system,
-                 "PRELAUNCH_CHECK: System armed",
+                 "PRELAUNCH_CHECK: System armed "
+                 "(all conditions verified)",
                  Event_State);
 
         system.current_state =

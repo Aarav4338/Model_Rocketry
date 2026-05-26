@@ -1,12 +1,13 @@
 #include <cstdio>
 #include <chrono>
 #include <iostream>
-#include <thread>
+#include <windows.h>
 
 #include "config.hpp"
 #include "faults.hpp"
 #include "filters.hpp"
 #include "power.hpp"
+#include "sensors.hpp"
 #include "simulation.hpp"
 #include "states.hpp"
 #include "telemetry.hpp"
@@ -53,6 +54,17 @@ static RocketSystem createInitialSystem()
     system.motor_burn_time_remaining = 0.0f;
     system.launch_reference_altitude = 0.0f;
     system.landing_stationary_time_seconds = 0.0f;
+
+    // IMU / power stub fields — zeroed here; simulation fills them
+    // each tick before the FSM and prelaunch checks run.
+    system.imu_accel_magnitude = 0.0f;
+    system.imu_gyro_rate       = 0.0f;
+    system.tilt_angle_deg      = 0.0f;
+    system.battery_voltage     = 0.0f;
+
+    // Prelaunch debounce accumulator and critical-fault flag.
+    system.prelaunch_conditions_met_seconds = 0.0f;
+    system.has_critical_fault               = false;
 
     system.simulation_step = 0;
     system.telemetry_sequence = 0;
@@ -146,6 +158,7 @@ int main()
 
         updateSimulation(system);
         filterAltitude(system);
+        updateIMUReadings(system);
         updateVelocity(system);
 
         if(shouldSendTelemetry(system))
@@ -158,9 +171,11 @@ int main()
 
         if(FlightConfig::MAIN_LOOP_SLEEP_MILLISECONDS > 0)
         {
-            std::this_thread::sleep_for(
-                std::chrono::milliseconds(
-                    FlightConfig::MAIN_LOOP_SLEEP_MILLISECONDS));
+            // MinGW.org GCC (Win32 thread model) does not expose
+            // std::this_thread, so we use the Windows Sleep() API directly.
+            // Semantics are identical: argument is milliseconds.
+            Sleep(static_cast<DWORD>(
+                FlightConfig::MAIN_LOOP_SLEEP_MILLISECONDS));
         }
     }
 

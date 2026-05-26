@@ -32,6 +32,18 @@ void raiseFault(RocketSystem &system,
              Event_Fault);
 }
 
+// Raises a fault that is unconditionally treated as mission-critical.
+// Unlike raiseFault, this also sets has_critical_fault so that the
+// prelaunch check (and any future state that cares about severity) can
+// distinguish between a "we warned you" non-critical fault (e.g. telemetry
+// degraded) and a "do not fly" hard abort (e.g. IMU dead, battery low).
+void raiseCriticalFault(RocketSystem &system,
+                        const char *message)
+{
+    system.has_critical_fault = true;
+    raiseFault(system, message, true);
+}
+
 // Maps each mission state to its configured watchdog limit. Keeping these
 // values in configuration preserves the ten-state FSM while still allowing
 // independent safety supervision.

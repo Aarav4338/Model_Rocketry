@@ -159,6 +159,36 @@ static float simulatedNoiseSample(const RocketSystem &system)
            FlightConfig::SENSOR_NOISE_AMPLITUDE_METERS;
 }
 
+// Fills the IMU and power stub fields used by prelaunch checks.
+// While grounded the accelerometer reads ~1g (gravity only) and the
+// gyroscope reads ~0 rad/s (stationary). During powered ascent the
+// accelerometer magnitude rises by the thrust component. Tilt is held
+// at a small fixed angle representing a well-aligned rail. Battery
+// voltage is a static nominal value for the desktop sim.
+static void simulateIMUAndPower(RocketSystem &system)
+{
+    // Grounded: gravity vector only, IMU reads ~1g on the Z axis.
+    // In flight: add the simulated vertical acceleration magnitude.
+    const float flight_accel =
+        system.thrust_active
+            ? FlightConfig::SIM_THRUST_ACCELERATION_MPS2
+            : 0.0f;
+
+    system.imu_accel_magnitude =
+        FlightConfig::SIM_GRAVITY_MPS2 + flight_accel;
+
+    // Gyroscope: rocket is stationary on the pad and during coast.
+    // A real sensor would have slight bias noise; kept at zero here
+    // so the desktop run passes the stationary threshold cleanly.
+    system.imu_gyro_rate = 0.0f;
+
+    // Tilt: 2 degrees off-vertical — a well-aligned launch rail.
+    system.tilt_angle_deg = 2.0f;
+
+    // Battery: nominal 11.4 V (3S LiPo at ~3.8 V/cell).
+    system.battery_voltage = 11.4f;
+}
+
 // Advances the desktop physics model by one loop delta. The simulation owns
 // true acceleration, true velocity, motor burn state, and true altitude; it then
 // exposes only raw sensor-like altitude to the rest of the avionics pipeline.
@@ -172,6 +202,7 @@ void updateSimulation(RocketSystem &system)
     integrateVerticalMotion(system);
     updateMotorBurn(system);
     updateFlightPhase(system);
+    simulateIMUAndPower(system);
 
     system.raw_altitude =
         system.simulated_true_altitude +

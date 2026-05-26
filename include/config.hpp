@@ -28,7 +28,42 @@ constexpr long LANDING_STATIONARY_DURATION_MILLISECONDS = 2000;
 constexpr float TELEMETRY_INTERVAL_SECONDS = 0.25f;
 
 constexpr long TEST_MODE_DURATION_SECONDS = 3;
-constexpr long PRELAUNCH_CHECK_DURATION_SECONDS = 4;
+
+// ---------- Prelaunch Check ----------
+// Maximum sane accelerometer magnitude while on the pad (m/s²).
+// A healthy grounded IMU should read roughly 1g (9.8). If it reads
+// beyond this, the sensor is likely garbage.
+constexpr float PRELAUNCH_IMU_ACCEL_MAX_MPS2 = 15.0f;
+
+// Minimum accelerometer magnitude — below this the IMU is probably
+// dead or in free-fall, neither acceptable on a pad.
+constexpr float PRELAUNCH_IMU_ACCEL_MIN_MPS2 = 7.0f;
+
+// Maximum gyroscope angular-rate magnitude (rad/s) that counts as
+// "stationary". If the rocket is spinning or being carried, this
+// threshold is exceeded and arming is blocked.
+constexpr float PRELAUNCH_IMU_GYRO_STATIONARY_RADS = 0.1f;
+
+// How close the accelerometer magnitude must be to 1g (m/s²)
+// for the "stable on pad" check.
+constexpr float PRELAUNCH_ACCEL_1G_TOLERANCE_MPS2 = 2.0f;
+
+// All prelaunch checks must pass continuously for this many seconds
+// before the system is allowed to arm. Prevents single-glitch arming.
+constexpr float PRELAUNCH_DEBOUNCE_SECONDS = 2.0f;
+
+// Minimum battery voltage (V) required to arm. Below this, a
+// mid-flight voltage sag could reset the MCU during chute deployment.
+constexpr float PRELAUNCH_MIN_BATTERY_VOLTAGE = 7.0f;
+
+// Maximum tilt from vertical (degrees) permitted while arming.
+// Checks that the rocket is upright on the rail, not lying sideways.
+constexpr float PRELAUNCH_MAX_TILT_DEG = 15.0f;
+
+// Hard timeout for the entire prelaunch check phase (seconds).
+// If conditions are never satisfied within this window, a critical
+// fault is raised rather than letting the FSM hang indefinitely.
+constexpr long PRELAUNCH_TIMEOUT_SECONDS = 10;
 constexpr long APOGEE_CONFIRM_DURATION_MILLISECONDS = 750;
 constexpr long PAYLOAD_SEPARATION_DURATION_SECONDS = 3;
 constexpr long LANDED_DURATION_SECONDS = 2;

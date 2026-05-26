@@ -103,3 +103,69 @@ bool hasDetectedLanding(RocketSystem &system)
            (FlightConfig::LANDING_STATIONARY_DURATION_MILLISECONDS /
             1000.0f);
 }
+
+// ---------- Prelaunch sensor checks ----------
+
+// Hardware abstraction for live IMU data. On a real embedded build this
+// function reads from the IMU driver and computes magnitudes. On the desktop
+// simulator the values are filled by updateSimulation() each tick, so this
+// stub simply trusts what is already in the struct.
+// The separation keeps every prelaunch check isolated from simulation details.
+void updateIMUReadings(RocketSystem &system)
+{
+    // No-op on desktop: simulation.cpp writes directly to the IMU fields
+    // (imu_accel_magnitude, imu_gyro_rate, tilt_angle_deg, battery_voltage)
+    // before this is called. On hardware, replace this body with driver reads.
+    (void)system;
+}
+
+// Verifies the accelerometer is producing physically plausible values for a
+// rocket standing still on a launch pad. A healthy grounded IMU must read
+// close to 1g (9.80665 m/s²). Values outside [MIN, MAX] indicate a broken
+// sensor axis, power issue, or completely dead chip.
+bool isIMUSane(const RocketSystem &system)
+{
+    return system.imu_accel_magnitude >=
+               FlightConfig::PRELAUNCH_IMU_ACCEL_MIN_MPS2 &&
+           system.imu_accel_magnitude <=
+               FlightConfig::PRELAUNCH_IMU_ACCEL_MAX_MPS2;
+}
+
+// Checks that the rocket is not rotating or being physically moved.
+// Two independent criteria must both hold:
+//   1. Gyroscope rate is below the stationary threshold (not spinning/carried).
+//   2. Accelerometer magnitude is close enough to 1g (not in random motion).
+bool isStationary(const RocketSystem &system)
+{
+    const bool gyro_quiet =
+        system.imu_gyro_rate <=
+        FlightConfig::PRELAUNCH_IMU_GYRO_STATIONARY_RADS;
+
+    const float accel_error =
+        system.imu_accel_magnitude -
+        FlightConfig::SIM_GRAVITY_MPS2;
+
+    const bool accel_stable =
+        (accel_error < 0.0f ? -accel_error : accel_error) <=
+        FlightConfig::PRELAUNCH_ACCEL_1G_TOLERANCE_MPS2;
+
+    return gyro_quiet && accel_stable;
+}
+
+// Verifies the battery voltage is above the minimum threshold required for
+// a safe flight. A low battery risks an MCU brownout during pyro firing or
+// parachute deployment, which would be catastrophic.
+bool isBatteryOk(const RocketSystem &system)
+{
+    return system.battery_voltage >=
+           FlightConfig::PRELAUNCH_MIN_BATTERY_VOLTAGE;
+}
+
+// Estimates launch-pad verticality from the IMU tilt field. A large tilt
+// means the rail has slipped or the rocket is lying on its side; either
+// condition makes a safe ascent trajectory impossible.
+bool isVertical(const RocketSystem &system)
+{
+    return system.tilt_angle_deg <=
+           FlightConfig::PRELAUNCH_MAX_TILT_DEG;
+}
