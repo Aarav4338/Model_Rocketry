@@ -36,6 +36,7 @@ static RocketSystem createInitialSystem()
     system.mission_complete = false;
     system.thrust_active = false;
     system.burnout_detected = false;
+    system.parachute_failure_detected = false;
 
     system.imu_powered = true;
     system.high_rate_logging_enabled = true;
@@ -54,6 +55,7 @@ static RocketSystem createInitialSystem()
     system.motor_burn_time_remaining = 0.0f;
     system.launch_reference_altitude = 0.0f;
     system.landing_stationary_time_seconds = 0.0f;
+    system.max_descent_velocity = 0.0f;
 
     // IMU / power stub fields — zeroed here; simulation fills them
     // each tick before the FSM and prelaunch checks run.
@@ -157,13 +159,16 @@ static void dispatchState(RocketSystem &system)
     }
 }
 
-// Main avionics loop. Each cycle updates time, advances the physics simulator,
-// filters sensor-like data, derives velocity, emits telemetry, runs the FSM, and
-// finally performs independent watchdog supervision.
-int main()
+#include <cstdlib>
+#include <ctime>
+
+void runSimulation(SimulationScenario scenario, const char* scenario_name)
 {
-    RocketSystem system =
-        createInitialSystem();
+    std::cout << "\n========================================\n";
+    std::cout << "RUNNING SCENARIO: " << scenario_name << "\n";
+    std::cout << "========================================\n";
+
+    RocketSystem system = createInitialSystem();
 
     while(!system.mission_complete)
     {
@@ -175,10 +180,18 @@ int main()
             std::cout << system.error_message
                       << std::endl;
 
-            break;
+            // In a real system, the rocket might try to recover or stop.
+            // For the simulation, we'll fast-forward the physics to ground impact
+            // to show the end result, or just break depending on the fault.
+            // But the FSM states like descent will handle landing. 
+            // If the fault is terminal, break:
+            if(system.current_flight_phase == Flight_Grounded) {
+                break;
+            }
         }
 
-        updateSimulation(system);
+        updateSimulation(system, scenario);
+        updateSensors(system);
         filterAltitude(system);
         updateIMUReadings(system);
         updateVelocity(system);
@@ -199,6 +212,52 @@ int main()
             Sleep(static_cast<DWORD>(
                 FlightConfig::MAIN_LOOP_SLEEP_MILLISECONDS));
         }
+
+        // Failsafe break to avoid infinite loops if something goes horribly wrong
+        if(system.mission_elapsed_seconds > 700.0f) {
+            std::cout << "Simulation timeout limit reached.\n";
+            break;
+        }
+    }
+}
+
+#include <cstring>
+
+// Main avionics loop wrapper. Runs the desktop simulation based on the
+// scenario requested via command-line arguments.
+int main(int argc, char* argv[])
+{
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
+    if (argc < 2) {
+        std::cout << "Usage: ./rocket-avionics <scenario>\n";
+        std::cout << "Available scenarios:\n";
+        std::cout << "  success    : Nominal Flight\n";
+        std::cout << "  motor      : Motor Thrust Failure (Early Burnout)\n";
+        std::cout << "  sensor     : Altimeter Sensor Failure (Flatline)\n";
+        std::cout << "  parachute  : Parachute Deployment Failure (Ballistic)\n";
+        std::cout << "  all        : Run all 4 scenarios sequentially\n";
+        return 1;
+    }
+
+    const char* arg = argv[1];
+
+    if (std::strcmp(arg, "success") == 0) {
+        runSimulation(SCENARIO_SUCCESS, "Nominal Flight (Success)");
+    } else if (std::strcmp(arg, "motor") == 0) {
+        runSimulation(SCENARIO_MOTOR_FAILURE, "Motor Thrust Failure (Early Burnout)");
+    } else if (std::strcmp(arg, "sensor") == 0) {
+        runSimulation(SCENARIO_SENSOR_FAILURE, "Altimeter Sensor Failure (Flatline)");
+    } else if (std::strcmp(arg, "parachute") == 0) {
+        runSimulation(SCENARIO_PARACHUTE_FAILURE, "Parachute Deployment Failure (Ballistic)");
+    } else if (std::strcmp(arg, "all") == 0) {
+        runSimulation(SCENARIO_SUCCESS, "Nominal Flight (Success)");
+        runSimulation(SCENARIO_MOTOR_FAILURE, "Motor Thrust Failure (Early Burnout)");
+        runSimulation(SCENARIO_SENSOR_FAILURE, "Altimeter Sensor Failure (Flatline)");
+        runSimulation(SCENARIO_PARACHUTE_FAILURE, "Parachute Deployment Failure (Ballistic)");
+    } else {
+        std::cout << "Unknown scenario: " << arg << "\n";
+        return 1;
     }
 
     return 0;

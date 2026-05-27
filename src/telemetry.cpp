@@ -1,6 +1,7 @@
 #include "telemetry.hpp"
 
 #include <iostream>
+#include <fstream>
 
 #include "config.hpp"
 #include "sensors.hpp"
@@ -123,42 +124,45 @@ void sendTelemetry(RocketSystem &system)
     TelemetryPacket packet =
         buildTelemetryPacket(system);
 
-    std::cout << "\n[TELEMETRY]\n";
+    std::ios_base::openmode mode = std::ios::app;
+    if (packet.sequence == 0) {
+        mode = std::ios::trunc;
+    }
+    
+    std::ofstream out("data.csv", mode);
+    if (!out) {
+        std::cerr << "Failed to open CSV file for telemetry\n";
+        return;
+    }
 
-    std::cout << "Packet: "
-              << packet.sequence
-              << std::endl;
+    if (packet.sequence == 0) {
+        out << "TEAM ID,TIME STAMPING,PACKET COUNT,ALTITUDE,PRESSURE,TEMP,VOLTAGE,GNSS TIME,GNSS LATITUDE,GNSS LONGITUDE,GNSS ALTITUDE,GNSS SATS,ACCELEROMETER DATA,GYRO SPIN RATE,FLIGHT SOFTWARE STATE,ANY OPTIONAL DATA\n";
+    }
 
-    std::cout << "State: "
-              << stateName(packet.state)
-              << " ("
-              << packet.state
-              << ")"
-              << std::endl;
+    // <TEAM ID>, <TIME STAMPING>, <PACKET COUNT>, <ALTITUDE>, <PRESSURE>,
+    // <TEMP>, <VOLTAGE>, <GNSS TIME>, <GNSS LATITUDE>, <GNSS LONGITUDE>,
+    // <GNSS ALTITUDE>, <GNSS SATS>, <ACCELEROMETER DATA>, <GYRO SPIN RATE>,
+    // <FLIGHT SOFTWARE STATE>, <ANY OPTIONAL DATA>
+    
+    out << FlightConfig::TEAM_ID << ","
+        << packet.mission_time_seconds << ","
+        << packet.sequence << ","
+        << packet.altitude << ","
+        << system.pressure << ","
+        << system.temperature << ","
+        << system.voltage << ","
+        << system.gnss_time << ","
+        << system.gnss_latitude << ","
+        << system.gnss_longitude << ","
+        << system.gnss_altitude << ","
+        << system.gnss_sats << ","
+        << packet.vertical_acceleration << ","
+        << system.gyro_spin_rate << ","
+        << stateName(static_cast<State>(packet.state)) << ","
+        << flightPhaseName(static_cast<FlightPhase>(packet.flight_phase))
+        << "\n";
 
-    std::cout << "Flight phase: "
-              << flightPhaseName(packet.flight_phase)
-              << std::endl;
-
-    std::cout << "Altitude: "
-              << packet.altitude
-              << std::endl;
-
-    std::cout << "Velocity: "
-              << packet.vertical_velocity
-              << std::endl;
-
-    std::cout << "Acceleration: "
-              << packet.vertical_acceleration
-              << std::endl;
-
-    std::cout << "Armed: "
-              << packet.armed
-              << std::endl;
-
-    std::cout << "Fault: "
-              << packet.fault
-              << std::endl;
+    out.close();
 
     system.telemetry_sequence++;
     system.last_telemetry_time_seconds =

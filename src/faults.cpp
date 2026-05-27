@@ -118,6 +118,22 @@ void checkWatchdog(RocketSystem &system)
                   "WATCHDOG: State %d timed out",
                   system.current_state);
 
+    // Watchdog Fault Correction Mechanism
+    // If we are in flight, we don't want the rocket to fall without control.
+    // We forcefully advance the FSM to ensure safe recovery and landing.
+    if(system.current_state == Ascent || system.current_state == Apogee_confirm)
+    {
+        system.current_state = Payload_Separation;
+        logEvent(system, "WATCHDOG RECOVERY: Forced payload separation", Event_Fault);
+        return; // Prevent terminal fault
+    }
+    else if(system.current_state == Descent)
+    {
+        system.current_state = Landed;
+        logEvent(system, "WATCHDOG RECOVERY: Forced landed state", Event_Fault);
+        return; // Prevent terminal fault
+    }
+
     raiseFault(system,
                message,
                false);

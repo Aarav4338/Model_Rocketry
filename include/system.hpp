@@ -70,6 +70,7 @@ struct RocketSystem
     bool mission_complete;
     bool thrust_active;
     bool burnout_detected;
+    bool parachute_failure_detected;
 
     bool imu_powered;
     bool high_rate_logging_enabled;
@@ -88,6 +89,18 @@ struct RocketSystem
     float motor_burn_time_remaining;
     float launch_reference_altitude;
     float landing_stationary_time_seconds;
+    float max_descent_velocity;
+
+    // Additional sensor data for IN-SPACe telemetry
+    float pressure;
+    float temperature;
+    float voltage;
+    long gnss_time;
+    double gnss_latitude;
+    double gnss_longitude;
+    float gnss_altitude;
+    int gnss_sats;
+    float gyro_spin_rate;
 
     // Live IMU readings filled by updateIMUReadings() each tick.
     // Used by prelaunch checks for sanity, stationary, and tilt.
@@ -151,6 +164,7 @@ struct RocketSystem
 
     float delta_time_seconds;
     float mission_elapsed_seconds;
+    float state_entry_time_seconds;
     float last_telemetry_time_seconds;
 
     char error_message[FlightConfig::ERROR_MESSAGE_CAPACITY];
