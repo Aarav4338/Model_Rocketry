@@ -78,6 +78,11 @@ struct RocketSystem
     bool recovery_beacon_enabled;
     bool landed_power_saving_applied;
 
+    // RF Command receiver — ground station can mute/unmute telemetry
+    // via an uplink command (competition requirement).
+    bool telemetry_muted;              // true = ground station commanded silence
+    char last_rf_command[8];           // last received command string e.g. "CMD_OFF"
+
     float raw_altitude;
     float filtered_altitude;
     float previous_altitude;

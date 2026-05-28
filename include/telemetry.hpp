@@ -20,3 +20,4 @@ struct TelemetryPacket
 bool shouldSendTelemetry(RocketSystem &system);
 TelemetryPacket buildTelemetryPacket(RocketSystem &system);
 void sendTelemetry(RocketSystem &system);
+void receiveRFCommands(RocketSystem &system); // Point 4: RF uplink command handler

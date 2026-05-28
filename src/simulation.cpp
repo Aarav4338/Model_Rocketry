@@ -148,7 +148,7 @@ static void updateFlightPhase(RocketSystem &system)
 
 #include <cstdlib>
 
-static float simulatedNoiseSample(const RocketSystem &system)
+static float simulatedNoiseSample(const RocketSystem & /*system*/)
 {
     // Generate a random float between -1.0 and 1.0 to simulate barometric white noise
     float random_factor = (static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * 2.0f - 1.0f;

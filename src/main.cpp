@@ -44,6 +44,10 @@ static RocketSystem createInitialSystem()
     system.recovery_beacon_enabled = false;
     system.landed_power_saving_applied = false;
 
+    // RF command receiver — starts unmuted, no pending command
+    system.telemetry_muted = false;
+    system.last_rf_command[0] = '\0';
+
     system.raw_altitude = 0.0f;
     system.filtered_altitude = 0.0f;
     system.previous_altitude = 0.0f;
@@ -195,6 +199,9 @@ void runSimulation(SimulationScenario scenario, const char* scenario_name)
         filterAltitude(system);
         updateIMUReadings(system);
         updateVelocity(system);
+
+        // POINT 4: Check for incoming RF commands before deciding to transmit
+        receiveRFCommands(system);
 
         if(shouldSendTelemetry(system))
         {
