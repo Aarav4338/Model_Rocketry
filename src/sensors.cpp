@@ -43,19 +43,33 @@ float readAltitude(RocketSystem &system)
     return system.filtered_altitude;
 }
 
+#include <cmath>
+
 // Hardware abstraction placeholder to poll sensors that are not explicitly
 // tied to physics simulation yet, satisfying data reporting requirements.
 void updateSensors(RocketSystem &system)
 {
-    system.pressure = 101325.0f; // placeholder standard pressure
-    system.temperature = 25.0f;  // placeholder standard temp
-    system.voltage = 7.4f;       // placeholder battery voltage
-    system.gnss_time = 0;
-    system.gnss_latitude = 0.0;
-    system.gnss_longitude = 0.0;
-    system.gnss_altitude = readAltitude(system);
+    float altitude = readAltitude(system);
+    
+    // Standard atmosphere barometric formula: P = P0 * (1 - (L * h / T0)) ^ (g * M / (R * L))
+    // Simplified approximation for low altitudes:
+    system.pressure = 101325.0f * std::pow(1.0f - (2.25577e-5f * altitude), 5.25588f); 
+    
+    // Standard temperature lapse rate: -6.5C per 1000m
+    system.temperature = 25.0f - (0.0065f * altitude);
+    
+    // Battery drops slightly under thrust (simulated sag)
+    system.voltage = system.thrust_active ? 7.1f : 7.4f;
+    
+    // Simulate GNSS
+    system.gnss_time = static_cast<long>(system.mission_elapsed_seconds);
+    system.gnss_latitude = 35.3331 + (altitude * 0.0000001); // fake drift
+    system.gnss_longitude = -117.803 - (altitude * 0.0000001);
+    system.gnss_altitude = altitude + 2.0f; // GNSS slightly different from baro
     system.gnss_sats = 8;
-    system.gyro_spin_rate = 0.0f;
+    
+    // Simulate slight roll during ascent
+    system.gyro_spin_rate = system.thrust_active ? 15.0f : 0.0f;
 }
 
 // Reports that the rocket is genuinely descending based on N consecutive

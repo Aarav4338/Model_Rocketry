@@ -129,7 +129,7 @@ void sendTelemetry(RocketSystem &system)
         mode = std::ios::trunc;
     }
     
-    std::ofstream out("data.csv", mode);
+    std::ofstream out("Flight_2026 IN-SPACe-PVC.csv", mode);
     if (!out) {
         std::cerr << "Failed to open CSV file for telemetry\n";
         return;
