@@ -20,4 +20,5 @@ struct TelemetryPacket
 bool shouldSendTelemetry(RocketSystem &system);
 TelemetryPacket buildTelemetryPacket(RocketSystem &system);
 void sendTelemetry(RocketSystem &system);
-void receiveRFCommands(RocketSystem &system); // Point 4: RF uplink command handler
+void receiveRFCommands(RocketSystem &system); // RF uplink command handler
+void sx1262_init();                           // one-time SX1262 radio setup (call in BOOT state)
