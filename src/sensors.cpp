@@ -1,38 +1,30 @@
 #include "sensors.hpp"
 
 #include "config.hpp"
+#include "hal.hpp"
 
-// Hardware abstraction placeholder for IMU startup. The desktop build always
-// succeeds, while a future STM32 port can put HAL sensor initialization here
-// without changing the mission FSM.
+// Hardware abstraction placeholder for IMU startup.
 bool initialize_IMU()
 {
-    // TODO: STM32 HAL_I2C_Init() / HAL_SPI_Init() for Primary IMU
-    return true;
+    return Hardware::initPrimaryIMU();
 }
 
 // Hardware abstraction placeholder for the redundant altimeter required by guidelines.
 bool initialize_redundant_altimeter()
 {
-    // TODO: STM32 HAL_I2C_Init() for Redundant Altimeter
-    return true;
+    return Hardware::initRedundantAltimeter();
 }
 
-// Hardware abstraction placeholder for the telemetry transport. Keeping the
-// init call behind this function prevents states from depending on UART, USB,
-// radio, or desktop-console details.
+// Hardware abstraction placeholder for the telemetry transport. 
 bool initialize_telemetry()
 {
-    // TODO: STM32 HAL_UART_Init() for LoRa / XBEE
-    return true;
+    return Hardware::initRadio();
 }
 
-// Hardware abstraction placeholder for mission-log storage. A later SD-card
-// driver can live behind this function while `BOOT` keeps the same structure.
+// Hardware abstraction placeholder for mission-log storage. 
 bool initialize_SD_card()
 {
-    // TODO: STM32 SDIO / SPI initialization for SD Card
-    return true;
+    return Hardware::initSDCard();
 }
 
 // Returns the altitude value approved for mission decisions. This is filtered
@@ -47,15 +39,21 @@ float readAltitude(RocketSystem &system)
 // tied to physics simulation yet, satisfying data reporting requirements.
 void updateSensors(RocketSystem &system)
 {
-    system.pressure = 101325.0f; // placeholder standard pressure
-    system.temperature = 25.0f;  // placeholder standard temp
-    system.voltage = 7.4f;       // placeholder battery voltage
-    system.gnss_time = 0;
-    system.gnss_latitude = 0.0;
-    system.gnss_longitude = 0.0;
-    system.gnss_altitude = readAltitude(system);
-    system.gnss_sats = 8;
-    system.gyro_spin_rate = 0.0f;
+    Hardware::readBarometer(system.pressure, system.temperature);
+    system.voltage = Hardware::readBatteryVoltage();
+    
+    Hardware::readGNSS(system.gnss_time, 
+                       system.gnss_latitude, 
+                       system.gnss_longitude, 
+                       system.gnss_altitude, 
+                       system.gnss_sats);
+                       
+    // Note: Simulated altitude from readAltitude(system) overrides raw GNSS alt
+    // for FSM logic, GNSS altitude is strictly for telemetry compliance.
+    
+    float ax, ay, az, gx, gy, gz;
+    Hardware::readIMU(ax, ay, az, gx, gy, gz);
+    system.gyro_spin_rate = gz; // Proxy for spin rate
 }
 
 // Reports the filtered-data descent flag used by apogee confirmation. The flag

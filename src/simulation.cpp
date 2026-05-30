@@ -188,6 +188,17 @@ void updateSimulation(RocketSystem &system, SimulationScenario scenario)
     updateMotorBurn(system);
     updateFlightPhase(system);
 
+    if (scenario == SCENARIO_MCU_RESET && system.mission_elapsed_seconds > 2.0f && system.mission_elapsed_seconds < 2.5f && system.current_state == Ascent)
+    {
+        // Simulate catastrophic processor crash right in the middle of powered ascent.
+        // The main loop will handle this by checking for a reset flag, breaking, and rebooting.
+        extern bool simulated_crash_triggered;
+        if(!simulated_crash_triggered) {
+            simulated_crash_triggered = true;
+            return;
+        }
+    }
+
     if (scenario == SCENARIO_SENSOR_FAILURE && system.simulated_true_altitude > 200.0f)
     {
         system.sensor_failure = true;

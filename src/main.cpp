@@ -12,6 +12,10 @@
 #include "states.hpp"
 #include "telemetry.hpp"
 #include "timing.hpp"
+#include "hal.hpp"
+#include "logging.hpp"
+
+bool simulated_crash_triggered = false;
 
 // Builds the single shared mission object used by every subsystem. Keeping all
 // mutable avionics and simulation state in one explicit structure makes the
@@ -68,6 +72,16 @@ static RocketSystem createInitialSystem()
     system.mission_event_count = 0;
 
     initializeTiming(system);
+
+    // Watchdog / Reset Recovery (Task 4.16 & 4.17)
+    // Attempt to load non-volatile state to check if this is a crash recovery
+    extern bool loadSystemState(RocketSystem &system);
+    if (loadSystemState(system) && system.current_state > Launch_Pad && system.current_state < Landed) {
+        std::cout << "[RECOVERY] Previous flight state found! Resuming from state: " << system.current_state << "\n";
+        logEvent(system, "SYSTEM REBOOT: Recovered inflight state from NVRAM", Event_System);
+    } else {
+        std::cout << "[BOOT] Cold start.\n";
+    }
 
     return system;
 }
@@ -169,6 +183,13 @@ void runSimulation(SimulationScenario scenario, const char* scenario_name)
 
         dispatchState(system);
         checkWatchdog(system);
+        Hardware::resetWatchdog();
+
+        if (simulated_crash_triggered && system.current_state == Ascent) {
+            std::cout << "\n[SIMULATION] <<< CRITICAL HARDWARE RESET INJECTED >>>\n";
+            Hardware::systemReset();
+            break; 
+        }
 
         if(FlightConfig::MAIN_LOOP_SLEEP_MILLISECONDS > 0)
         {
@@ -219,6 +240,12 @@ int main(int argc, char* argv[])
         runSimulation(SCENARIO_MOTOR_FAILURE, "Motor Thrust Failure (Early Burnout)");
         runSimulation(SCENARIO_SENSOR_FAILURE, "Altimeter Sensor Failure (Flatline)");
         runSimulation(SCENARIO_PARACHUTE_FAILURE, "Parachute Deployment Failure (Ballistic)");
+    } else if (std::strcmp(arg, "reset_test") == 0) {
+        // Run until crash, then run again to show recovery
+        runSimulation(SCENARIO_MCU_RESET, "Processor Reset Test (Part 1 - Crash)");
+        std::cout << "\n--- REBOOTING PROCESSOR ---\n";
+        simulated_crash_triggered = false; // reset flag
+        runSimulation(SCENARIO_MCU_RESET, "Processor Reset Test (Part 2 - Recovery)");
     } else {
         std::cout << "Unknown scenario: " << arg << "\n";
         return 1;

@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <cstddef>
+#include <cstdint>
 
 #include "config.hpp"
 
@@ -86,11 +87,11 @@ struct RocketSystem
     float pressure;
     float temperature;
     float voltage;
-    long gnss_time;
+    uint32_t gnss_time;
     double gnss_latitude;
     double gnss_longitude;
     float gnss_altitude;
-    int gnss_sats;
+    uint8_t gnss_sats;
     float gyro_spin_rate;
 
     unsigned int simulation_step;
