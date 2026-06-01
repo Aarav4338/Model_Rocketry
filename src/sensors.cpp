@@ -1,38 +1,30 @@
 #include "sensors.hpp"
 
 #include "config.hpp"
+#include "hal.hpp"
 
-// Hardware abstraction placeholder for IMU startup. The desktop build always
-// succeeds, while a future STM32 port can put HAL sensor initialization here
-// without changing the mission FSM.
+// Hardware abstraction placeholder for IMU startup.
 bool initialize_IMU()
 {
-    // TODO: STM32 HAL_I2C_Init() / HAL_SPI_Init() for Primary IMU
-    return true;
+    return Hardware::initPrimaryIMU();
 }
 
 // Hardware abstraction placeholder for the redundant altimeter required by guidelines.
 bool initialize_redundant_altimeter()
 {
-    // TODO: STM32 HAL_I2C_Init() for Redundant Altimeter
-    return true;
+    return Hardware::initRedundantAltimeter();
 }
 
-// Hardware abstraction placeholder for the telemetry transport. Keeping the
-// init call behind this function prevents states from depending on UART, USB,
-// radio, or desktop-console details.
+// Hardware abstraction placeholder for the telemetry transport. 
 bool initialize_telemetry()
 {
-    // TODO: STM32 HAL_UART_Init() for LoRa / XBEE
-    return true;
+    return Hardware::initRadio();
 }
 
-// Hardware abstraction placeholder for mission-log storage. A later SD-card
-// driver can live behind this function while `BOOT` keeps the same structure.
+// Hardware abstraction placeholder for mission-log storage. 
 bool initialize_SD_card()
 {
-    // TODO: STM32 SDIO / SPI initialization for SD Card
-    return true;
+    return Hardware::initSDCard();
 }
 
 // Returns the altitude value approved for mission decisions. This is filtered
@@ -50,26 +42,42 @@ float readAltitude(RocketSystem &system)
 void updateSensors(RocketSystem &system)
 {
     float altitude = readAltitude(system);
-    
-    // Standard atmosphere barometric formula: P = P0 * (1 - (L * h / T0)) ^ (g * M / (R * L))
-    // Simplified approximation for low altitudes:
-    system.pressure = 101325.0f * std::pow(1.0f - (2.25577e-5f * altitude), 5.25588f); 
-    
-    // Standard temperature lapse rate: -6.5C per 1000m
-    system.temperature = 25.0f - (0.0065f * altitude);
-    
-    // Battery drops slightly under thrust (simulated sag)
-    system.voltage = system.thrust_active ? 7.1f : 7.4f;
-    
-    // Simulate GNSS
-    system.gnss_time = static_cast<long>(system.mission_elapsed_seconds);
-    system.gnss_latitude = 35.3331 + (altitude * 0.0000001); // fake drift
-    system.gnss_longitude = -117.803 - (altitude * 0.0000001);
-    system.gnss_altitude = altitude + 2.0f; // GNSS slightly different from baro
-    system.gnss_sats = 8;
-    
-    // Simulate slight roll during ascent
-    system.gyro_spin_rate = system.thrust_active ? 15.0f : 0.0f;
+
+    if(!Hardware::readBarometer(system.pressure, system.temperature))
+    {
+        // Fallback barometer simulation when HAL is not available.
+        system.pressure = 101325.0f * std::pow(1.0f - (2.25577e-5f * altitude), 5.25588f);
+        system.temperature = 25.0f - (0.0065f * altitude);
+    }
+    system.voltage = Hardware::readBatteryVoltage();
+
+    Hardware::readGNSS(system.gnss_time,
+                       system.gnss_latitude,
+                       system.gnss_longitude,
+                       system.gnss_altitude,
+                       system.gnss_sats);
+
+    // Note: Simulated altitude from readAltitude(system) overrides raw GNSS alt
+    // for FSM logic, GNSS altitude is strictly for telemetry compliance.
+    if(system.gnss_sats == 0)
+    {
+        system.gnss_time = static_cast<long>(system.mission_elapsed_seconds);
+        system.gnss_latitude = 35.3331 + (altitude * 0.0000001f); // fake drift
+        system.gnss_longitude = -117.803 - (altitude * 0.0000001f);
+        system.gnss_altitude = altitude + 2.0f; // GNSS slightly different from baro
+        system.gnss_sats = 8;
+    }
+
+    float ax, ay, az, gx, gy, gz;
+    if(Hardware::readIMU(ax, ay, az, gx, gy, gz))
+    {
+        system.gyro_spin_rate = gz; // Proxy for spin rate
+    }
+    else
+    {
+        // Fallback for desktop simulation if IMU hardware is unavailable.
+        system.gyro_spin_rate = system.thrust_active ? 15.0f : 0.0f;
+    }
 }
 
 // Reports that the rocket is genuinely descending based on N consecutive

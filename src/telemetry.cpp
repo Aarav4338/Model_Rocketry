@@ -433,44 +433,56 @@ void sendTelemetry(RocketSystem &system)
                "PRESSURE,TEMP,VOLTAGE,GNSS TIME,GNSS LATITUDE,"
                "GNSS LONGITUDE,GNSS ALTITUDE,GNSS SATS,"
                "ACCELEROMETER DATA,GYRO SPIN RATE,"
-               "FLIGHT SOFTWARE STATE,ANY OPTIONAL DATA\n";
+               "FLIGHT SOFTWARE STATE,ANY OPTIONAL DATA,CHECKSUM\n";
     }
 
-    // POINT 2: All sensor fields now come from updateSensors() which
-    //          computes realistic physics values each tick.
-    //
-    // Build the CSV row into a char buffer so we can also pass it
-    // directly to transmitOverLoRa() without re-formatting.
-    char csv_row[256];
-    int len = std::snprintf(csv_row, sizeof(csv_row),
-        "%s,%.2f,%u,%.2f,%.2f,%.1f,%.2f,%ld,%.6f,%.6f,%.2f,%d,%.3f,%.2f,%s,%s\n",
-        FlightConfig::TEAM_ID,           // TEAM ID
-        packet.mission_time_seconds,     // TIME STAMPING (s)
-        packet.sequence,                 // PACKET COUNT
-        packet.altitude,                 // ALTITUDE (m)
-        system.pressure,                 // PRESSURE (Pa)  — real physics
-        system.temperature,              // TEMP (°C)      — real physics
-        system.voltage,                  // VOLTAGE (V)    — real physics
-        system.gnss_time,                // GNSS TIME (s since epoch stub)
-        system.gnss_latitude,            // GNSS LATITUDE
-        system.gnss_longitude,           // GNSS LONGITUDE
-        system.gnss_altitude,            // GNSS ALTITUDE (m)
-        system.gnss_sats,                // GNSS SATS
-        packet.vertical_acceleration,    // ACCELEROMETER DATA (m/s²)
-        system.gyro_spin_rate,           // GYRO SPIN RATE (deg/s)
-        stateName(packet.state),         // FLIGHT SOFTWARE STATE
-        flightPhaseName(packet.flight_phase) // OPTIONAL DATA (flight phase)
-    );
+    // Telemetry Validation Checks (Task 5.13)
+    // Prevent impossible values from being encoded into the RF string.
+    float safe_pressure = (system.pressure < 0) ? 0 : system.pressure;
+    float safe_voltage = (system.voltage < 0) ? 0 : system.voltage;
+    float safe_altitude = (packet.altitude < -1000.0f) ? -1000.0f : packet.altitude;
 
-    // Write to the CSV file on disk
-    out << csv_row;
+    char buffer[256];
+    int len = std::snprintf(buffer, sizeof(buffer),
+        "%s,%.2f,%u,%.2f,%.2f,%.2f,%.2f,%u,%.6f,%.6f,%.2f,%d,%.2f,%.2f,%s,%s",
+        FlightConfig::TEAM_ID,
+        packet.mission_time_seconds,
+        packet.sequence,
+        safe_altitude,
+        safe_pressure,
+        system.temperature,
+        safe_voltage,
+        system.gnss_time,
+        system.gnss_latitude,
+        system.gnss_longitude,
+        system.gnss_altitude,
+        system.gnss_sats,
+        packet.vertical_acceleration,
+        system.gyro_spin_rate,
+        stateName(static_cast<State>(packet.state)),
+        flightPhaseName(static_cast<FlightPhase>(packet.flight_phase)));
+
+    // Telemetry Error Handling / Checksum (Task 5.11)
+    unsigned char checksum = 0;
+    for (int i = 0; i < len; ++i) {
+        checksum ^= static_cast<unsigned char>(buffer[i]);
+    }
+
+    out << buffer << "," << static_cast<int>(checksum) << "\n";
     out.close();
 
     // POINT 1: Also transmit the same ASCII CSV row over the LoRa radio.
     // On desktop this is a no-op stub; on STM32 it calls HAL_UART_Transmit.
     if(len > 0)
     {
-        transmitOverLoRa(csv_row, static_cast<unsigned int>(len));
+        transmitOverLoRa(buffer, static_cast<unsigned int>(len));
+    }
+
+    // Flash backup every 10 packets (Task 7.5)
+    if (packet.sequence % 10 == 0)
+    {
+        extern bool saveSystemState(const RocketSystem &system);
+        saveSystemState(system);
     }
 
     system.telemetry_sequence++;
