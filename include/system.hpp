@@ -102,11 +102,19 @@ struct RocketSystem
     float temperature;
     float voltage;
     uint32_t gnss_time;
-    double gnss_latitude;
-    double gnss_longitude;
+    float gnss_latitude;
+    float gnss_longitude;
     float gnss_altitude;
     uint8_t gnss_sats;
     float gyro_spin_rate;
+
+    // Full IMU raw values for better telemetry and diagnostics.
+    float accel_x;
+    float accel_y;
+    float accel_z;
+    float roll;
+    float pitch;
+    float yaw;
 
     // Live IMU readings filled by updateIMUReadings() each tick.
     // Used by prelaunch checks for sanity, stationary, and tilt.

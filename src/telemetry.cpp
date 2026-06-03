@@ -7,6 +7,8 @@
 
 #include "config.hpp"
 #include "sensors.hpp"
+#include "hal.hpp"
+#include "telecommand.hpp"
 
 // ---------------------------------------------------------------------------
 // State / Phase name helpers (used in CSV and console output)
@@ -271,9 +273,18 @@ static void transmitOverLoRa(const char* csv_line, unsigned int length)
 // ---------------------------------------------------------------------------
 void receiveRFCommands(RocketSystem &system)
 {
-    // ----- DESKTOP BUILD: no radio, no commands to receive -----
-    // ----- DESKTOP BUILD: no hardware attached -----
-    std::memset(system.last_rf_command, 0, sizeof(system.last_rf_command));
+    // Poll HAL for any incoming packet (non-blocking). Desktop HAL reads
+    // one queued line from `telecommands.txt` if present.
+    char buf[128] = {0};
+    if (Hardware::pollRadio(buf, sizeof(buf))) {
+        // copy a short summary into system.last_rf_command for diagnostics
+        std::strncpy(system.last_rf_command, buf, sizeof(system.last_rf_command));
+        system.last_rf_command[sizeof(system.last_rf_command)-1] = '\0';
+        // Dispatch the received packet to the telecommand parser
+        processTelecommandPacket(system, buf);
+    } else {
+        std::memset(system.last_rf_command, 0, sizeof(system.last_rf_command));
+    }
 
     // ----------------------------------------------------------------
     // STM32 EMBEDDED BUILD — uncomment the block below when porting
@@ -381,20 +392,38 @@ bool shouldSendTelemetry(RocketSystem &system)
 // ---------------------------------------------------------------------------
 TelemetryPacket buildTelemetryPacket(RocketSystem &system)
 {
-    TelemetryPacket packet =
-    {
-        system.telemetry_sequence,
-        system.mission_elapsed_seconds,
-        system.current_state,
-        system.current_flight_phase,
-        readAltitude(system),
-        system.vertical_velocity,
-        system.vertical_acceleration,
-        system.system_armed,
-        system.fault_detected,
-        system.descending,
-        system.payload_deployed
-    };
+        TelemetryPacket packet;
+    packet.sequence = system.telemetry_sequence;
+    packet.mission_time_seconds = system.mission_elapsed_seconds;
+    packet.state = system.current_state;
+    packet.altitude = readAltitude(system);
+    packet.pressure = system.pressure;
+    packet.temperature = system.temperature;
+    packet.voltage = system.voltage;
+    packet.gnss_time = system.gnss_time;
+    packet.gnss_latitude = system.gnss_latitude;
+    packet.gnss_longitude = system.gnss_longitude;
+    packet.gnss_altitude = system.gnss_altitude;
+    packet.gnss_sats = system.gnss_sats;
+    packet.accel_x = system.accel_x;
+    packet.accel_y = system.accel_y;
+    packet.accel_z = system.accel_z;
+    packet.roll = system.roll;
+    packet.pitch = system.pitch;
+    packet.yaw = system.yaw;
+    packet.vertical_velocity = system.vertical_velocity;
+    packet.vertical_acceleration = system.vertical_acceleration;
+    packet.gyro_spin_rate = system.gyro_spin_rate;
+    packet.flags = static_cast<uint8_t>(
+            (system.system_armed ? 1u : 0u) |
+            (system.fault_detected ? 2u : 0u) |
+            (system.descending ? 4u : 0u) |
+            (system.payload_deployed ? 8u : 0u)
+        );
+    std::strncpy(packet.optional_data,
+                 flightPhaseName(system.current_flight_phase),
+                 sizeof(packet.optional_data));
+    packet.optional_data[sizeof(packet.optional_data) - 1] = '\0';
 
     return packet;
 }
@@ -412,8 +441,8 @@ void sendTelemetry(RocketSystem &system)
     std::snprintf(filename, sizeof(filename),
                   "Flight_%s.csv", FlightConfig::TEAM_ID);
 
-    std::ios_base::openmode mode = std::ios::app;
-    if(packet.sequence == 0)
+    std::ios_base::openmode mode = std::ios::app;//keeps on appending the log file
+    if(packet.sequence == 0)//if first packet 
     {
         mode = std::ios::trunc; // overwrite at start of new mission
     }
@@ -433,42 +462,44 @@ void sendTelemetry(RocketSystem &system)
                "PRESSURE,TEMP,VOLTAGE,GNSS TIME,GNSS LATITUDE,"
                "GNSS LONGITUDE,GNSS ALTITUDE,GNSS SATS,"
                "ACCELEROMETER DATA,GYRO SPIN RATE,"
-               "FLIGHT SOFTWARE STATE,ANY OPTIONAL DATA,CHECKSUM\n";
+               "FLIGHT SOFTWARE STATE,ANY OPTIONAL DATA\n";
     }
 
     // Telemetry Validation Checks (Task 5.13)
     // Prevent impossible values from being encoded into the RF string.
-    float safe_pressure = (system.pressure < 0) ? 0 : system.pressure;
-    float safe_voltage = (system.voltage < 0) ? 0 : system.voltage;
+    float safe_pressure = (packet.pressure < 0) ? 0 : packet.pressure;
+    float safe_voltage = (packet.voltage < 0) ? 0 : packet.voltage;
     float safe_altitude = (packet.altitude < -1000.0f) ? -1000.0f : packet.altitude;
+
+    char optional_buffer[128];
+    std::snprintf(optional_buffer, sizeof(optional_buffer),
+        "PHASE=%s,ROLL=%.1f,PITCH=%.1f,YAW=%.1f",
+        packet.optional_data,
+        packet.roll,
+        packet.pitch,
+        packet.yaw);
 
     char buffer[256];
     int len = std::snprintf(buffer, sizeof(buffer),
-        "%s,%.2f,%u,%.2f,%.2f,%.2f,%.2f,%u,%.6f,%.6f,%.2f,%d,%.2f,%.2f,%s,%s",
+        "%s,%.2f,%u,%.2f,%.2f,%.2f,%.2f,%u,%.6f,%.6f,%.2f,%u,%.2f,%.2f,%s,%s",
         FlightConfig::TEAM_ID,
         packet.mission_time_seconds,
         packet.sequence,
         safe_altitude,
         safe_pressure,
-        system.temperature,
+        packet.temperature,
         safe_voltage,
-        system.gnss_time,
-        system.gnss_latitude,
-        system.gnss_longitude,
-        system.gnss_altitude,
-        system.gnss_sats,
+        packet.gnss_time,
+        packet.gnss_latitude,
+        packet.gnss_longitude,
+        packet.gnss_altitude,
+        packet.gnss_sats,
         packet.vertical_acceleration,
-        system.gyro_spin_rate,
+        packet.gyro_spin_rate,
         stateName(static_cast<State>(packet.state)),
-        flightPhaseName(static_cast<FlightPhase>(packet.flight_phase)));
+        optional_buffer);
 
-    // Telemetry Error Handling / Checksum (Task 5.11)
-    unsigned char checksum = 0;
-    for (int i = 0; i < len; ++i) {
-        checksum ^= static_cast<unsigned char>(buffer[i]);
-    }
-
-    out << buffer << "," << static_cast<int>(checksum) << "\n";
+    out << buffer << "\n";
     out.close();
 
     // POINT 1: Also transmit the same ASCII CSV row over the LoRa radio.
@@ -478,8 +509,8 @@ void sendTelemetry(RocketSystem &system)
         transmitOverLoRa(buffer, static_cast<unsigned int>(len));
     }
 
-    // Flash backup every 10 packets (Task 7.5)
-    if (packet.sequence % 10 == 0)
+    // Flash backup every 5 packets (Task 7.5)
+    if (packet.sequence % 5 == 0)
     {
         extern bool saveSystemState(const RocketSystem &system);
         saveSystemState(system);

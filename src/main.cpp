@@ -96,7 +96,12 @@ static RocketSystem createInitialSystem()
     system.beacon_power_mode = 0;
     system.gps_latitude = 0.0f;
     system.gps_longitude = 0.0f;
-
+    system.accel_x = 0.0f;
+    system.accel_y = 0.0f;
+    system.accel_z = 0.0f;
+    system.roll = 0.0f;
+    system.pitch = 0.0f;
+    system.yaw = 0.0f;
 
     system.simulation_step = 0;
     system.telemetry_sequence = 0;

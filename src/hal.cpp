@@ -1,5 +1,10 @@
 #include "hal.hpp"
 #include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <cstring>
+#include <cctype>
 
 namespace Hardware
 {
@@ -57,10 +62,10 @@ namespace Hardware
         return true;
     }
 
-    bool readGNSS(uint32_t &time, double &lat, double &lon, float &alt, uint8_t &sats) {
+    bool readGNSS(uint32_t &time, float &lat, float &lon, float &alt, uint8_t &sats) {
         time = 0;
-        lat = 0.0;
-        lon = 0.0;
+        lat = 0.0f;
+        lon = 0.0f;
         alt = 0.0f;
         sats = 8;
         return true;
@@ -77,10 +82,10 @@ namespace Hardware
     }
 
     bool transmitTelemetry(const char* packet, uint16_t length) {
-        (void)packet;
-        (void)length;
-        // In desktop build, we write to data.csv via standard C++ fstream in telemetry.cpp
-        // On embedded, this would be HAL_UART_Transmit
+        if (packet && length > 0) {
+            // Desktop: also echo radio transmissions to console for observability
+            std::cout << "[RADIO TX] " << std::string(packet, packet + length) << std::endl;
+        }
         return true;
     }
 
@@ -88,6 +93,57 @@ namespace Hardware
         (void)packet;
         (void)length;
         // TODO: STM32 HAL_CAN_AddTxMessage()
+        return true;
+    }
+
+    bool pollRadio(char* outBuf, uint16_t maxLen) {
+        if (outBuf == nullptr || maxLen == 0) return false;
+
+        // Desktop helper: read first non-empty line from telecommands.txt
+        const char *fname = "telecommands.txt";
+        std::ifstream in(fname);
+        if (!in) return false;
+
+        std::string line;
+        std::vector<std::string> rest;
+        bool got = false;
+        while (std::getline(in, line)) {
+            if (!got && !line.empty()) {
+                // take this as the incoming packet
+                got = true;
+            } else {
+                rest.push_back(line);
+            }
+            if (got) break; // consume single packet only
+        }
+        in.close();
+
+        if (!got) return false;
+
+        // write remaining lines back (if any)
+        std::ofstream out(fname, std::ios::trunc);
+        for (const auto &l : rest) out << l << "\n";
+        out.close();
+
+        // Trim whitespace from both ends
+        auto trim = [](std::string &s) {
+            size_t a = 0;
+            while (a < s.size() && std::isspace(static_cast<unsigned char>(s[a]))) ++a;
+            size_t b = s.size();
+            while (b > a && std::isspace(static_cast<unsigned char>(s[b-1]))) --b;
+            s = s.substr(a, b - a);
+        };
+
+        trim(line);
+        // copy to outBuf safely
+        size_t copy_len = (line.size() < (size_t)maxLen - 1) ? line.size() : (size_t)maxLen - 1;
+        std::memcpy(outBuf, line.data(), copy_len);
+        outBuf[copy_len] = '\0';
+        return true;
+    }
+
+    bool radioIsReady() {
+        // Desktop stub always reports ready if radio init succeeded.
         return true;
     }
 

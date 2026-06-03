@@ -71,12 +71,24 @@ void updateSensors(RocketSystem &system)
     float ax, ay, az, gx, gy, gz;
     if(Hardware::readIMU(ax, ay, az, gx, gy, gz))
     {
+        system.accel_x = ax;
+        system.accel_y = ay;
+        system.accel_z = az;
         system.gyro_spin_rate = gz; // Proxy for spin rate
+        system.roll = system.tilt_angle_deg;
+        system.pitch = 0.0f;
+        system.yaw = 0.0f;
     }
     else
     {
         // Fallback for desktop simulation if IMU hardware is unavailable.
+        system.accel_x = 0.0f;
+        system.accel_y = 0.0f;
+        system.accel_z = 0.0f;
         system.gyro_spin_rate = system.thrust_active ? 15.0f : 0.0f;
+        system.roll = system.tilt_angle_deg;
+        system.pitch = 0.0f;
+        system.yaw = 0.0f;
     }
 }
 

@@ -37,9 +37,8 @@ void runBootState(RocketSystem &system)
     {
         std::cout << "\n[BOOT]\n";
         std::cout << "Initializing systems...\n";
-        // Start boot timer
-        system.boot_start_time =
-            std::chrono::steady_clock::now();
+        // Start boot timer using the current mission time reference.
+        system.boot_start_time = system.current_time;
         // Initialize ONCE
         system.IMU_Ready =
             initialize_IMU();

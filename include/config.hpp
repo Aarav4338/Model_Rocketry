@@ -3,7 +3,7 @@
 namespace FlightConfig
 {
 // Competition Specifics
-constexpr const char* TEAM_ID = "2026 IN-SPACe-PVC";
+constexpr char TEAM_ID[] = "2026 IN-SPACe-PVC";
 
 // PVC Rocket Physical Specifications (from guidelines)
 // Body: PVC, Max Mass (including motor): 11.5Kg
@@ -23,7 +23,7 @@ constexpr float SIM_MOTOR_BURN_DURATION_SECONDS = 3.0f;
 constexpr float SIM_GROUND_ALTITUDE_METERS = 0.0f;
 constexpr float SIM_PARACHUTE_DESCENT_VELOCITY_MPS = -3.5f; // Complies with 2 to 5 m/s requirement
 constexpr long SIM_MOTOR_IGNITION_DELAY_MILLISECONDS = 5000;
-constexpr long MAIN_LOOP_SLEEP_MILLISECONDS = 20;
+constexpr long MAIN_LOOP_SLEEP_MILLISECONDS = 250;
 
 // Adds a realistic level of barometric noise to make FSM filtering work harder
 // and to provide varied altitude readings for each simulation run.
