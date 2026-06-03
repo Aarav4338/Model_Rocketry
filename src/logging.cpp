@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <cstring>
 #include <fstream>
+#include "hal.hpp"
 
 // Converts the compact event category enum into readable log text. Keeping this
 // in the logging subsystem means other files record event intent without owning
@@ -48,44 +49,16 @@ static void copyText(char *destination,
                   source);
 }
 
-// Appends one formatted line to the in-memory mission log. This desktop buffer
-// stands in for the SD-card or flash log that an embedded target could write.
+// Appends one formatted line to the SD-card or flash log via HAL.
 static void appendMissionLogLine(RocketSystem &system,
                                  const char *line)
 {
-    if(system.mission_log_length >=
-       FlightConfig::MISSION_LOG_CAPACITY - 1)
-    {
-        return;
-    }
-
-    const std::size_t remaining =
-        FlightConfig::MISSION_LOG_CAPACITY -
-        system.mission_log_length;
-
-    const int written =
-        std::snprintf(system.mission_log + system.mission_log_length,
-                      remaining,
-                      "%s\n",
-                      line);
-
-    if(written <= 0)
-    {
-        return;
-    }
-
-    const std::size_t used =
-        static_cast<std::size_t>(written);
-
-    if(used >= remaining)
-    {
-        system.mission_log_length =
-            FlightConfig::MISSION_LOG_CAPACITY - 1;
-    }
-    else
-    {
-        system.mission_log_length += used;
-    }
+    (void)system; // Unused now, but kept for signature consistency if desired
+    
+    // Write directly to the SD Card
+    Hardware::writeToSDCard(line, std::strlen(line));
+    Hardware::writeToSDCard("\n", 1);
+    Hardware::flushSDCard();
 }
 
 // Records a timestamped mission event in both structured history and printable

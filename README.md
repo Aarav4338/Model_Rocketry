@@ -8,13 +8,26 @@ This project simulates the vertical flight of a model rocket using a finite stat
 To compile the project manually using `g++`, run the following command from the root of the project directory:
 ```bash
 g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude \
-  src/main.cpp src/states.cpp src/telemetry.cpp src/filters.cpp \
-  src/logging.cpp src/simulation.cpp src/sensors.cpp src/timing.cpp \
-  src/faults.cpp src/deployment.cpp src/power.cpp -o rocket-avionics
+  src/*.cpp -o rocket-avionics
 ```
+*(Alternatively, you can use `make` if a Makefile is provided in the future).*
 
 ### 2. Run the Simulation
-After compilation, start the simulation by running:
+The simulation supports various failure scenarios to test the robustness of the avionics software. After compilation, run the simulation by specifying a scenario:
+
 ```bash
-./rocket-avionics
+./rocket-avionics <scenario>
 ```
+
+**Available Scenarios:**
+- `./rocket-avionics success`    : Nominal Flight
+- `./rocket-avionics motor`      : Motor Thrust Failure (Early Burnout)
+- `./rocket-avionics sensor`     : Altimeter Sensor Failure (Flatline)
+- `./rocket-avionics parachute`  : Parachute Deployment Failure (Ballistic)
+- `./rocket-avionics all`        : Run all 4 scenarios sequentially
+- `./rocket-avionics reset_test` : Processor Reset Test (Crash & Recovery)
+
+### 3. Reviewing Output
+Once the simulation completes, it generates two files on your desktop (simulating the SD card and telemetry systems):
+- `data.csv`: IN-SPACe compliant CSV telemetry log.
+- `sd_card_log.txt`: The onboard SD card log, which contains detailed FSM state transitions and mirrored telemetry data.

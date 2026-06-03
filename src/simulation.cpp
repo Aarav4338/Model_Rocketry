@@ -150,6 +150,7 @@ static void updateFlightPhase(RocketSystem &system)
 
 static float simulatedNoiseSample(const RocketSystem & /*system*/)
 {
+    (void)system; // Suppress unused parameter warning
     // Generate a random float between -1.0 and 1.0 to simulate barometric white noise
     float random_factor = (static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * 2.0f - 1.0f;
     return random_factor * FlightConfig::SENSOR_NOISE_AMPLITUDE_METERS;

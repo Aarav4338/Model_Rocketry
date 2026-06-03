@@ -509,6 +509,13 @@ void sendTelemetry(RocketSystem &system)
         transmitOverLoRa(buffer, static_cast<unsigned int>(len));
     }
 
+    // Also write to onboard SD Card (Task 5.12 / IN-SPACe Guidelines)
+    if (len > 0) {
+        Hardware::writeToSDCard(buffer, static_cast<uint16_t>(len));
+        Hardware::writeToSDCard("\n", 1);
+        Hardware::flushSDCard();
+    }
+
     // Flash backup every 5 packets (Task 7.5)
     if (packet.sequence % 5 == 0)
     {

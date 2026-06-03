@@ -736,9 +736,8 @@ void runBeaconState(RocketSystem &system)
         std::cout << "\n[BEACON]\n";
         std::cout << "Beacon active.\n";
         
-        // Flaw 4: Mission log on desktop + SD
         std::cout << "\n=== MISSION LOG ===\n";
-        std::cout << system.mission_log << std::endl;
+        std::cout << "(Mission log has been saved to SD Card)\n";
         std::cout << "Mission Complete.\n";
         system.mission_complete = true;
 

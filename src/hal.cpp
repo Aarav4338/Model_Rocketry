@@ -148,18 +148,33 @@ namespace Hardware
     }
 
     // --- Storage ---
+    static std::ofstream sd_card_file;
+
     bool initSDCard() {
-        // TODO: STM32 SDIO / SPI initialization
+        // Simulating STM32 SDIO / SPI initialization with a local file on desktop
+        // Open in append mode, create if it doesn't exist.
+        sd_card_file.open("sd_card_log.txt", std::ios::app);
+        if(!sd_card_file) {
+            std::cerr << "[HARDWARE] Failed to initialize SD Card (could not open file).\n";
+            return false;
+        }
+        std::cout << "[HARDWARE] SD Card Initialized.\n";
         return true;
     }
 
     bool writeToSDCard(const char* data, uint16_t length) {
-        (void)data;
-        (void)length;
-        return true;
+        if(sd_card_file.is_open()) {
+            sd_card_file.write(data, length);
+            return true;
+        }
+        return false;
     }
 
-    void flushSDCard() {}
+    void flushSDCard() {
+        if(sd_card_file.is_open()) {
+            sd_card_file.flush();
+        }
+    }
 
     // --- Actuation & Power ---
     void triggerDeploymentCharge() {

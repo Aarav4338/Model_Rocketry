@@ -183,9 +183,6 @@ struct RocketSystem
 
     char error_message[FlightConfig::ERROR_MESSAGE_CAPACITY];
 
-    char mission_log[FlightConfig::MISSION_LOG_CAPACITY];
-    std::size_t mission_log_length;
-
     MissionEvent mission_history[FlightConfig::MISSION_HISTORY_CAPACITY];
     std::size_t mission_event_count;
 
