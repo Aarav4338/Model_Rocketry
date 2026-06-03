@@ -67,8 +67,6 @@ static RocketSystem createInitialSystem()
     system.last_telemetry_time_seconds = 0.0f;
 
     system.error_message[0] = '\0';
-    system.mission_log[0] = '\0';
-    system.mission_log_length = 0;
     system.mission_event_count = 0;
 
     initializeTiming(system);
@@ -143,8 +141,12 @@ static void dispatchState(RocketSystem &system)
 #include <cstdlib>
 #include <ctime>
 
-void runSimulation(SimulationScenario scenario, const char* scenario_name)
+void runSimulation(SimulationScenario scenario, const char* scenario_name, bool clear_nvram = true)
 {
+    if (clear_nvram) {
+        std::remove("nvram.bin");
+    }
+
     std::cout << "\n========================================\n";
     std::cout << "RUNNING SCENARIO: " << scenario_name << "\n";
     std::cout << "========================================\n";
@@ -242,10 +244,10 @@ int main(int argc, char* argv[])
         runSimulation(SCENARIO_PARACHUTE_FAILURE, "Parachute Deployment Failure (Ballistic)");
     } else if (std::strcmp(arg, "reset_test") == 0) {
         // Run until crash, then run again to show recovery
-        runSimulation(SCENARIO_MCU_RESET, "Processor Reset Test (Part 1 - Crash)");
+        runSimulation(SCENARIO_MCU_RESET, "Processor Reset Test (Part 1 - Crash)", true);
         std::cout << "\n--- REBOOTING PROCESSOR ---\n";
         simulated_crash_triggered = false; // reset flag
-        runSimulation(SCENARIO_MCU_RESET, "Processor Reset Test (Part 2 - Recovery)");
+        runSimulation(SCENARIO_MCU_RESET, "Processor Reset Test (Part 2 - Recovery)", false);
     } else {
         std::cout << "Unknown scenario: " << arg << "\n";
         return 1;

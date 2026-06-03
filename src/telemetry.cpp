@@ -5,6 +5,7 @@
 
 #include "config.hpp"
 #include "sensors.hpp"
+#include "hal.hpp"
 
 static const char *stateName(State state)
 {
@@ -174,6 +175,14 @@ void sendTelemetry(RocketSystem &system)
     out << buffer << "," << static_cast<int>(checksum) << "\n";
 
     out.close();
+
+    // Also write to onboard SD Card (Task 5.12 / IN-SPACe Guidelines)
+    char sd_buffer[300];
+    int sd_len = std::snprintf(sd_buffer, sizeof(sd_buffer), "%s,%d\n", buffer, static_cast<int>(checksum));
+    if (sd_len > 0) {
+        Hardware::writeToSDCard(sd_buffer, sd_len);
+        Hardware::flushSDCard();
+    }
 
     // Flash backup every 10 packets (Task 7.5)
     if (packet.sequence % 10 == 0) {

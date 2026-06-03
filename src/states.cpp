@@ -325,7 +325,7 @@ void runBeaconState(RocketSystem &system)
     {
         std::cout << "\n=== MISSION LOG ===\n";
 
-        std::cout << system.mission_log << std::endl;
+        std::cout << "(Mission log has been saved to SD Card)\n";
 
         std::cout << "Mission Complete.\n";
 
