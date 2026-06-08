@@ -134,15 +134,29 @@ void processTelecommandPacket(RocketSystem &system, const char *packet)
 
     // Flight safety: only allow altering commands on safe states
     bool safe_state = (system.current_state == BOOT) ||
-                      (system.current_state == TEST_MODE) ||
-                      (system.current_state == Launch_Pad);
+                    (system.current_state == TEST_MODE) ||
+                    (system.current_state == Prelaunch_Check) ||
+                    (system.current_state == Launch_Pad);
 
     // Block certain commands after ascent
-    bool after_ascent = (system.current_state >= Ascent);
+    bool after_ascent =
+    (
+        system.current_state == Ascent ||
+        system.current_state == Apogee_confirm ||
+        system.current_state == Payload_Separation ||
+        system.current_state == Descent ||
+        system.current_state == Landed ||
+        system.current_state == Beacon
+    );
 
     if (cmd == "START_TELEMETRY")
     {
         system.flight_telemetry_enabled = true;
+        logEvent(
+            system,
+            "CMD START_TELEMETRY RECEIVED",
+            Event_System
+        );
         sendAck(system, "START_TELEMETRY", true);
         return;
     }
@@ -150,20 +164,71 @@ void processTelecommandPacket(RocketSystem &system, const char *packet)
     if (cmd == "STOP_TELEMETRY")
     {
         system.flight_telemetry_enabled = false;
+        logEvent(
+            system,
+            "CMD STOP_TELEMETRY RECEIVED",
+            Event_System
+        );
         sendAck(system, "STOP_TELEMETRY", true);
         return;
     }
 
-    if (cmd == "ZERO_SENSORS")
+    if (cmd == "ZERO_ALTITUDE")
     {
-        if (!safe_state || after_ascent)
-        {
-            sendAck(system, "ZERO_SENSORS", false, "unsafe_state");
+        if (!safe_state)
+        {   
+            logEvent(
+            system,
+            "CMD ZERO_ALTITUDE RECEIVED",
+            Event_System
+            );
+            sendAck(system,
+                    "ZERO_ALTITUDE",
+                    false,
+                    "unsafe_state");
             return;
         }
-        system.launch_reference_altitude = system.filtered_altitude;
+
+        system.launch_reference_altitude =
+            system.filtered_altitude;
+        logEvent(
+            system,
+            "CMD ZERO_ALTITUDE RECEIVED",
+            Event_System
+        );
+        sendAck(system,
+                "ZERO_ALTITUDE",
+                true);
+
+        return;
+    }
+
+    if (cmd == "ZERO_ACCELEROMETER")
+    {
+        if (!safe_state)
+        {
+            logEvent(
+            system,
+            "CMD ZERO_ACCELEROMETER RECEIVED",
+            Event_System
+            );
+            sendAck(system,
+                    "ZERO_ACCELEROMETER",
+                    false,
+                    "unsafe_state");
+            return;
+        }
+
         Hardware::initPrimaryIMU();
-        sendAck(system, "ZERO_SENSORS", true);
+        logEvent(
+            system,
+            "CMD ZERO_ACCELEROMETER RECEIVED",
+            Event_System
+        );
+        sendAck(system,
+                "ZERO_ACCELEROMETER",
+                true);
+
         return;
     }
 
@@ -171,10 +236,20 @@ void processTelecommandPacket(RocketSystem &system, const char *packet)
     {
         if (!safe_state)
         {
+            logEvent(
+                system,
+                "CMD ARM_FLIGHT RECEIVED",
+                Event_System
+            );
             sendAck(system, "ARM_FLIGHT", false, "unsafe_state");
             return;
         }
         system.system_armed = true;
+        logEvent(
+            system,
+            "CMD ARM_FLIGHT RECEIVED",
+            Event_System
+        );
         sendAck(system, "ARM_FLIGHT", true);
         return;
     }
@@ -182,11 +257,20 @@ void processTelecommandPacket(RocketSystem &system, const char *packet)
     if (cmd == "DISARM_FLIGHT")
     {
         if (!safe_state || after_ascent)
-        {
+        {   logEvent(
+                system,
+                "CMD DISARM_FLIGHT RECEIVED",
+                Event_System
+            );
             sendAck(system, "DISARM_FLIGHT", false, "unsafe_state");
             return;
         }
         system.system_armed = false;
+        logEvent(
+            system,
+            "CMD DISARM_FLIGHT RECEIVED",
+            Event_System
+        );
         sendAck(system, "DISARM_FLIGHT", true);
         return;
     }

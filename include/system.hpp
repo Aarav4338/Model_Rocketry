@@ -82,7 +82,7 @@ struct RocketSystem
     // RF Command receiver — ground station can mute/unmute telemetry
     // via an uplink command (competition requirement).
     bool telemetry_muted;              // true = ground station commanded silence
-    char last_rf_command[8];           // last received command string e.g. "CMD_OFF"
+    char last_rf_command[64];           // last received command string e.g. "CMD_OFF"
 
     float raw_altitude;
     float filtered_altitude;
