@@ -10,7 +10,8 @@ To compile the project manually using `g++`, run the following command from the 
 g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude \
   src/main.cpp src/states.cpp src/telemetry.cpp src/filters.cpp \
   src/logging.cpp src/simulation.cpp src/sensors.cpp src/timing.cpp \
-  src/faults.cpp src/deployment.cpp src/power.cpp -o rocket-avionics
+  src/faults.cpp src/deployment.cpp src/power.cpp src/hal.cpp \
+  src/telecommand.cpp -o rocket-avionics
 ```
 
 ### 2. Run the Simulation
