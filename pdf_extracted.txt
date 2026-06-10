@@ -1,0 +1,1567 @@
+--- PAGE 1 ---
+              
+ 
+Page | 1  
+ 
+Restricted 
+ 
+IN-SPACe Model Rocketry India Student Competition 
+(2nd Edition) 
+ 
+Mission Requirement & Competition 
+Guidelines Document 
+Doc.No.: IN-SPACe.MR.Model.CG.01, Issue No.1, dtd 24.03.2026 
+ 
+INDIAN NATIONAL SPACE PROMOTION AND 
+AUTHORIZATION CENTRE 
+Antariksh Bhavan , Bengaluru 
+560094 
+
+
+--- PAGE 2 ---
+              
+ 
+Page | 2  
+ 
+ 
+ 
+IN- SPACe Model Rocketry India Student 
+Competition 2026 (2nd Edition) 
+ 
+ 
+Mission Requirement & Competition 
+Guidelines Document 
+ 
+ 
+ 
+March 2026 
+ 
+ INDIAN NATIONAL SPACE PROMOTION AND 
+AUTHORIZATION CENTRE  
+Antariksh Bhavan , Bengaluru 
+560094 
+ 
+ 
+
+
+--- PAGE 3 ---
+              
+ 
+Page | 3  
+ 
+IN-SPACe Model Rocketry India Student 
+Competition 2026   
+Guidelines Documentation 
+ 
+ Name and Designation  Date Signature  
+Prepared by  Team Model Rocketry March 2026  
+Reviewed by  Organizing Committee March 2026  
+Approved by  Director, Promotion 
+Directorate IN-SPACe  March 2026   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+--- PAGE 4 ---
+              
+ 
+Page | 4  
+ 
+TABLE OF CONTENTS  
+ 
+Summary ................................................................................................................................................................. 5 
+1 Introduction .................................................................................................................................................. 7 
+2 Competition Objectives ................................................................................................................................ 8 
+3 Competition Phases ..................................................................................................................................... 8 
+4 Competition Statement .............................................................................................................................. 11 
+ Competition Statement for IN-SPACe Model Rocketry Competition ..................................................... 11 
+ Indicative Optional Objectives ............................................................................................................... 12 
+5 System requirements ................................................................................................................................. 13 
+ Basic rocket requirements ..................................................................................................................... 13 
+ Payload Requirements .......................................................................................................................... 14 
+ Structure Requirements ......................................................................................................................... 16 
+ Avionics System Requirements ............................................................................................................. 16 
+ Ground Station ....................................................................................................................................... 18 
+ Telemetry ............................................................................................................................................... 20 
+ Descent & Recovery requirements ........................................................................................................ 20 
+6 Design Review Documentation Guidelines ............................................................................................... 21 
+ Team Composition and management ................................................................................................... 23 
+ Mission Overview ................................................................................................................................... 24 
+ Subsystem Details ................................................................................................................................. 24 
+6.3.1 Payload Subsystem ....................................................................................................................... 25 
+6.3.2 Housekeeping Subsystem ............................................................................................................. 25 
+ Flight Software Algorithm Description ................................................................................................... 27 
+ Ground station ....................................................................................................................................... 28 
+ Rocket Integration and Testing .............................................................................................................. 28 
+ Operations Plan & Quality Control ......................................................................................................... 29 
+7 Hands-on Workshop .................................................................................................................................. 30 
+8 Financials ................................................................................................................................................... 31 
+9 Requirements Compliance ........................................................................................................................ 33 
+10 Code of Ethics and Standards ................................................................................................................... 45 
+11 Additional Information ................................................................................................................................ 45 
+12 Selection of Motor provider ........................................................................................................................ 46 
+13 Annexure-1: Guidelines for IN-SPACe Model Rockery Competition ......................................................... 48 
+14 Annexure – 2: Telemetry Format and filenaming ...................................................................................... 52 
+ 
+  
+
+--- PAGE 5 ---
+              
+ 
+Page | 5  
+ 
+Summary 
+IN-SPACe Model Rocketry India Student Competition 2026 is a Model Rocketry Competition 
+conducted for Engineering / Science stream students in India conducted by IN-SPACe. The 
+inaugural IN-SPACe Model Rocketry India Student Competition 2024 – 2025 saw a registration 
+of about 70 teams from 18 states, out of which about 33 student teams reached the Grand finale 
+held during October – November 2025 at Kushinagar, UP. Custom-built model rockets deployed 
+payloads of 1 kg at altitudes of up to 1 kilometer, resulting in create a lasting impression among 
+the participant teams. Ultimately, the first edition proved to be a resounding success in bridging 
+the academia-industry gap, laying a highly practical foundation for India's future space 
+workforce.  
+Building on the last year’s success, IN-SPACe Model Rocketry India Student Competition 2026, 
+aims to further inculcate awareness on rocketry among the student community in India, and help 
+develop a technologically skilled workforce in STEM generally, and space sector specifically. 
+The document details the guidelines for participation in the competition in order to enable the 
+students to get a comprehensive understanding, regarding the design, material procurement, 
+qualification tests and other related aspects. 
+The document contains details on the Competition Objectives, Challenge Statement, 
+Competition Phases and the System requirements of the launchers that the teams will have to 
+design. The System requirements further is sub-divided in to Basic rocket requirements, 
+Payload, Structure, Avionics, Ground Station, Telemetry etc, and the document provides 
+guidelines on these areas. The student teams are advised to keep the requirements provided 
+as the baseline, and adhere to the same. Any deviations from these, shall be informed and 
+approved by the Jury Panel. Further, basic details of the proposed workshop are also provided.  
+The student teams may use this document as a guideline for preparing the PDR & CDR and to 
+understand the overall flow of the competition. Further competition requirements, like the 
+Evaluation Matrix, Workshop Modalities etc shall be intimated to the student teams in due 
+course, through IN-SPACe Website ( www.inspace.gov.in) and e-mails. 
+
+--- PAGE 6 ---
+              
+ 
+Page | 6  
+ 
+  
+
+--- PAGE 7 ---
+              
+ 
+Page | 7  
+ 
+1 Introduction 
+IN-SPACe Model Rocketry India Student Competition 2026 is being organized by IN-SPACe in 
+association with Srinarayani Science Development Foundation (SSDF), Kushinagar, Uttar 
+Pradesh. This competition aims to provide Undergraduate Student teams of Engineering / 
+Science Streams in India, a realistic experience in designing and launching an amateur rocket 
+that meets a specified set of mission and performance requirements. The competition involves 
+the design, development & launch of a Model Rocket carrying a CAN-7U Size Satellite of 1Kg 
+mass to an altitude of 1km above the launch site, along with safe ejection of the CAN-7U SAT, 
+operation of payload and safe recovery of the rocket and CAN-7U SAT. The participants are 
+expected to learn basics of Rocketry – systems design, propulsion, structural systems etc, along 
+with soft skills like Team building, co-operation, project Management, and Interpersonal 
+communication, among others. Over a period of several months, the participants shall 
+experience the engineering processes for realizing a launch vehicle, and compete with peer 
+groups from all across the country, with an opportunity to participate in a national level final 
+expected to happen between Oct-Nov, 2026 at Tumkuhiraj, Kushinagar, Uttarpradesh.  
+The purpose of the program is to inspire and excite students about learning and to pursue 
+careers in Science, Technology, Engineering and Mathematics. The competition is defined to be 
+well within the capabilities of the students, and the respective colleges are encouraged to 
+conceive academic grace marks / any other incentivizing mechanism for students who 
+participate in the competition. In addition, it is also envisaged that the participating universities 
+moderate to select a suitable set of Mentors to help students in the design phase. The 
+participating teams will be trained on Amateur Rocketry through a paid one-week IN-SPACe skill 
+development program. The skill development program shall have hands-on workshop for the 
+participating teams in order to train the student teams in the practical aspects of rocket modelling. 
+This document provides the guidelines for the IN-SPACe Model Rocketry India Student 
+competition 2026. The Competition statement along with Optional Indicative requirements for 
+the same are provided. Teams are free to select any novel techniques to demonstrate the same. 
+The teams will be provided 2 variants of Solid Motors depending on the rocket body material 
+
+--- PAGE 8 ---
+              
+ 
+Page | 8  
+ 
+selected by the teams. The basic system requirements like Motor dimensions and Motor types 
+along with that of Payload, structure, power system, descent and recovery system, 
+communication system, Flight Software etc. are provided for information of the participating 
+teams. 
+The guidelines for team composition & management, design and development studies of various 
+systems and subsystems, Hands-on workshop for building and launching model rockets etc. are 
+enumerated.  The code of ethics and standards that need to be maintained by the teams is also 
+provided in the document.  
+The teams shall use the unique Team Identification Number allotted for all future 
+correspondence with the Organizers. All such correspondences shall be through the faculty 
+advisors identified for this competition.  
+2 Competition Objectives 
+1) To inculcate consciousness about rocketry across the country. 
+2) To inspire and excite students about learning and careers in science, technology, 
+engineering and mathematics 
+3) To develop a technologically skilled future workforce for Space Sector in India 
+3 Competition Phases 
+The competition shall be conducted in the seven phases which are as follows: 
+Phase Activity Output 
+Phase – 1  
+ Registration Phase 
+In this phase, the teams are required to register 
+and make the associated payment of Rs 10,000 / 
+- (Rs Ten Thousand Only) at www.inspace.gov.in 
+as per the competition guidelines provided in 
+Annexure – I of this document.  
+The participants can be  Team Registration & 
+Payment of Fees 
+
+--- PAGE 9 ---
+              
+ 
+Page | 9  
+ 
+1) Undergraduate students from Engineering 
+/ Science background enrolled in Indian 
+colleges/universities  
+Phase – 2 Preliminary Design Phase 
+ 
+Submission of Preliminary Design Review (PDR) 
+document followed by a presentation to the Jury. 
+This round is expected to a graded round, 
+depending on the submitted PDR, and the 
+reviews. Based on the performance during PDR, 
+the Jury will recommend teams for the next phase 
+of the competition. First round of Progressive 
+Grading 
+ 
+Teams shall be graded based 
+on their fundamental 
+understanding of rocketry, 
+systems, sub-systems and 
+propulsion techniques, 
+including Motor design for the 
+given altitude and payload 
+mass. 
+ 
+Phase – 3  Rocket Modelling Workshop 
+ 
+ 
+The PDR qualified teams shall undergo a one-
+week IN-SPACe short-term skill development 
+model rocketry course. This course will have 
+hands-on practical sessions to design, develop 
+and launch the scaled down version of amateur 
+model rockets, depending on the prevailing 
+conditions.  
+ 
+The teams shall have to undergo and pass a 
+mandatory quiz on Rocket Modelling. 
+ Second Round of 
+Progressive Grading 
+ 
+Teams shall be graded based 
+on their successful hands-on 
+experience on building a 
+rocket, along with aspects like 
+Team building, Project 
+Management, etc.  
+
+--- PAGE 10 ---
+              
+ 
+Page | 10   
+ 
+Phase – 4  Critical Design Review (CDR) Phase 
+ 
+All the teams who successfully completed the 
+workshop, shall submit a comprehensive Critical 
+Design Review Document, that includes the 
+design parameters of their rocket, along with the 
+performance parameters. 
+ 
+The evaluation committee will grade the teams 
+based on various technical factors as defined, 
+and select the teams for National Finals.  The 
+decision of Jury Panel shall be final and binding 
+on all the participating teams. 
+ 
+During this phase the teams shall finalize the 
+design, initiate the components and material 
+procurement and start the realization of the 
+rocket Third round of Progressive 
+Grading 
+Assessment of rocket designs 
+& selection for the National 
+Finals. 
+The selection shall be based 
+on the marks provided by the 
+Jury during the PDR, Rocket 
+Modelling Workshop and CDR 
+phase. 
+ 
+The scoring template shall be 
+developed by the Jury 
+Phase – 5  Flight Readiness Review (GO – NOGO 
+criteria) 
+The selected teams shall undergo Flight 
+Readiness Review by Jury. The decision of jury 
+shall be final and binding to the teams cleared for 
+the launch for the finals.  Flight readiness check & 
+clearance for launch.  
+ 
+NB: The punctuality of the 
+teams is of utmost priority. 
+The teams not reporting on 
+time, shall be debarred from 
+further participation in the 
+competition. 
+Phase – 6  Launch 
+ Launch & Mission Evaluation 
+
+--- PAGE 11 ---
+              
+ 
+Page | 11   
+ 
+The teams cleared in the FRR phase, shall be 
+allowed to launch their rockets during the finals  
+Phase – 7  Post flight Analysis (PFA) 
+The evaluation committee / Jury shall review the 
+flight results and grade the teams to decide on 
+the final winners, three to five Student teams. Final Evaluation & 
+announcement of winners 
+ 
+The detailed guidelines, as applicable regarding the technical aspects, programmatic or 
+regulatory aspects with the necessary timelines, during any subsequent phases of the 
+competition shall be notified in due course through IN-SPACe website www.inspace.gov.in  and 
+through e-mail. 
+ 
+4 Competition Statement 
+ Competition Statement for IN-SPACe Model Rocketry Competition 
+1. Build a rocket that can reach an altitude of (1000m +/- 100m) with the help of Solid Motor 
+provided by the organizers. Two options of Solid Motor shall be provided to the 
+participating teams to select from. The rocket shall be able to carry a payload of (1.0 Kg 
++/- 0.05 Kg) with it. The teams will be evaluated on the following parameters: 
+a. Rocket frame design and innovation 
+b. Launchpad design and innovation 
+c. Flight stability & performance 
+d. Avionics & continuous data collection 
+e. Ignition / Recovery 
+2. Comprehend the theoretical basics involved in rocketry, and enumerate the concepts, 
+design and development process to be followed in the realization of the vehicle in the 
+PDR and CDR documents, as part of the competition phases. 
+
+--- PAGE 12 ---
+              
+ 
+Page | 12   
+ 
+3. Participate in the one-week short-term skill development model rocketry course to be 
+conducted by IN-SPACe, and successfully demonstrate the launch of a scaled down 
+Amateur Model rocket, as the outcome. 
+ Indicative Optional Objectives 
+A few indicative optional requirements that the participating teams can consider are listed below. 
+However, teams are encouraged to propose novel techniques that they can demonstrate within 
+the specified mass, power and budget constraints. 
+i. Innovation in Materials used / Ignition concepts 
+ii. Innovative separation mechanisms / Jettisoning System 
+iii. Good theoretical understanding of the rocket systems and sub-systems to be 
+demonstrated in the documents – PDR and CDR, and in the evaluation by the Jury. 
+iv. Innovative Process – Quality Control (Reliability Analyses Methodologies)  
+a. Adherence to Standards that are followed, like the MIL Standard / Indian 
+Standards released by IN-SPACe / The European Cooperation for Space 
+Standardization (ECSS), etc shall be considered for extra points. 
+v. Additional innovative sensors and communication systems 
+vi. Provision of video capture of the flight, and till touchdown of the launcher 
+vii. Innovative recovery techniques viz. HAM radio/Advanced beacons. 
+viii. Scientific experiment onboard the rocket 
+ix. Demonstration of precision-controlled landing system with approval of Jury for 
+launcher. 
+  
+
+--- PAGE 13 ---
+              
+ 
+Page | 13   
+ 
+5 System requirements 
+ Basic rocket requirements 
+i. The lift off rocket mass must be within +/-5% of the design value. The overall length of 
+the rocket as measured from the lowest to the highest points of the airframe structure 
+(including fins) in launch configuration, shall be less than 180cm. 
+ii. Two types of motors are envisaged to be provided by organizers, considering Aluminum, 
+or PVC  as materials for the Rocket Body. The body mass including Motor shall not be 
+greater than 15Kg (Aluminum body), ~ 11.5 Kg (PVC body). The motor mass shall be 
+around 3Kg. However, this requirement is subjected to change depending on the PDR 
+reports provided by the teams. The Organizers may insist on standardizing the rocket 
+body, depending on the number of applications for each rocket body type, Design 
+calculations, etc. Any innovative materials proposed by the teams, shall be provided with 
+a Motor, that most closely matches the specifications provided above. The tentative 
+details of the same are covered in Chapter 12 SELECTION OF MOTOR PROVIDER.  
+iii. The provision for Bulkhead / Integration of Motor Compartment should be made available 
+in the Rocket body. 
+iv. The teams shall design and bring their own launch pads, and the launch angle shall be in 
+the range of 800 - 850. This shall be verified by the Jury Panel before giving clearance for 
+launch. 
+v. All parts of the rocket (other than disposable recovery wadding if any) must descend 
+tethered together and must use parachute recovery.  
+vi. The rockets must have only one stage that shall be powered only by commercially-made 
+model rocket motors, procured from Vendors identified by IN-SPACe.  
+vii. The rocket motor capacity designed by teams cannot exceed 2800 Newton-seconds of 
+total impulse. 
+viii. Motors must be retained in the rocket during flight and at ejection by a positive mechanical 
+means (clip, hook, screw-on cap, etc.) and not retained simply by friction fit in the motor 
+mounting tube, but they must be removable post-flight.  
+
+--- PAGE 14 ---
+              
+ 
+Page | 14   
+ 
+ix. The payload Separation mechanism shall be developed by the teams for activation at the 
+desired altitude. 
+x. Care must be taken to ensure that the explosives must be handled only in the manner 
+prescribed in the instructions for the motor.  
+xi. The teams shall not use any Pyro technique devices at any part of the Rocket, 
+including but not limited to CAN-7USAT Separation Systems, Parachute Activation 
+Systems etc. The teams who are using Pyro devices shall not be permitted to carry 
+out their preparatory activities at the site. 
+xii. Any sharp edges on the container body shall be avoided as it can cause problems during 
+the CAN-7USAT ejection from the rocket. 
+xiii. The body of the rocket structure shall be painted with fluorescent colors i.e., pink, red or 
+orange. 
+xiv. The Amateur Model Rocket shall consist of necessary sensors to provide the following 
+mandatory Real-time datasets: Position data, altitude, pressure, temperature, orientation 
+data, power data & system status. 
+xv. The launcher shall mandatorily have a back-up Commercial-Off-the-Shelf (COTS) 
+Altimeter, which shall be integrated in to the Redundant Chain for initiating Separation of 
+the launcher. Teams failing to adhere to this will not be permitted to launch. 
+xvi. The teams are encouraged to use the Global Navigation Satellite System (GNSS) 
+receiver that includes Navigation by Indian Constellation (NavIC). 
+xvii. The data shall be displayed in near real-time on the ground station User 
+Interface/Software. Teams are free to use any design to build their own user interface. 
+xviii. The Flight software system shall have provision to record the data and save it on an 
+onboard SD card, in case of telemetry connection loss during flight. 
+ 
+ 
+ Payload Requirements 
+
+--- PAGE 15 ---
+              
+ 
+Page | 15   
+ 
+i. Rockets shall contain and completely enclose in straight line configuration, a CAN-7U 
+Sized satellite with a weight of 1Kg +/-0.05Kg. 
+ii. The CAN-7USAT (Payload) must be separated and deployed at the defined altitude 
+(1000m +/- 100m). 
+iii. The Rocket body and the CAN-7USAT shall return safely to the ground by means of safe 
+landing, using deployable parachutes.  
+iv. The CAN-7USAT shall be procured by the teams. The CAN-7USAT shall contain an 
+altimeter and an accelerometer that will measure the altitude and acceleration levels 
+reached by the vehicle. This data shall be correlated with the Vehicle data and Telemetry 
+data that the participating teams shall have to obtain, and provide to Jury for evaluation.  
+v. Onboard Experiment Module ( Optional ) 
+ Teams are free to choose the nature of their experiment. It can be related to 
+physics, chemistry, biology, environmental science, or any other field of study. The 
+experiment should be designed to operate autonomously during the flight.  
+ Teams must include a detailed proposal outlining their experiment, including 
+objectives, methodology, expected outcomes, and any relevant calculations or 
+simulations along with the PDR submission, with basic guidelines to be 
+considered, given below. 
+ The specifications and requirements of the CAN-7USAT including the Power 
+systems, Descent systems etc may be referred to in the Document Ref: IN-
+SPACe.CAN.MR.CG.01, IssueNo.:01, dated 24-03-2026 IN-SPACe CAN-
+7USAT India Student Competition 2026 (3rd Edition): Mission Requirement 
+and Preliminary Design Review Documentation Guidelines.  
+ Technical Specifications: 
+ The experiment must fit within the payload bay of the model rocket. 
+ The total weight of the experiment, including any necessary support 
+structures, must not exceed the specified payload capacity of the rocket. 
+ The experiment should be designed to withstand the forces and conditions 
+experienced during launch, flight, and recovery. 
+
+--- PAGE 16 ---
+              
+ 
+Page | 16   
+ 
+ Safety Requirements: 
+ All materials and components used in the experiment must be non-
+hazardous and comply with some identified safety standards. 
+ The experiment must not interfere with the rocket’s flight stability or 
+recovery system. 
+ Teams must provide a detailed safety assessment of their experiment, 
+including potential risks and mitigation strategies. 
+ 
+ Structure Requirements 
+i. The vehicle structure shall be built to survive 15g of launch acceleration & 30g of shock.  
+a. All the structural margins of the Model Rocket shall be substantiated by theoretical 
+calculations and Finite Element Analysis (as applicable) in the PDR / CDR 
+documentation. 
+b. Tri- axis accelerometers shall be mounted on the vehicle to derive the Inertial loads 
+(g levels), that shall be plotted and submitted to the Jury. 
+c. The design calculations shall also substantiate the structural loads experienced on 
+the vehicle including the joints and fasteners, as the case may be. 
+ii. Team number, email address and phone number must be placed on the structure in 
+English, Hindi and the regional language of the launch state to aid in recovery. 
+ Avionics System Requirements 
+i. All electronics shall be enclosed and shielded from the environment by suitable 
+packaging. No electronics can be exposed except for sensors. There must be a structural 
+enclosure. 
+ii. Electronic circuit boards must be hard mounted using proper mounts such as standoffs 
+and screws. High-performance adhesives can also be used. 
+
+--- PAGE 17 ---
+              
+ 
+Page | 17   
+ 
+iii. Power Requirements  
+ The launcher ignition shall be carried out remotely, and accordingly an external power 
+switch with an Indicator light or sound shall be provided. 
+ Battery capacity to support up to 30 Minutes of wait-in on the launch pad with additional 
+time for flight operations, shall be ensured. 
+ The battery source may be alkaline, Ni-Cad, Ni-MH or Lithium ion. Lithium polymer 
+batteries are not allowed. Lithium cells must be manufactured with a metal package 
+similar to 18650 cells. 
+ An easily accessible battery compartment must be included allowing batteries to be 
+installed or removed in less than a minute and not require total disassembly of the 
+Rocket / CAN-7USAT mounted on the rocket. 
+ Spring contacts shall not be used for making electrical connections to batteries. Care 
+must be taken as the shock forces can cause momentary disconnects of power. 
+iv. On-board Launcher Communication Requirements 
+ The frequency of CAN-7USAT should be specifically defined and allotted to all the CAN-
+7USAT designers in order to avoid interference. The teams shall be required to present 
+the radio interference mitigation plan and strategy during the PDR stage. The teams 
+shall not be permitted to launch in case of any interference at the site. 
+ The Rocket communications radio shall be the XBEE / Zigbee radio series 1/2/pro / any 
+other equivalent and LoRa WAN. 
+ The XBEE / any radios used shall have their NETID/PANID set to the team number, 
+and declared at CDR Stage. 
+ The XBEE radio / any radio being used can operate in any mode as long as it does not 
+interfere with other XBEE / other communication systems. 
+
+--- PAGE 18 ---
+              
+ 
+Page | 18   
+ 
+ A provision to switch-on and switch-off telemetry of Launcher and the associated CAN-
+7USATs through RF Command are to be incorporated through.  
+v. Flight Software of Launcher 
+ The flight software shall maintain and telemeter an indicator of the flight software state.  
+An example set of states is 0 (BOOT), 1 (TEST_MODE), 2 (LAUNCH_PAD), 3 
+(ASCENT), 4 (PAYLOAD_SEP), 5 (DESCENT), 6 (AEROBREAK_RELEASE), and 7 
+(IMPACT).   
+ In the event of a processor reset during the mission, the flight software shall be able 
+to determine the correct state. 
+ The states shall be described in the review presentation by each team.  
+ Ground Station 
+i. Each team shall develop and use their own ground station. All telemetry shall be displayed 
+in near real-time during launch and descent.  All telemetry shall be displayed in 
+international system of units i.e., SI system. Teams shall plot data in real-time during 
+flight. 
+ii. The ground station shall command the Model Rocket to start transmitting telemetry prior 
+to launch. The rocket shall not transmit telemetry until commanded by the team.  
+iii. The teams shall ensure to have separate channels for rocket and CAN-7USAT, with 
+an interference test to be demonstrated to the Jury to avoid any overlapping 
+between both . 
+iv. The teams can issue the telemetry command, only post the on-site inspection and 
+clearance by the Jury members. A Pre-set checklist for clearance shall be made available 
+for the teams, basis which the jury shall inspect and clear the vehicle for launch on the 
+pad. 
+
+--- PAGE 19 ---
+              
+ 
+Page | 19   
+ 
+v. The ground control station antenna shall be elevated from ground level to ensure 
+adequate coverage and range. 
+vi. Stability of the ground station must be ensured. 
+vii. The ground station shall be able to command the rocket on parameters like barometric 
+altitude, accelerometer readings etc, including zero-setting at the launch pad. 
+viii. The ground station shall generate .csv files of all sensor data as specified in the Telemetry 
+Requirements section. 
+ix. Telemetry shall include mission time with one second or better resolution. 
+x. In case of processor reset, the mission clock/time stamp & system state shall be 
+maintained. 
+xi. Teams shall plot each telemetry data field in real-time during flight. 
+xii. The ground station shall include one laptop computer with a minimum of two hours of 
+battery operation, XBEE radio and a hand-held antenna. 
+xiii. The Launch pad is roughly at a distance of 1km from the viewing gallery. Considering 
+this, the teams shall have to ensure the Antenna Range, so as to be able to communicate 
+with the vehicle at its maximum altitude. 
+xiv. The ground station must be portable so the team can be positioned at the ground station 
+operation site along the flight line and if required the team can also move to a different 
+location, in case of distant landing location, in order to locate the projectile. 
+ 
+ 
+ 
+ 
+
+--- PAGE 20 ---
+              
+ 
+Page | 20   
+ 
+ Telemetry 
+i. Upon powering up, the Rocket shall collect the required telemetry at a 1 Hz sample rate 
+or better. The telemetry data shall be transmitted with ASCII comma-separated fields 
+followed by a carriage return in the format as given in the Annexure – 2  
+ii. The received telemetry for the entire mission shall be saved on the ground station 
+computer as a comma-separated value (.csv) file that will be examined by the Jury post 
+the flight. Teams will provide the file to the Jury immediately after the launch operations 
+via USB drive. The .csv file shall include headers specifying each field of data. 
+iii. The telemetry parameters display format with resolution along with the file naming shall 
+be as per Annexure - 2.  
+iv. Additional data fields may be appended after the required fields as determined necessary 
+by the team's design 
+v. It is suggested that teams make use of onboard data storage as a Redundant Mechanism. 
+Only the transmitted telemetry is graded, however, the backup data can be used when 
+completing the Post Flight Review. 
+ Descent & Recovery requirements 
+i. The Rocket shall contain a minimum of one descent control mechanism (parachutes) 
+to be used during the descent phase. It is the responsibility of the teams to ensure that 
+both the rocket and the CAN-7USAT descent safely and securely. Primary mechanism 
+shall be a parachute while any additional mechanism can be decided by the teams. 
+Few examples for the second descent control mechanism are: main 
+parachute/streamer/glider/rotor mechanism etc. 
+ii. If the Rocket uses multiple stages of descent control, the primary stage (drogue chute) 
+shall deploy right after the release of the Payload. 
+
+--- PAGE 21 ---
+              
+ 
+Page | 21   
+ 
+iii. The descent rate of the launcher body and payload bay shall be between 2 to 5 m/s ( 
++/- 0.5 m/s). The descent rate should be measurable during the competition. 
+iv. The CAN-7USAT Payload shall not use any hazardous chemical-based explosive or 
+pyrotechnic devices. However, green propulsion is allowed if being used under the 
+same weight constraint. 
+v. The descent control mechanism & all the attached components should survive 30g of 
+shock at the time of launch and separation.  
+vi. All the electronic components shall be enclosed and shielded from the environment with 
+the exception of sensors.  
+6 Design Review Documentation Guidelines 
+Preliminary Design Review (PDR) - is a detailed design review of the system to ensure that 
+the system can proceed into the realization phase, and can meet the mass, dimensional, 
+budget, schedule and other specified constraints for the IN-SPACe Model Rocketry India 
+Competition 2026 
+The PDR document shall contain a very comprehensive documentation on the design 
+aspects of the vehicle, and the teams shall be graded depending on the clarity that the PDR 
+document and the review presentation bring, with regards to the competition statement and 
+the methodology to achieve the same. 
+Critical Design Review (CDR) is an overall review summary of the system. Once the PDR 
+phase is completed, the teams can proceed to the manufacturing, Qualification and 
+Acceptance testing phase, with the results of all of these along with the Operations 
+Management plan to be entered in the CDR document.  
+In summary, PDR document shall contain the design aspects in its entirety along with an 
+overall plan of action for the project, while CDR document should contain the entire project 
+summary with quantifiable results of the testing. 
+
+--- PAGE 22 ---
+              
+ 
+Page | 22   
+ 
+Among others, the PDR document shall consist of: 
+i. Details about the Mission requirements and how are they addressed. 
+ii. Details about derived and allocated system-level requirements 
+iii. Details about the operational aspects of the Rocket. 
+iv. Detailed overview of the preliminary design that meets the mission's specified 
+requirements. 
+v. Details about the identified components, subsystems, processes, simulation 
+results or any other details to support the preliminary design. 
+vi. Calculations-both theoretical and Software Analyses (Finite Element, 
+Computational Dynamics etc) to demonstrate sufficient design margins for the 
+components including interfacing joints and fasteners. 
+vii. The Stage-by-stage process to be followed for realization of the system, 
+Operations, Integration Procedure (overall), Quality Checks etc, along with the 
+standards adopted for the same. 
+viii. Details of the identified testing criteria to support or finalize the preliminary design. 
+ix. Budget details. If the teams are aiming to secure sponsorship for the same it shall 
+be specified in the document.  
+x. Development schedule of the Rocketry Project. 
+The PDR document along with the presentation should be submitted as per the guidelines 
+mentioned in the subsequent sub-headings. The team leader shall be responsible to present the 
+slides in the specified format.  The Presentation time shall be limited to 10 minutes per team. 
+Anything longer than that will lead to deduction of points. In case of acronym usage, it has to be 
+mentioned at the beginning of both the doc and PPT file. Any reference used is to be mentioned 
+in Annexure’s reference section. 
+
+--- PAGE 23 ---
+              
+ 
+Page | 23   
+ 
+The following are the points to be taken care of while developing the PDR document: 
+ Team Composition and management  
+This includes the details of the team members i.e., course, graduation detail, institute, area of 
+specialization (if any), and role in the team, to be filled accordingly for students and start-ups. 
+The team leader shall be primarily responsible for the presentation, including maintaining the 
+timing and curating the flow of the presentation. The teams are required to mention the expenses 
+envisaged during the entire rocket development, including the Bill of Material (BOM) of their 
+purchase, to the extent possible in PDR and in its entirety in the CDR, including the following 
+costing line items. 
+● Cost of each component 
+● Estimate vs Actual costs with deviations, if any 
+● Any second-hand hardware 
+● Ground station 
+● Parachute 
+● Designing 
+● Prototyping 
+● Testing 
+● Fabrication 
+● Contingencies 
+● Any other relevant cost 
+Any source of sponsors shall also be mentioned. 
+
+--- PAGE 24 ---
+              
+ 
+Page | 24   
+ 
+NOTE: IN-SPACe does not provide any kind of funding support to the participating 
+teams. 
+A project milestone chart showing breakup of various activities like task start and stop dates and 
+durations shall be included in the document. The purpose of the project timeline chart is to keep 
+things on track and monitor the progress. Periodic update meetings are assumed to be 
+scheduled to evaluate the team’s progress. 
+ Mission Overview 
+Mission overview should provide the overall mission objective. This should include all the primary 
+and the secondary/add-on objectives that the team is looking for. A comprehensive summary of 
+the requirements that are used in the design assumptions shall be provided in the document. 
+The requirement of lab facilities if any, along with any external support taken from the facilities 
+apart from the participating institute needs to be mentioned here. 
+The system overview should cover all the design traits taken care while at the development 
+stage. Diagrams, demonstration tables and figures shall be included wherever necessary. 
+The System Overview presentation should include: 
+● Rocket Configuration 
+● Major components 
+● Engineering drawings 
+● Launch and descent strategy 
+● Post-launch recovery 
+● Data retrieving and Analysis 
+ Subsystem Details  
+ 
+
+--- PAGE 25 ---
+              
+ 
+Page | 25   
+ 
+6.3.1 Payload Subsystem 
+The Payload shall be the CAN-7USAT. As already covered in  Section 5.2 Payload 
+Requirements,  all the details regarding the experiments planned to be conducted shall be 
+included under this section. The details of the deceleration system planned for the CAN-7USAT, 
+along with steps taken to avoid interference or causing damage to the payload shall be explained 
+in depth in this section. The CAN-7USAT requirements shall be referred to in Document Ref: 
+IN-SPACe.CAN.MR.CG.01, IssueNo.:01, dated 24-03-2026 IN-SPACe CAN-
+7USAT India Student Competition 2026 (3rd Edition): Mission Requirement and 
+Preliminary Design Review Documentation Guidelines. 
+6.3.2 Housekeeping Subsystem 
+The housing subsystem contains all the necessary sensors, actuators, attitude controls, power 
+system, communication systems etc. The reference for the sub-systems may be drawn from the 
+Section5 SYSTEM REQUIREMENTS  
+The housing contains the following subsystems. 
+a) Mechanical Subsystem 
+b) Communication and Data Handling Subsystem 
+c) Electrical Power Subsystem 
+d) Sensor Systems 
+a) Mechanical Subsystem 
+The mechanical subsystem should include all major structural components, container 
+mechanical configurations, body tubes, Nose cones, nozzles, Separation actuators, Tethering 
+systems, deceleration system etc. 
+The key constraints in mechanical designs of rocket hardware and component selection should 
+be mentioned in detail. Any major trade-off should be mentioned separately.  
+
+--- PAGE 26 ---
+              
+ 
+Page | 26   
+ 
+A detailed explanation of the hardware along with schematics wherever possible shall be 
+provided including the following points: 
+ Design & Simulations 
+ Methodology 
+ Integration and Positioning of the Sub-systems in the container 
+The team should clearly mention the Mass properties of the container, sensors, parachute, and 
+any other components used in the rocket. 
+b) Communication and Data Handling Subsystem 
+The Communication and Data Handling Subsystem should mention clearly the TxRx antenna 
+design & details, link margin, Boot time, Processor type, data interfaces, memory slots, Real-
+time clock, antenna material, XBEE / any other radio selection, transmission control, backup in 
+case of transmission loss, data format, etc in adherence to Section 5.5. Ground Station.  
+c) Electrical Power Subsystem 
+The Electrical Power Subsystem should include schematic showing power connections that 
+includes all power sources, resistor arrangements and all major components. The Payload 
+should have an external switch.   
+Note: Use of Lithium Polymer batteries is prohibited. 
+All types of connections and mounting need to be shown clearly. Describe the power trade-off 
+and selection. The kind of connection done (parallel or series) needs to be explained in details. 
+The Power budget should include: 
+ Energy Balance 
+ Power consumption of each component/subsystem 
+ The total power consumed 
+d) Sensor Systems  
+
+--- PAGE 27 ---
+              
+ 
+Page | 27   
+ 
+The Sensor Systems details should include a summary of all the sensors selected and the 
+purpose for which these sensors are being used. Detailed information like interfaces, resolution, 
+weight, cost, reason for selection of each of the following sensors shall also be included in the 
+documentation.  
+ GNSS Sensor 
+ Altimetry 
+ Pressure 
+ Temperature 
+ Accelerometer sensor (Orientation/Acceleration data) – to take in to account the duration 
+of flight, and sensitivity to be accordingly decided. 
+ Power Status 
+ Any other sensor 
+The team is required to clearly mention any trade-off while sensors selection power requirements 
+and other supporting documents.   
+ Flight Software Algorithm Description 
+This section should include the details of functional requirements and mathematical formulations 
+used in development of the flight software. The algorithm should be described in the form of a 
+flow chart. The software change log should be maintained using standard software packages. 
+This should also describe basic software architecture, programming language used, 
+development environment and brief summary of the software tasks. 
+The following details should be included in the document viz. 
+ Software sequencing timing diagram 
+ Sampling rate or processor cycle time used for execution of various tasks 
+ Telemetry and Telecommand details 
+ Data storage and Handling 
+ Software reset loop 
+ Simulation mode strategy 
+
+--- PAGE 28 ---
+              
+ 
+Page | 28   
+ 
+ Test methodology 
+ Proto version testing details 
+ Ground station 
+The ground station includes a laptop, antenna, power supply etc. The ground station is supposed 
+to remain ON at the time of launch for real time data collection and processing. However, the 
+following points are needed to be considered and mentioned in the presentation: 
+ Ground station power supply and duration of operation 
+ Antenna pattern 
+ Antenna type 
+ Telemetry display  
+ Command software and interfaces 
+ Real-time data collection scheme 
+ Last data command at console display 
+ User interface for real-time data collection 
+ Describe in simulation mode how the ground system transmits the commands and 
+uploads the data. 
+ Ground software design for the transmitter to submit telemetry packets 
+ Sensors & Payload telemetry 
+ Libraries used 
+ Communication test plans 
+ The file format should be .csv for the data saved 
+ Rocket Integration and Testing 
+This section shall contain the Team’s methodologies used in the Integration and Qualification / 
+Acceptance tests of the Components / Sub-systems / Systems of the Rocket, along with the 
+specific requirements that are served through these tests. The teams are required to indicate 
+the tests that are to be carried out for the competition, along with Test plans to achieve the tests. 
+An indicative list of tests are provided below for consideration of the teams, 
+
+--- PAGE 29 ---
+              
+ 
+Page | 29   
+ 
+Mechanical Systems 
+ Functional Development Tests – Component / Sub-system / System level 
+ Functional Qualification Tests – Sub-system / System Level 
+ Structural Qualification Tests – Sub-system / System Level 
+ Vibration Tests – Sub-system / System Level (SINE, Random) 
+ Thermal Tests 
+ Fit checks 
+ Parachute Deployment Tests 
+ Acceptance Tests – System Level 
+ 
+Electronic Systems 
+ Command and Data Handling 
+ Power Supply 
+ Ground Station 
+ Flight Software 
+ Environmental Tests  
+ Check out 
+ Integrated level functional tests 
+ Simulation test plans 
+ Polarity tests 
+ Integration tests 
+ Interference Tests etc 
+ Operations Plan & Quality Control 
+This section shall detail the Manufacturing process to be adopted for the components and sub-
+systems, along with the Quality Control plans and the Acceptance Criteria for such components. 
+The section shall also detail the Assembly and Integration Procedure to be adopted for the rocket 
+system, in addition to the sequence of activities that are to be followed at the launch site. In this 
+
+--- PAGE 30 ---
+              
+ 
+Page | 30   
+ 
+context, any identification setups like color coding etc that the teams have adopted shall be 
+mentioned. 
+The section shall also contain such activities required for the launch pad for ensuring the required 
+fit for the rocket with the same.  
+Operations plan shall also contain the sequence of activities to be followed for data acquisition, 
+data dissemination and collection / management of data. Last but not the least, an exigency 
+management procedure shall also be included in this section.  
+7 Hands-on Workshop 
+ 
+A One-Week IN-SPACe short-term skill development Workshop on Amateur Model Rocketry 
+shall be planned in the lines of the short-term courses conducted by IN-SPACe. This workshop 
+will give the students a first-hand experience in to the concepts of rocketry. The areas of rocketry 
+that the students shall be exposed to include, 
+1) Design of Propulsion Systems 
+2) Structural Design  
+3) Flight Dynamics and Control 
+4) Mechanical Systems design and Engineering 
+5) Parachute Systems 
+6) Telemetry and Data Acquisition Systems 
+7) Technical Project Management 
+As an outcome of this round, the participating student teams shall be made to 
+1) Design, build and fly a Safe and stable scaled down amateur rocket to around 100m 
+altitude. 
+2) A demo payload shall be safely mounted, carried to the altitude and separated from the 
+rocket, after separation of the Nose cone. But it may be noted that the nosecone shall 
+remain tethered to the rocket, and the entire rocket shall be landed safely by means of a 
+deceleration system. 
+
+--- PAGE 31 ---
+              
+ 
+Page | 31   
+ 
+3) The spent vehicle shall land back between a fixed inner and outer radius from the 
+launcher rail point. 
+As already mentioned in Section 3 , this round shall be the second phase of progressive grading, 
+where the teams will be graded following the PDR round.  
+Finances for the Hands-on Workshop, shall have to be borne by the respective teams. Each 
+participating student from the team shall have to pay a Firm Fixed Course fee of ₹25,000/- 
+(Rupees Twenty Five Thousand Only) per participant for participating in this workshop. It may 
+be noted that each team can nominate a maximum of two participants. The participating students 
+shall also be provided certificate after completion of the course. 
+ 
+The grading parameters along with the respective weightages, conduct of the workshop 
+including the location(s) shall be declared in due course through direct e-mails / 
+www.inspace.gov.in  to all the participating teams. 
+8 Financials 
+The below are the financials for the competition.  The teams may attempt for Sponsorship, and 
+shall disclose the source of their finances in the Design Documents (PDR / CDR). The various 
+payment phases, along with the Payment modalities shall be informed to the teams in the 
+corresponding phases. 
+Sl No Competition Phase Amount Remarks 
+1 Registration ₹10,000/- All teams shall have to pay this 
+amount at the time of registration 
+2 One-Week short-term skill 
+development model rocketry 
+course ₹25,000/-   Firm Fixed Price / Participant  
+ Two members per team 
+envisaged to participate in 
+this course  
+3 CDR Phase ₹15,000/- At the time of CDR Submission 
+
+--- PAGE 32 ---
+              
+ 
+Page | 32   
+ 
+4 Cost of Motor  ₹Cost / Motor  As per vendor 
+5 Accommodation and Logistics 
+at Launch Site At Actuals To be paid to Srinarayani Science 
+Development Foundation (SSDF), 
+Kushinagar 
+ 
+All the payments concerning the competition, except that of the One-Week Short-term Skill 
+Development Course are to be paid to the Sri Narayani Science Development Foundation 
+(SSDF) in the below Account Details, unless otherwise specified. 
+ 
+ ShriNarayani Science Development Foundation 
+A/c No. 50200118890683 
+Branch: Paedlaeganj Gorakhpur 
+IFSC Code: HDFC0010007 
+Bank: HDFC Bank Ltd 
+ 
+The payments for the Skill Development Course shall have to be made to IN-SPACe / Govt of 
+India, through Bharatkosh the details of which shall be shared during the time of the course. 
+ 
+
+--- PAGE 33 ---
+              
+ 
+Page | 33   
+ 
+ 
+9 Requirements Compliance 
+The PDR/CDR document submitted by the teams shall contain a Requirements Compliance Matrix should be provided 
+clearly as below. Any deviation should be clearly brought out, stating the reason thereof.  
+S. No Requirement Compliance  
+1.  Basic Rocket Requirements 
+  
+1.1 The lift off rocket mass must be within +/- 5% of the design value. The overall length of the rocket as 
+measured from the lowest to the highest points of the airframe structure (including fins) in launch 
+configuration, shall be less than 180cm.   
+1.2 The teams may use Aluminum, Cardboard or PVC for the rocket body, and three various types of 
+motors are envisaged to be provided by organizers. The body mass including Motor shall not be greater 
+than 15Kg (Aluminum body), 10Kg (Cardboard body) and 11.5Kg ( PVC body). The motor mass shall 
+be around 3Kg. However, this requirement is subjected to change depending on the PDR reports 
+provided by the teams. The Organizers may insist on standardizing the rocket body, depending on the 
+number of applications for each rocket body type, Design calculations, etc.  
+1.3 The provision for Bulkhead / Integration of Motor Compartment should be made available in the Rocket 
+body. 
+  
+1.4 The teams shall design and bring their own launch pads, and the launch angle shall be in the range of 
+800 - 850. This shall be verified by the Jury Panel before giving clearance for launch. 
+  
+
+--- PAGE 34 ---
+              
+ 
+Page | 34   
+ 
+1.5 All parts of the rocket (other than disposable recovery wadding if any) must descend tethered together 
+and must use parachute recovery.   
+1.6 The rockets must have only one stage that shall be powered only by commercially- made model rocket 
+motors, procured from Vendors identified and communicated by IN-SPACe.   
+1.7 The rocket motor capacity designed by teams cannot exceed 2800 Newton-seconds of total impulse.   
+1.8 Motors must be retained in the rocket during flight and at ejection by a positive mechanical means (clip, 
+hook, screw- on cap, etc.) and not retained simply by friction fit in the motor mounting tube, but they 
+must be removable post-flight.   
+1.9 The payload Separation mechanism shall be developed by the teams for activation at the desired 
+altitude.  
+1.10Any sharp edges on the container body shall be avoided as it can cause problems during the CAN-
+7USAT ejection from the rocket.  
+1.11The teams shall not use any Pyro technique devices at any part of the Rocket, including but not limited 
+to CAN-7USAT Separation Systems, Parachute Activation Systems etc  
+1.12The body of the rocket structure shall be painted with fluorescent colors i.e., pink, red or orange.  
+1.13The Amateur Model Rocket shall consist of necessary sensors to provide the following mandatory 
+Real-time datasets: Position data, altitude, pressure, temperature, orientation data, power data & 
+system status.  
+1.14The launcher shall mandatorily have a back-up Commercial-Off-the- Shelf (COTS) Altimeter, which 
+shall be integrated in to the Redundant Chain for initiating Separation of the launcher  
+
+--- PAGE 35 ---
+              
+ 
+Page | 35   
+ 
+1.15The data shall be displayed in near real-time on the ground station User Interface/Software.   
+1.16The Flight software system shall have provision to record the data and save it into an onboard SD card, 
+in case of telemetry connection loss during flight.  
+2.  Payload Requirements  
+2.1 Rockets must contain and completely enclose in straight line configuration, a CAN-7U Sized satellite, 
+with a weight of 1Kg +/ -0.05Kg.  
+2.2 The CAN-7USAT (Payload) must be separated and deployed at the defined altitude (1000m +/- 100m). 
+2.3 The vehicle, including the Rocket body and the CAN-7USAT shall return safely to the ground by means 
+of safe landing, using a deployable parachute.   
+2.4 The CAN-7USAT shall contain an altimeter and an accelerometer that will measure the altitude and 
+acceleration levels reached by the vehicle.  
+
+--- PAGE 36 ---
+              
+ 
+Page | 36   
+ 
+2.5  
+Onboard Experiment Module (Optional) 
+ The experiment should be designed to operate autonomously during the rocket’s flight. 
+ Teams must include a detailed proposal outlining their experiment, including objectives, 
+methodology, expected outcomes, and any relevant calculations or simulations along with the 
+PDR submission, with basic guidelines to be considered, given below. 
+ Technical Specifications 
+ Safety Requirements  
+3.  Structural Requirements  
+3.1 The vehicle structure shall be built to survive 15g of launch acceleration & 30g of shock.  
+a. All the structural margins of the Model Rocket shall be substantiated by theoretical 
+calculation and Finite Element Analysis (as applicable) in the PDR / CDR documentation. 
+b. Tri- axis accelerometers shall be mounted on the vehicle to derive the Inertial loads (g levels), 
+that shall be plotted and submitted to the Jury. 
+c. The Motor shall have sufficient margins to withstand the propulsive loads. 
+d. The design calculations shall also substantiate the structural loads experienced on the 
+vehicle including the joints and fasteners, as the case may be.  
+3.2 Team number, email address and phone number must be placed on the structure in English, Hindi and 
+the regional language of the launch state to aid in recovery.  
+
+--- PAGE 37 ---
+              
+ 
+Page | 37   
+ 
+4.  Avionics Systems  
+4.1 All electronics shall be enclosed and shielded from the environment. No electronics can be exposed 
+except for sensors. There must be a structural enclosure.  
+4.2 Electronic circuit boards must be hard mounted using proper mounts such as standoffs and screws. 
+High-performance adhesives can also be used.  
+
+--- PAGE 38 ---
+              
+ 
+Page | 38   
+ 
+4.3 Power Requirements 
+ The launcher ignition shall be carried out remotely, and accordingly an external power switch 
+with an Indicator light or sound shall be provided. 
+ Battery capacity to support up to 30 Minutes of wait in on the launch pad with additional time 
+for flight operations, shall be ensured. 
+ The battery source may be alkaline, Ni-Cad, Ni- MH or Lithium ion. Lithium polymer batteries 
+are prohibited . Lithium cells must be manufactured with a metal package similar to 18650 
+cells. 
+ An easily accessible battery compartment must be included allowing b atteries to be installed 
+or removed in less than a minute and not require total disassembly of the Rocket / CAN-
+7USAT mounted on the rocket. 
+ Spring contacts shall not be used for making electrical connections to batteries. Care must be 
+taken as the shock forces can cause momentary disconnects of power. 
+  
+
+--- PAGE 39 ---
+              
+ 
+Page | 39   
+ 
+4.4 On-board Communication Requirements 
+ The radio interference mitigation plan and strategy shall be available. 
+ The Rocket communications radio shall be the XBEE / Zigbee radio series 1/2/pro / any other 
+equivalent 
+ The XBEE radios shall have their NETID/PANID set to the team number and declared at CDR 
+stage 
+ The XBEE radio can operate in any mode as long as it does not interfere with other XBEE 
+radios. 
+ A provision to switch-on and switch-off telemetry of Launcher and the associated CAN-
+7USATs through RF Command are to be incorporated  
+
+--- PAGE 40 ---
+              
+ 
+Page | 40   
+ 
+4.5 Flight Software 
+ The flight software shall maintain and telemeter an indicator of the flight software state.  An 
+example set of states is 0 (BOOT), 1 (TEST_MODE), 2 (LAUNCH_PAD), 3 (ASCENT), 4 
+(CAN-7USAT_DEPLOY), 5 (DESCENT), 6 (AEROBREAK_RELEASE), and 7 (IMPACT).   
+ In the event of a processor reset during the mission, the flight software shall be able to 
+determine the correct state. 
+ The states shall be described in the review presentation by each team.    
+5.  Ground Station  
+5.1 Each team shall develop and use their own ground station. All telemetry shall be displayed in near real-
+time during launch and descent.  All telemetry shall be displayed in international system of units i.e., 
+SI system.  Teams shall plot data in real-time during flight.  
+5.2 The ground station shall command the Model Rocket to start transmitting telemetry prior to launch. The 
+rocket shall not transmit telemetry until commanded by the team.   
+5.3 The teams shall ensure to have separate channels for rocket and CAN-7USAT, with a n interference 
+test to be demonstrated to the Jury to avoid any overlapping between both.  
+
+--- PAGE 41 ---
+              
+ 
+Page | 41   
+ 
+5.4 The teams can issue the telemetry command, only post the on- site inspection and clearance by the 
+Jury members. A Pre-set checklist for clearance shall be made available for the teams, basis which 
+the jury shall inspect and clear the vehicle for launch on the pad.  
+5.5 The ground control station antenna shall be elevated from ground level to ensure adequate coverage 
+and range.  
+5.6 Stability of the ground station must be ensured.  
+5.7 The ground station shall be able to command the rocket on parameters like barometric altitude, 
+accelerometer readings etc, including zero-setting at the launch pad.  
+5.8 The ground station shall generate .csv files of all sensor data as specified in the Telemetry 
+Requirements section.  
+5.9 Telemetry shall include mission time with one second or better resolution.  
+5.10In case of processor reset the mission clock/time stamp & system state shall be maintained.  
+5.11Teams shall plot each telemetry data field in real-time during flight.  
+5.12The ground station shall include one laptop computer with a minimum of two hours of battery operation, 
+XBEE radio and a hand-held antenna.  
+
+--- PAGE 42 ---
+              
+ 
+Page | 42   
+ 
+5.13The ground station must be portable so the team can be positioned at the ground station operation site 
+along the flight line and if required the team can also move to a different location, in case of distant 
+landing location, in order to locate the projectile.  
+5.14The Launch pad is roughly at a distance of 1km from the viewing gallery. Considering this, the teams 
+shall have to ensure the Antenna Range, so as to be able to communicate with the vehicle at its 
+maximum altitude.  
+6.  Telemetry  
+6.1 Upon powering up, the Rocket shall collect the required telemetry at a 1 Hz sample rate or better. The 
+telemetry data shall be transmitted with ASCII comma- separated fields followed by a carriage return in 
+the format as given in the Annexure – 2  
+6.2 The received telemetry for the entire mission shall be saved on the ground station computer as a 
+comma-separated value (.csv) file that will be examined by the Jury post the flight. Teams will provide 
+the file to the Jury immediately after the launch opera tions via USB drive. The .csv file shall include 
+headers specifying each field of data.  
+6.3 The telemetry parameters display format with resolution along with the file naming shall be as per 
+Annexure - 2.   
+7.  Descent and Recovery Requirements  
+
+--- PAGE 43 ---
+              
+ 
+Page | 43   
+ 
+7.1 The Rocket shall contain a minimum of one descent control mechanism (parachutes) to be used at 
+different stages while descent. It is the responsibility of the teams to ensure that both the rocket and 
+the CAN-7USAT descent safely and securely.   
+7.2 The descent rate of the launcher body and payload bay shall be between 2 to 5 m/s (+/- 0.5 m/s). The 
+descent rate should be measurable during the competition. 
+  
+7.3 The descent control system shall not use any hazardous chemical- based explosive or pyrotechnic 
+devices.   
+7.4 The descent control mechanism & all the attached components shall survive 30g of shock at the time 
+of launch and separation.   
+7.5 All the electronic components shall be enclosed and shielded from the environment with the exception 
+of sensors.   
+8 Documentation Required  
+8.1 PDR Documentation with details as given in 6 DESIGN REVIEW DOCUMENTATION GUIDELINES   
+8.2 Participation in the One-Week short-term skill development model rocketry course   
+8.3 CDR Documentation  
+
+--- PAGE 44 ---
+              
+ 
+Page | 44   
+ 
+● State current design compliance to requirements 
+● Any deviation from the set design parameters is to be mentioned with proper reasons 
+
+--- PAGE 45 ---
+                
+ 
+Page | 45   
+ 
+10 Code of Ethics and Standards 
+The teams are advised to maintain high levels of ethics and standard during all times of the 
+competition. Non compliances including, but not exclusive to those provided below, can lead to 
+disqualification of teams from the competition: 
+ Copying any designs from any other competition / sources / competitors. 
+ Copying codes/ground station software.  
+ Submission of incomplete PDR/CDR documents. 
+ Any team not meeting the competition timelines. 
+ Teams found outsourcing the development. 
+ Usage of any restricted or hazardous chemicals etc. 
+NB: The decision of organizers will be final and binding on all the teams 
+ 
+11 Additional Information 
+ Teams will be notified regarding the exact launch location and the associated logistical 
+availability at the location, in due course of time. 
+ Necessary regulatory clearances for the competition in general and launch in particular, 
+shall be obtained by IN-SPACe 
+ A team may be provided only 1 launch opportunity in the Finals 
+ IN-SPACe is considering to conduct an Interaction session with the Screened-in teams 
+to address any clarifications / queries that may arise during the interpretation of this 
+document. 
+ The teams are advised to contact organizers through their faculty advisor via email, 
+within 15 days of the release of this document, in case of any clarifications / queries that 
+shall have to be addressed.  
+ 
+ 
+
+--- PAGE 46 ---
+                
+ 
+Page | 46   
+ 
+12 Selection of Motor provider 
+As covered in the document, the Teams may use either Aluminum or PVC for their Model 
+Rocket body. Accordingly, two configurations of Motor shall be made available by IN-SPACe 
+through the vendor on cost basis. 
+ 
+ 
+The standard motor that shall be provided along with the interfaces. The teams are free to 
+use any of the two types of Materials and arrive at their configurations, and the same shall 
+be matched with the three motor specifications.  The teams shall calculate their own 
+configurations along with the stability factors and submit in the PDR, accordingly the 
+Motors shall be provided to the teams.  
+Interfaces between sounding rocket body and the motor  -  
+Motor will be aligned using centering rings, inner diameter of the centering rings would be 
+determined by the diameter of the motor and the outer diameter of the centering ring will be 
+determined by the inner diameter of the rocket body.  
+ 
+Figure 1: A typical Model rocket (Source: Internet, Internal References)  
+Fin to be designed by teams 
+Motor – shall be provided by 
+the identified vendors 
+
+--- PAGE 47 ---
+                
+ 
+Page | 47   
+ 
+Thrust transfer from the motor to the rocket body will be done by using a thrust plate. Thrust 
+plate would be attached to the rocket body using M5 screws and it would be attached to the 
+motor using M12 bolt as shown in the figure below.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+The motor dimensions (tentative) shall be as in the below table. Any modifications in the 
+configurations / interfaces, shall be intimated to the teams. 
+Parameter Aluminum PVC 
+Motor Diameter 94mm 94mm 
+Casing Length 383mm 313mm 
+Fasteners M12 bolts at the Thrust plate to Rocket body interface 
+M5 Screws (6 No.s) to be match drilled between Rocket Body and 
+Thrust Plate 
+IN-SPACe shall engage with the Motor vendor ecosystem in India, and identify a list of up 
+to 3 vendors, at a fixed rate. The participating teams shall mandatorily procure the motor 
+from such identified vendors only, at a pre-fixed price.   
+
+
+--- PAGE 48 ---
+                
+ 
+Page | 48   
+ 
+13  Annexure-1: Guidelines for IN-SPACe Model Rockery 
+Competition 
+1) The competition is open to all undergraduate students from Engineering / Science 
+background enrolled in Indian colleges/universities 
+2) Applicants shall apply for the competition in teams and the team applying for the 
+competition shall have a minimum of 5 members and shall not exceed 8 members. 
+3) Only 1 team is allowed per college/university. For colleges that are affiliated to a 
+university one application from each of the affiliated colleges is allowed. 
+4) Additionally, the Undergraduate Student team can have 1 faculty coordinator/advisor 
+and up to 2 mentors who could be the graduate students enrolled in the university’s 
+higher education courses or faculty or the alumni of the institution. If there is no mentor 
+than the faculty coordinator/advisor shall act as mentor. 
+The role of the faculty coordinator/advisor is to: 
+ Act as a point of contact for the team, both with the university and IN-SPACe 
+ Assist teams with logistics such as arranging conference rooms, lab resources etc. 
+ Providing general guidance throughout the competition. 
+ The faculty advisor shall not make design decisions or direct recommendations or 
+participate in more than an oversight role during reviews. 
+     The role of the mentor is to: 
+ Act as a liaison between the team and the competition committee. The mentor will 
+be responsible for scheduling all competition reviews and coordinating all 
+communications with the team. Mentors are also responsible for tracking the 
+team’s progress throughout the competition. 
+ Team mentors shall be available to answer questions and provide general 
+guidance. 
+
+--- PAGE 49 ---
+                
+ 
+Page | 49   
+ 
+ The mentor shall not provide design recommendations. 
+5) The team applying for the competition must provide an approval letter from the 
+institution consisting of the details of all the team members including the name, 
+Institute ID, course enrolled in branch, year of graduation and the role in the Team 
+(roles can be defined as per the tasks assigned to the team members) on the institute’s 
+letterhead duly signed by the head of the institution. The scanned copy of the letter 
+shall be attached with the registration form. (Approval letter template can be 
+downloaded from IN-SPACe website: www.inspace.gov.in )  
+6) Last Date to Apply : April 30, 2026 
+7) In case of any changes in the team after the registration, an official request shall be 
+made by the faculty coordinator/advisor regarding the same to director-
+pd@inspace.gov.in  with a subject line: Team Change Request IN-SPACe Model 
+Rocketry Competition. No change shall be permitted post PDR. 
+8) This competition is only for college/university students. A separate announcement 
+shall be made for providing launch opportunity to NGEs/ societies/ clubs etc. 
+9) Additional details : 
+i. Each team has to register on the IN-SPACe Digital Platform (IDP) 
+www.inspace.gov.in   
+ii. The payment of non-refundable Registration fee of Rs.10,000.00/- (Rupees Ten 
+thousand only) shall be made to SSDF, per the account details given earlier. You 
+will be required to enter the transaction ID viz. UTR No. etc as the proof of payment 
+while registering at IDP. 
+iii. After the successful registration and screening, the participants will be informed for 
+submitting the Preliminary Design Review (PDR) Document as per the mission 
+requirement guidelines provided in this document. After the registration timeline is 
+complete, participants will be provided with a mission requirement document for 
+the Model Rocketry competition, in due course. 
+
+--- PAGE 50 ---
+                
+ 
+Page | 50   
+ 
+iv.  The teams can start marketing pitch to attract sponsorship. 
+v. All registered teams will then present their preliminary design review (PDR) to the 
+jury. 
+vi. The PDR qualified teams shall undergo a one-week IN-SPACe short-term skill 
+development course on Model Rocketry. This course will have hands-on practical 
+sessions to design, develop and launch the scaled down version of amateur model 
+rockets. The registration and payment details for this course shall be 
+communicated by IN-SPACe in due course of time. Only two participants will be 
+permitted to attend this course per team. 
+vii. Post workshop, teams will have to pay a non-refundable fee of Rs. 15,000/- 
+(Rupees Fifteen Thousand Only), to be payable to SSDF to participate further in 
+the competition.  
+viii. Post the Model Rocketry Workshop, the participating teams will be required to 
+submit a Comprehensive Design Review (CDR) document within a specified 
+period. The teams shall keep in mind that the break-up of the costs of the rocket , 
+including the development, material, test and validation cost, along with other 
+applicable line items shall be included in the CDR document, and presented. The 
+usage of “Make in India” components will be given due weightage during the 
+evaluation. 
+ix. The CDR qualified teams shall be permitted to launch their rockets subject to 
+successful completion of mission/flight readiness review. The organizing 
+committee can undertake visits to the colleges / labs at any stage of the 
+competition. 
+x. After the CDR the jury will check the Launchers for the flight readiness during the 
+Flight Readiness Review and launch dates will be given to the teams. 
+
+--- PAGE 51 ---
+                
+ 
+Page | 51   
+ 
+xi. In the final stage, rockets will be launched and after the Post Flight Analysis (PFA) 
+of the launchers, along with physical inspection of the recovered launchers, 
+winners shall be decided. 
+xii. The teams are advised to generate marketing pitches and collect sponsorships for 
+participating in the competition.  The sponsorship amounts such received, along 
+with the cost break-up shall be included and presented during the Critical Design 
+Review phase. The qualified teams’ details will be displayed on the IN-SPACe.  
+xiii. The details of the payload, along with the specific dimensions, and other 
+requirements shall be included in the Mission Requirements and PDR Guideline 
+Document that will be released in due course. 
+ 
+ The tentative timeline for the Model rocketry India student competition is provided 
+below: 
+S.No. Activity Start Date End Date 
+1.  Registration 24-03-2026 15-04-2026 
+2.  PDR Document Submission 01-05-2026 15-06-2026 
+3.  Preliminary Design Review Completion  16-06-2026 15-07-2026 
+4.  Skill Development Workshop on 
+Amateur Model Rocketry  01-08-2026 16-08-2026 
+5.  Critical Design Review Submission   17-08-2026 20.09.2026  
+6.  Critical Design Review  21-09-2026 10-10-2026 
+7.  Flight Readiness Review & Launch 
+Window October-November 2026 
+8.  Post Flight Review and Results 
+Declaration After completion of Competition 
+ 
+
+--- PAGE 52 ---
+                
+ 
+Page | 52   
+ 
+14 Annexure – 2: Telemetry Format and filenaming 
+I. Telemetry Format to be followed by the teams 
+<TEAM ID>, <TIME STAMPING>, <PACKET COUNT>, <ALTITUDE>, <PRESSURE>, 
+<TEMP>, <VOLTAGE>, <GNSS TIME>, <GNSS LATITUDE>, <GNSS LONGITUDE>, 
+<GNSS ALTITUDE>, <GNSS SATS>, <ACCELEROMETER DATA>, <GYRO SPIN 
+RATE>, <FLIGHT SOFTWARE STATE>, <ANY OPTIONAL DATA> 
+II. Telemetry file naming format 
+Flight_<TEAM_ID>.csv. It is recommended the ground software produce this file, with the correct 
+name, easily from the ground system user interface. 
+S. 
+No. TM Parameter  Function  Resolution /Format 
+1.  <TEAM ID> Team Number 2026 IN-SPACe-XXX 
+2.  <TIME STAMPING> Time since the initial power Seconds 
+3.  <PACKET COUNT> Count of transmitted packets  
+4.  <ALTITUDE> Altitude in units of meters and 
+must be relative to ground 0.1 meters 
+5.  <PRESSURE> Measurement of atmospheric 
+pressure 1 pascal 
+6.  <TEMP> Temperature in Celsius 0.1 o C 
+7.  <VOLTAGE> Voltage of the CAN-7USAT power 
+bus 0.01 Volts 
+8.  <GNSS TIME> Time generated by the GNSS 
+receiver Seconds 
+9.  <GNSS LATITUDE> Latitude generated by the GNSS 
+receiver  
+0.0001 degrees 
+10.  <GNSS LONGITUDE> Longitude generated by the 
+GNSS receiver 0.0001 degrees 
+
+--- PAGE 53 ---
+                
+ 
+Page | 53   
+ 
+11.  <GNSS ALTITUDE> Altitude generated by the GNSS 
+receiver 0.1 meters 
+12.  <GNSS SATS> GNSS satellites connected integer number 
+13.  <ACCELEROMETER 
+DATA> Data received from the 
+gyroscopic sensor i.e acceleration 
+and roll & pitch parameters m/s2 
+ 
+14.  <GYRO SPIN RATE> Spin rate of Mechanical Gyro wrt. 
+CAN-7USAT deg/s 
+ 
+15.  <FLIGHT SOFTWARE 
+STATE> Operating state of the software (Boot, idle, launch 
+detect, deploy, etc.) 
+ 
+16.  <OPTIONAL DATA> Any data coming from the 
+optional mission objectives  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+--- PAGE 54 ---
+                
+ 
+Page | 54   
+ 
+ 
+DOCUMENT CONTROL SHEET  
+01. Security & Distribution Status                                             U: Unrestricted 
+                                                                                             R:  Restricted 
+                                                                                             S:  Secret 
+02.  Projected utility life                                 a) < 2 yrs.    b) 2-5 yrs.     c) > 5 yrs.  
+03. Report status (indicate replacement of old 
+document,  
+       if any)                           New 
+04. Report No.: Doc.No.: IN-
+SPACe.MR.Model.CG.01, Issue No.1, dtd 24.03.2026  05.  Part No. or Vol. No.: 1 
+06. Title & Subtitle: IN-SPACe Model Rocketry India Student Competition 2026 (2nd Edition) 
+– Mission Requirements and Competition Guidelines Document 
+07. Contact no.-080-25082536 08.  Collation (No. of pages):  51 
+09. Personal Author(s) : Nil 
+10. Affiliation of Author(s) other than ISAC:  NA 
+11. Corporate Author(s):  NIL 
+12. Originating Unit: Division/Group:  Promotion Directorate, IN-SPACe 
+13. Date of Submission: 24-03-2026 14.  No. of References:  - 01 
+15. Abstract: This document contains the Guidelines for the IN-SPACe Model Rocketry 
+India Student Competition  
+16. Keywords/Descriptors: 
+Model Rocketry, PDR, Ground Station, Rocket, 
+Launch Pad. 
+  Standardized by Bibliographical 
+Control Agency 
+1. Mission Requirements 
+2. Model Rocketry 
+3. Guidelines Documentation 
+ 
+17. Supplementary Elements: NA 
+     
+         Approved by Chairman, Organizing Committee:       Signature:  
+ 
+ 
+ 
+         Approved by Director Promotion, IN-SPACe:                                              Signature:  R 
