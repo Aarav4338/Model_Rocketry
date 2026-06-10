@@ -1,0 +1,307 @@
+[2026-06-05T10:24:22Z] CORRUPTED PACKET: 1,TELEMETRY,0,0.00,BOOT,BOOT,0.00,0.00,0.00,0,0,0,0,101325.00,24.80,11.40,0,35.333100,-117.803000,8,9.87,0.02,Boot,Boot,105
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:22Z] METRICS: {"checksum_failures": 0, "corruption_rate": 1.0, "frequency_hz": 0.0, "last_packet_time": null, "link_quality": 0.0, "lost_packets": 0, "rejected_packets": 1, "total_packets": 0}
+[2026-06-05T10:24:23Z] CORRUPTED PACKET: 1,TELEMETRY,1,0.25,BOOT,BOOT,0.00,0.00,0.00,0,0,0,0,101325.00,24.80,11.40,0,35.333100,-117.803000,0.00,8,9.73,Boot,Boot,100
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:23Z] METRICS: {"checksum_failures": 0, "corruption_rate": 1.0, "frequency_hz": 0.0, "last_packet_time": null, "link_quality": 0.0, "lost_packets": 0, "rejected_packets": 2, "total_packets": 0}
+[2026-06-05T10:24:23Z] CORRUPTED PACKET: TELEMETRY,2,0.50,BOOT,BOOT,0.00,0.00,0.00,0,0,0,0,101325.00,24.80,11.40,0,35.333100,-117.803000,0.00,8,9.72,0.01,Boot,Boot,103
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:23Z] METRICS: {"checksum_failures": 0, "corruption_rate": 1.0, "frequency_hz": 0.0, "last_packet_time": null, "link_quality": 0.0, "lost_packets": 0, "rejected_packets": 3, "total_packets": 0}
+[2026-06-05T10:24:23Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.75, "frequency_hz": 0.0, "last_packet_time": "2026-06-05T10:24:23Z", "link_quality": 0.25, "lost_packets": 0, "rejected_packets": 3, "total_packets": 1}
+[2026-06-05T10:24:23Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.6, "frequency_hz": 6.815, "last_packet_time": "2026-06-05T10:24:23Z", "link_quality": 0.4, "lost_packets": 0, "rejected_packets": 3, "total_packets": 2}
+[2026-06-05T10:24:23Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.5, "frequency_hz": 5.121, "last_packet_time": "2026-06-05T10:24:23Z", "link_quality": 0.5, "lost_packets": 0, "rejected_packets": 3, "total_packets": 3}
+[2026-06-05T10:24:24Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.429, "frequency_hz": 4.425, "last_packet_time": "2026-06-05T10:24:24Z", "link_quality": 0.571, "lost_packets": 0, "rejected_packets": 3, "total_packets": 4}
+[2026-06-05T10:24:24Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.375, "frequency_hz": 4.21, "last_packet_time": "2026-06-05T10:24:24Z", "link_quality": 0.625, "lost_packets": 0, "rejected_packets": 3, "total_packets": 5}
+[2026-06-05T10:24:24Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.333, "frequency_hz": 3.977, "last_packet_time": "2026-06-05T10:24:24Z", "link_quality": 0.667, "lost_packets": 0, "rejected_packets": 3, "total_packets": 6}
+[2026-06-05T10:24:24Z] CORRUPTED PACKET: !!!CORRUPTED_PAYLOAD!!!
+    - Unexpected field count: 1 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:24Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.4, "frequency_hz": 3.977, "last_packet_time": "2026-06-05T10:24:24Z", "link_quality": 0.6, "lost_packets": 0, "rejected_packets": 4, "total_packets": 6}
+[2026-06-05T10:24:25Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.364, "frequency_hz": 3.833, "last_packet_time": "2026-06-05T10:24:25Z", "link_quality": 0.636, "lost_packets": 1, "rejected_packets": 4, "total_packets": 7}
+[2026-06-05T10:24:25Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.333, "frequency_hz": 3.786, "last_packet_time": "2026-06-05T10:24:25Z", "link_quality": 0.667, "lost_packets": 1, "rejected_packets": 4, "total_packets": 8}
+[2026-06-05T10:24:25Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.308, "frequency_hz": 3.751, "last_packet_time": "2026-06-05T10:24:25Z", "link_quality": 0.692, "lost_packets": 1, "rejected_packets": 4, "total_packets": 9}
+[2026-06-05T10:24:26Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.286, "frequency_hz": 3.725, "last_packet_time": "2026-06-05T10:24:26Z", "link_quality": 0.714, "lost_packets": 1, "rejected_packets": 4, "total_packets": 10}
+[2026-06-05T10:24:26Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.267, "frequency_hz": 3.701, "last_packet_time": "2026-06-05T10:24:26Z", "link_quality": 0.733, "lost_packets": 1, "rejected_packets": 4, "total_packets": 11}
+[2026-06-05T10:24:26Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.25, "frequency_hz": 3.681, "last_packet_time": "2026-06-05T10:24:26Z", "link_quality": 0.75, "lost_packets": 1, "rejected_packets": 4, "total_packets": 12}
+[2026-06-05T10:24:26Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.235, "frequency_hz": 3.967, "last_packet_time": "2026-06-05T10:24:26Z", "link_quality": 0.765, "lost_packets": 1, "rejected_packets": 4, "total_packets": 13}
+[2026-06-05T10:24:26Z] CORRUPTED PACKET: 1,TELEMETRY,18,4.50,BOOT,BOOT,0.00,0.00,0.00,0,0,0,101325.00,24.80,11.40,4,35.333100,-117.803000,0.00,8,9.86,0.02,Boot,Boot,84
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:26Z] METRICS: {"checksum_failures": 0, "corruption_rate": 0.278, "frequency_hz": 3.967, "last_packet_time": "2026-06-05T10:24:26Z", "link_quality": 0.722, "lost_packets": 1, "rejected_packets": 5, "total_packets": 13}
+[2026-06-05T10:24:27Z] CORRUPTED PACKET: 1,TELEMETRY,19,4.75,BOOT,BOOT,0.00,0.00,0.00,0,0,0,0,101325.00,24.80,11.40,4,35.333100,-117.803000,0.00,8,9.87,0.01,Boot,Boot,228
+    - Checksum mismatch
+[2026-06-05T10:24:27Z] METRICS: {"checksum_failures": 1, "corruption_rate": 0.316, "frequency_hz": 3.967, "last_packet_time": "2026-06-05T10:24:26Z", "link_quality": 0.684, "lost_packets": 1, "rejected_packets": 6, "total_packets": 13}
+[2026-06-05T10:24:27Z] METRICS: {"checksum_failures": 1, "corruption_rate": 0.3, "frequency_hz": 3.382, "last_packet_time": "2026-06-05T10:24:27Z", "link_quality": 0.7, "lost_packets": 3, "rejected_packets": 6, "total_packets": 14}
+[2026-06-05T10:24:27Z] CORRUPTED PACKET: 1,TELEMETRY,21,5.25HBOOT,BOOT,0.00,0.00,0.00,0,0,0,0,101325.00,24.80,11.40,5,35.333100,-117.803000,0.00,8,9.91,0.03,Boot,Boot,91
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:27Z] METRICS: {"checksum_failures": 1, "corruption_rate": 0.333, "frequency_hz": 3.382, "last_packet_time": "2026-06-05T10:24:27Z", "link_quality": 0.667, "lost_packets": 3, "rejected_packets": 7, "total_packets": 14}
+[2026-06-05T10:24:28Z] CORRUPTED PACKET: 1,TELEMETRY,22,5.50,BOOT,BOOT,B.00,0.00,0.00,0,0,0,0,101325.00,24.80,11.40,5,35.333100,-117.803000,0.00,8,9.91,0.02,Boot,Boot,91
+    - Checksum mismatch
+[2026-06-05T10:24:28Z] METRICS: {"checksum_failures": 2, "corruption_rate": 0.364, "frequency_hz": 3.382, "last_packet_time": "2026-06-05T10:24:27Z", "link_quality": 0.636, "lost_packets": 3, "rejected_packets": 8, "total_packets": 14}
+[2026-06-05T10:24:28Z] CORRUPTED PACKET: 1,TELEMETRY,23,5.75,BOOT,BOOT,0.00,0.00,0.00,0<0,0,0,101325.00,24.80,11.40,5,35.333100,-117.803000,0.00,8,9.87,0.02,Boot,Boot,90
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:28Z] METRICS: {"checksum_failures": 2, "corruption_rate": 0.391, "frequency_hz": 3.382, "last_packet_time": "2026-06-05T10:24:27Z", "link_quality": 0.609, "lost_packets": 3, "rejected_packets": 9, "total_packets": 14}
+[2026-06-05T10:24:28Z] METRICS: {"checksum_failures": 2, "corruption_rate": 0.375, "frequency_hz": 2.828, "last_packet_time": "2026-06-05T10:24:28Z", "link_quality": 0.625, "lost_packets": 6, "rejected_packets": 9, "total_packets": 15}
+[2026-06-05T10:24:28Z] CORRUPTED PACKET: 1,TELEMETRY,26,6.50,BOOT,BOOT,0.00,0.00,0.00,0,0,0,0,101325.00,24.80,11.40,6,35.333100,-117.803000,0.00,8,9.88,0.01,Boot,Boot$84
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:28Z] METRICS: {"checksum_failures": 2, "corruption_rate": 0.4, "frequency_hz": 2.828, "last_packet_time": "2026-06-05T10:24:28Z", "link_quality": 0.6, "lost_packets": 6, "rejected_packets": 10, "total_packets": 15}
+[2026-06-05T10:24:29Z] CORRUPTED PACKET: 1,TELEMETRY,27,6.75,BOOT,BOOT,0.00,0.00,0.00,0,0,0,0,101325.00,24.80,11.40,6,35.3331`0,-117.803000,0.00,8,9.87,0.02,Boot,Boot,94
+    - Checksum mismatch
+[2026-06-05T10:24:29Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.423, "frequency_hz": 2.828, "last_packet_time": "2026-06-05T10:24:28Z", "link_quality": 0.577, "lost_packets": 6, "rejected_packets": 11, "total_packets": 15}
+[2026-06-05T10:24:29Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.407, "frequency_hz": 2.585, "last_packet_time": "2026-06-05T10:24:29Z", "link_quality": 0.593, "lost_packets": 9, "rejected_packets": 11, "total_packets": 16}
+[2026-06-05T10:24:29Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.393, "frequency_hz": 2.624, "last_packet_time": "2026-06-05T10:24:29Z", "link_quality": 0.607, "lost_packets": 9, "rejected_packets": 11, "total_packets": 17}
+[2026-06-05T10:24:30Z] CORRUPTED PACKET: 1,TELEMETRY,30,7.50,BOOT,BOOT,0.00,0.00,0.00,0,0,0,101325.00,24.80,11.40,7,35.333100,-117.803000,0.00,8,9.91,0.02,Boot,Boot,88
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:30Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.414, "frequency_hz": 2.624, "last_packet_time": "2026-06-05T10:24:29Z", "link_quality": 0.586, "lost_packets": 9, "rejected_packets": 12, "total_packets": 17}
+[2026-06-05T10:24:30Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.4, "frequency_hz": 2.536, "last_packet_time": "2026-06-05T10:24:30Z", "link_quality": 0.6, "lost_packets": 10, "rejected_packets": 12, "total_packets": 18}
+[2026-06-05T10:24:30Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.387, "frequency_hz": 2.663, "last_packet_time": "2026-06-05T10:24:30Z", "link_quality": 0.613, "lost_packets": 10, "rejected_packets": 12, "total_packets": 19}
+[2026-06-05T10:24:30Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.375, "frequency_hz": 2.696, "last_packet_time": "2026-06-05T10:24:30Z", "link_quality": 0.625, "lost_packets": 10, "rejected_packets": 12, "total_packets": 20}
+[2026-06-05T10:24:31Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.364, "frequency_hz": 2.715, "last_packet_time": "2026-06-05T10:24:31Z", "link_quality": 0.636, "lost_packets": 10, "rejected_packets": 12, "total_packets": 21}
+[2026-06-05T10:24:31Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.353, "frequency_hz": 2.734, "last_packet_time": "2026-06-05T10:24:31Z", "link_quality": 0.647, "lost_packets": 10, "rejected_packets": 12, "total_packets": 22}
+[2026-06-05T10:24:31Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.343, "frequency_hz": 2.759, "last_packet_time": "2026-06-05T10:24:31Z", "link_quality": 0.657, "lost_packets": 10, "rejected_packets": 12, "total_packets": 23}
+[2026-06-05T10:24:32Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.333, "frequency_hz": 2.773, "last_packet_time": "2026-06-05T10:24:32Z", "link_quality": 0.667, "lost_packets": 10, "rejected_packets": 12, "total_packets": 24}
+[2026-06-05T10:24:32Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.324, "frequency_hz": 2.871, "last_packet_time": "2026-06-05T10:24:32Z", "link_quality": 0.676, "lost_packets": 10, "rejected_packets": 12, "total_packets": 25}
+[2026-06-05T10:24:32Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.316, "frequency_hz": 2.887, "last_packet_time": "2026-06-05T10:24:32Z", "link_quality": 0.684, "lost_packets": 10, "rejected_packets": 12, "total_packets": 26}
+[2026-06-05T10:24:32Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.308, "frequency_hz": 2.904, "last_packet_time": "2026-06-05T10:24:32Z", "link_quality": 0.692, "lost_packets": 10, "rejected_packets": 12, "total_packets": 27}
+[2026-06-05T10:24:32Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.3, "frequency_hz": 2.925, "last_packet_time": "2026-06-05T10:24:32Z", "link_quality": 0.7, "lost_packets": 10, "rejected_packets": 12, "total_packets": 28}
+[2026-06-05T10:24:33Z] CORRUPTED PACKET: #,TELEMETRY,42,10.50,BOOT,BOOT,0.00,0.00,0.00,1,0,0,0,101325.00,24.80,11.40,10,35.333100,-117.803000,0.00,8,9.87,0.02,Boot,Boot,91
+    - Unexpected field count: 26 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:33Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.317, "frequency_hz": 2.925, "last_packet_time": "2026-06-05T10:24:32Z", "link_quality": 0.683, "lost_packets": 10, "rejected_packets": 13, "total_packets": 28}
+[2026-06-05T10:24:33Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.31, "frequency_hz": 2.861, "last_packet_time": "2026-06-05T10:24:33Z", "link_quality": 0.69, "lost_packets": 11, "rejected_packets": 13, "total_packets": 29}
+[2026-06-05T10:24:33Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.302, "frequency_hz": 2.876, "last_packet_time": "2026-06-05T10:24:33Z", "link_quality": 0.698, "lost_packets": 11, "rejected_packets": 13, "total_packets": 30}
+[2026-06-05T10:24:33Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.295, "frequency_hz": 2.96, "last_packet_time": "2026-06-05T10:24:33Z", "link_quality": 0.705, "lost_packets": 11, "rejected_packets": 13, "total_packets": 31}
+[2026-06-05T10:24:34Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.289, "frequency_hz": 2.976, "last_packet_time": "2026-06-05T10:24:34Z", "link_quality": 0.711, "lost_packets": 11, "rejected_packets": 13, "total_packets": 32}
+[2026-06-05T10:24:34Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.283, "frequency_hz": 2.996, "last_packet_time": "2026-06-05T10:24:34Z", "link_quality": 0.717, "lost_packets": 11, "rejected_packets": 13, "total_packets": 33}
+[2026-06-05T10:24:34Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.277, "frequency_hz": 3.008, "last_packet_time": "2026-06-05T10:24:34Z", "link_quality": 0.723, "lost_packets": 11, "rejected_packets": 13, "total_packets": 34}
+[2026-06-05T10:24:34Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.271, "frequency_hz": 3.02, "last_packet_time": "2026-06-05T10:24:34Z", "link_quality": 0.729, "lost_packets": 11, "rejected_packets": 13, "total_packets": 35}
+[2026-06-05T10:24:35Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.265, "frequency_hz": 3.032, "last_packet_time": "2026-06-05T10:24:35Z", "link_quality": 0.735, "lost_packets": 11, "rejected_packets": 13, "total_packets": 36}
+[2026-06-05T10:24:35Z] CORRUPTED PACKET: !!!CORRUPTED_PAYLOAD!!!
+    - Unexpected field count: 1 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:35Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.28, "frequency_hz": 3.032, "last_packet_time": "2026-06-05T10:24:35Z", "link_quality": 0.72, "lost_packets": 11, "rejected_packets": 14, "total_packets": 36}
+[2026-06-05T10:24:35Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.275, "frequency_hz": 2.976, "last_packet_time": "2026-06-05T10:24:35Z", "link_quality": 0.725, "lost_packets": 12, "rejected_packets": 14, "total_packets": 37}
+[2026-06-05T10:24:38Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.269, "frequency_hz": 2.577, "last_packet_time": "2026-06-05T10:24:38Z", "link_quality": 0.731, "lost_packets": 12, "rejected_packets": 14, "total_packets": 38}
+[2026-06-05T10:24:38Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.264, "frequency_hz": 2.635, "last_packet_time": "2026-06-05T10:24:38Z", "link_quality": 0.736, "lost_packets": 12, "rejected_packets": 14, "total_packets": 39}
+[2026-06-05T10:24:38Z] CORRUPTED PACKET: !!!CORRUPTED_PAYLOAD!!!
+    - Unexpected field count: 1 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:38Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.278, "frequency_hz": 2.635, "last_packet_time": "2026-06-05T10:24:38Z", "link_quality": 0.722, "lost_packets": 12, "rejected_packets": 15, "total_packets": 39}
+[2026-06-05T10:24:38Z] CORRUPTED PACKET: 1,T0LEMETRY,56,14.00,ASCENT,ASCENT,18.25,11.69,-0.05,1,0,0,0,101322.81,24.78,11.37,14,35.333106,-117.803006,18.25,8,9.74,0.02,Ascent,Ascent,73
+    - Unexpected field count: 26 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:38Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.291, "frequency_hz": 2.635, "last_packet_time": "2026-06-05T10:24:38Z", "link_quality": 0.709, "lost_packets": 12, "rejected_packets": 16, "total_packets": 39}
+[2026-06-05T10:24:39Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.286, "frequency_hz": 2.559, "last_packet_time": "2026-06-05T10:24:39Z", "link_quality": 0.714, "lost_packets": 14, "rejected_packets": 16, "total_packets": 40}
+[2026-06-05T10:24:39Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.281, "frequency_hz": 2.576, "last_packet_time": "2026-06-05T10:24:39Z", "link_quality": 0.719, "lost_packets": 14, "rejected_packets": 16, "total_packets": 41}
+[2026-06-05T10:24:39Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.276, "frequency_hz": 2.592, "last_packet_time": "2026-06-05T10:24:39Z", "link_quality": 0.724, "lost_packets": 14, "rejected_packets": 16, "total_packets": 42}
+[2026-06-05T10:24:39Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.271, "frequency_hz": 2.607, "last_packet_time": "2026-06-05T10:24:39Z", "link_quality": 0.729, "lost_packets": 14, "rejected_packets": 16, "total_packets": 43}
+[2026-06-05T10:24:39Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.267, "frequency_hz": 2.661, "last_packet_time": "2026-06-05T10:24:39Z", "link_quality": 0.733, "lost_packets": 14, "rejected_packets": 16, "total_packets": 44}
+[2026-06-05T10:24:40Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.262, "frequency_hz": 2.675, "last_packet_time": "2026-06-05T10:24:40Z", "link_quality": 0.738, "lost_packets": 14, "rejected_packets": 16, "total_packets": 45}
+[2026-06-05T10:24:40Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.258, "frequency_hz": 2.689, "last_packet_time": "2026-06-05T10:24:40Z", "link_quality": 0.742, "lost_packets": 14, "rejected_packets": 16, "total_packets": 46}
+[2026-06-05T10:24:40Z] CORRUPTED PACKET: 1,TELEMETRY,64,16.00,ASCENT,ASCENT,37.73,-0.05,1,0,0,0,101320.47,24.76,11.33,16,35.333114,-117.803014,37.73,8,9.73,0.02,Ascent,Ascent,123
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:40Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.27, "frequency_hz": 2.689, "last_packet_time": "2026-06-05T10:24:40Z", "link_quality": 0.73, "lost_packets": 14, "rejected_packets": 17, "total_packets": 46}
+[2026-06-05T10:24:41Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.266, "frequency_hz": 2.659, "last_packet_time": "2026-06-05T10:24:41Z", "link_quality": 0.734, "lost_packets": 15, "rejected_packets": 17, "total_packets": 47}
+[2026-06-05T10:24:41Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.262, "frequency_hz": 2.672, "last_packet_time": "2026-06-05T10:24:41Z", "link_quality": 0.738, "lost_packets": 15, "rejected_packets": 17, "total_packets": 48}
+[2026-06-05T10:24:41Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.258, "frequency_hz": 2.685, "last_packet_time": "2026-06-05T10:24:41Z", "link_quality": 0.742, "lost_packets": 15, "rejected_packets": 17, "total_packets": 49}
+[2026-06-05T10:24:41Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.254, "frequency_hz": 2.697, "last_packet_time": "2026-06-05T10:24:41Z", "link_quality": 0.746, "lost_packets": 15, "rejected_packets": 17, "total_packets": 50}
+[2026-06-05T10:24:42Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.25, "frequency_hz": 2.709, "last_packet_time": "2026-06-05T10:24:42Z", "link_quality": 0.75, "lost_packets": 15, "rejected_packets": 17, "total_packets": 51}
+[2026-06-05T10:24:42Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.246, "frequency_hz": 2.72, "last_packet_time": "2026-06-05T10:24:42Z", "link_quality": 0.754, "lost_packets": 15, "rejected_packets": 17, "total_packets": 52}
+[2026-06-05T10:24:42Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.243, "frequency_hz": 2.732, "last_packet_time": "2026-06-05T10:24:42Z", "link_quality": 0.757, "lost_packets": 15, "rejected_packets": 17, "total_packets": 53}
+[2026-06-05T10:24:42Z] METRICS: {"checksum_failures": 3, "corruption_rate": 0.239, "frequency_hz": 2.777, "last_packet_time": "2026-06-05T10:24:42Z", "link_quality": 0.761, "lost_packets": 15, "rejected_packets": 17, "total_packets": 54}
+[2026-06-05T10:24:43Z] CORRUPTED PACKET: 1,TELEMETRY,7.,18.25,ASCENT,ASCENT,46.15,1.00,-0.05,1,0,0,0,101319.46,24.75,11.29,18,35.333123,-117.803023,46.15,8,9.72,0.01,Ascent,Ascent,115
+    - Checksum mismatch
+[2026-06-05T10:24:43Z] METRICS: {"checksum_failures": 4, "corruption_rate": 0.25, "frequency_hz": 2.777, "last_packet_time": "2026-06-05T10:24:42Z", "link_quality": 0.75, "lost_packets": 15, "rejected_packets": 18, "total_packets": 54}
+[2026-06-05T10:24:43Z] CORRUPTED PACKET: 1,TELEMETRY,74,18.50,ASCENT,ASCENT,46.39,1.00,-0.05,1,0,0,0,101319.43,24.75,11.28,18,35.333124,-117.803024,46.39{8,9.86,0.02,Ascent,Ascent,122
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:43Z] METRICS: {"checksum_failures": 4, "corruption_rate": 0.26, "frequency_hz": 2.777, "last_packet_time": "2026-06-05T10:24:42Z", "link_quality": 0.74, "lost_packets": 15, "rejected_packets": 19, "total_packets": 54}
+[2026-06-05T10:24:43Z] METRICS: {"checksum_failures": 4, "corruption_rate": 0.257, "frequency_hz": 2.708, "last_packet_time": "2026-06-05T10:24:43Z", "link_quality": 0.743, "lost_packets": 17, "rejected_packets": 19, "total_packets": 55}
+[2026-06-05T10:24:43Z] METRICS: {"checksum_failures": 4, "corruption_rate": 0.253, "frequency_hz": 2.72, "last_packet_time": "2026-06-05T10:24:43Z", "link_quality": 0.747, "lost_packets": 17, "rejected_packets": 19, "total_packets": 56}
+[2026-06-05T10:24:44Z] METRICS: {"checksum_failures": 4, "corruption_rate": 0.25, "frequency_hz": 2.73, "last_packet_time": "2026-06-05T10:24:44Z", "link_quality": 0.75, "lost_packets": 17, "rejected_packets": 19, "total_packets": 57}
+[2026-06-05T10:24:44Z] CORRUPTED PACKET: 1,TELEMETRY,78,19.50,ASCENT,ASCENT,47.38,1.00,-0.05,1,0,0,0,101319.31,24.75,11.26,19,35.333128,-117.803028,47.38,8,9.84,0.01,Ascent,Ascent,63
+    - Checksum mismatch
+[2026-06-05T10:24:44Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.26, "frequency_hz": 2.73, "last_packet_time": "2026-06-05T10:24:44Z", "link_quality": 0.74, "lost_packets": 17, "rejected_packets": 20, "total_packets": 57}
+[2026-06-05T10:24:44Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.256, "frequency_hz": 2.703, "last_packet_time": "2026-06-05T10:24:44Z", "link_quality": 0.744, "lost_packets": 18, "rejected_packets": 20, "total_packets": 58}
+[2026-06-05T10:24:45Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.253, "frequency_hz": 2.713, "last_packet_time": "2026-06-05T10:24:45Z", "link_quality": 0.747, "lost_packets": 18, "rejected_packets": 20, "total_packets": 59}
+[2026-06-05T10:24:45Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.25, "frequency_hz": 2.753, "last_packet_time": "2026-06-05T10:24:45Z", "link_quality": 0.75, "lost_packets": 18, "rejected_packets": 20, "total_packets": 60}
+[2026-06-05T10:24:45Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.247, "frequency_hz": 2.763, "last_packet_time": "2026-06-05T10:24:45Z", "link_quality": 0.753, "lost_packets": 18, "rejected_packets": 20, "total_packets": 61}
+[2026-06-05T10:24:45Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.244, "frequency_hz": 2.772, "last_packet_time": "2026-06-05T10:24:45Z", "link_quality": 0.756, "lost_packets": 18, "rejected_packets": 20, "total_packets": 62}
+[2026-06-05T10:24:46Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.241, "frequency_hz": 2.781, "last_packet_time": "2026-06-05T10:24:46Z", "link_quality": 0.759, "lost_packets": 18, "rejected_packets": 20, "total_packets": 63}
+[2026-06-05T10:24:46Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.238, "frequency_hz": 2.79, "last_packet_time": "2026-06-05T10:24:46Z", "link_quality": 0.762, "lost_packets": 18, "rejected_packets": 20, "total_packets": 64}
+[2026-06-05T10:24:46Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.235, "frequency_hz": 2.798, "last_packet_time": "2026-06-05T10:24:46Z", "link_quality": 0.765, "lost_packets": 18, "rejected_packets": 20, "total_packets": 65}
+[2026-06-05T10:24:46Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.233, "frequency_hz": 2.807, "last_packet_time": "2026-06-05T10:24:46Z", "link_quality": 0.767, "lost_packets": 18, "rejected_packets": 20, "total_packets": 66}
+[2026-06-05T10:24:46Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.23, "frequency_hz": 2.845, "last_packet_time": "2026-06-05T10:24:46Z", "link_quality": 0.77, "lost_packets": 18, "rejected_packets": 20, "total_packets": 67}
+[2026-06-05T10:24:47Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.227, "frequency_hz": 2.854, "last_packet_time": "2026-06-05T10:24:47Z", "link_quality": 0.773, "lost_packets": 18, "rejected_packets": 20, "total_packets": 68}
+[2026-06-05T10:24:47Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.225, "frequency_hz": 2.862, "last_packet_time": "2026-06-05T10:24:47Z", "link_quality": 0.775, "lost_packets": 18, "rejected_packets": 20, "total_packets": 69}
+[2026-06-05T10:24:47Z] CORRUPTED PACKET: 1,TELEMETQY,91,22.75,ASCENT,ASCENT,50.59,1.00,-0.05,1,0,0,0,101318.93,24.75,11.20,22,35.333141,-117.803041,50.59,8,9.82,0.03,Ascent,Ascent,119
+    - Unexpected field count: 26 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:47Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.233, "frequency_hz": 2.862, "last_packet_time": "2026-06-05T10:24:47Z", "link_quality": 0.767, "lost_packets": 18, "rejected_packets": 21, "total_packets": 69}
+[2026-06-05T10:24:48Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.231, "frequency_hz": 2.836, "last_packet_time": "2026-06-05T10:24:48Z", "link_quality": 0.769, "lost_packets": 19, "rejected_packets": 21, "total_packets": 70}
+[2026-06-05T10:24:48Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.228, "frequency_hz": 2.843, "last_packet_time": "2026-06-05T10:24:48Z", "link_quality": 0.772, "lost_packets": 19, "rejected_packets": 21, "total_packets": 71}
+[2026-06-05T10:24:48Z] CORRUPTED PACKET: 1MTELEMETRY,94,23.50,ASCENT,ASCENT,51.33,1.00,-0.05,1,0,0,0,101318.84,24.75,11.18,23,35.333144,-117.803044,51.33,8,9.77,0.01,Ascent,Ascent,112
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:48Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.237, "frequency_hz": 2.843, "last_packet_time": "2026-06-05T10:24:48Z", "link_quality": 0.763, "lost_packets": 19, "rejected_packets": 22, "total_packets": 71}
+[2026-06-05T10:24:48Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.234, "frequency_hz": 2.847, "last_packet_time": "2026-06-05T10:24:48Z", "link_quality": 0.766, "lost_packets": 20, "rejected_packets": 22, "total_packets": 72}
+[2026-06-05T10:24:48Z] CORRUPTED PACKET: !!!CORRUPTED_PAYLOAD!!!
+    - Unexpected field count: 1 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:48Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.242, "frequency_hz": 2.847, "last_packet_time": "2026-06-05T10:24:48Z", "link_quality": 0.758, "lost_packets": 20, "rejected_packets": 23, "total_packets": 72}
+[2026-06-05T10:24:49Z] CORRUPTED PACKET: !!!CORRUPTED_PAYLOAD!!!
+    - Unexpected field count: 1 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:49Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.25, "frequency_hz": 2.847, "last_packet_time": "2026-06-05T10:24:48Z", "link_quality": 0.75, "lost_packets": 20, "rejected_packets": 24, "total_packets": 72}
+[2026-06-05T10:24:49Z] CORRUPTED PACKET: 1,TELEMETRY,98,24.50,ASCENT,ASCENT,52.32,1.00,-0.05,1,0,0,101318.72,24.75,11.16,24,35.333148,-117.803048,52.32,8,9.83,0.03,Ascent,Ascent,114
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:49Z] METRICS: {"checksum_failures": 5, "corruption_rate": 0.258, "frequency_hz": 2.847, "last_packet_time": "2026-06-05T10:24:48Z", "link_quality": 0.742, "lost_packets": 20, "rejected_packets": 25, "total_packets": 72}
+[2026-06-05T10:24:49Z] CORRUPTED PACKET: 1,TELEMETRY,99,24.75,ASCENT,ASCENT,52.57,1.00,-0.05,1,0,0,0,101318.69,24.75,11.16,24,35.333149,-117.803049,52.57,8,9.90,0.01,Ascent,Ascent,105
+    - Checksum mismatch
+[2026-06-05T10:24:49Z] METRICS: {"checksum_failures": 6, "corruption_rate": 0.265, "frequency_hz": 2.847, "last_packet_time": "2026-06-05T10:24:48Z", "link_quality": 0.735, "lost_packets": 20, "rejected_packets": 26, "total_packets": 72}
+[2026-06-05T10:24:50Z] METRICS: {"checksum_failures": 6, "corruption_rate": 0.263, "frequency_hz": 2.736, "last_packet_time": "2026-06-05T10:24:50Z", "link_quality": 0.737, "lost_packets": 24, "rejected_packets": 26, "total_packets": 73}
+[2026-06-05T10:24:50Z] CORRUPTED PACKET: 1,TELEMETRY,101<25.25,ASCENT,ASCENT,53.06,1.00,-0.05,1,0,0,0,101318.63,24.75,11.14,25,35.333151,-117.803051,53.06,8,9.80,0.03,Ascent,Ascent,64
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:50Z] METRICS: {"checksum_failures": 6, "corruption_rate": 0.27, "frequency_hz": 2.736, "last_packet_time": "2026-06-05T10:24:50Z", "link_quality": 0.73, "lost_packets": 24, "rejected_packets": 27, "total_packets": 73}
+[2026-06-05T10:24:50Z] CORRUPTED PACKET: !!!CORRUPTED_PAYLOAD!!!
+    - Unexpected field count: 1 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:50Z] METRICS: {"checksum_failures": 6, "corruption_rate": 0.277, "frequency_hz": 2.736, "last_packet_time": "2026-06-05T10:24:50Z", "link_quality": 0.723, "lost_packets": 24, "rejected_packets": 28, "total_packets": 73}
+[2026-06-05T10:24:50Z] METRICS: {"checksum_failures": 6, "corruption_rate": 0.275, "frequency_hz": 2.687, "last_packet_time": "2026-06-05T10:24:50Z", "link_quality": 0.725, "lost_packets": 26, "rejected_packets": 28, "total_packets": 74}
+[2026-06-05T10:24:50Z] METRICS: {"checksum_failures": 6, "corruption_rate": 0.272, "frequency_hz": 2.72, "last_packet_time": "2026-06-05T10:24:50Z", "link_quality": 0.728, "lost_packets": 26, "rejected_packets": 28, "total_packets": 75}
+[2026-06-05T10:24:51Z] METRICS: {"checksum_failures": 6, "corruption_rate": 0.269, "frequency_hz": 2.728, "last_packet_time": "2026-06-05T10:24:51Z", "link_quality": 0.731, "lost_packets": 26, "rejected_packets": 28, "total_packets": 76}
+[2026-06-05T10:24:51Z] METRICS: {"checksum_failures": 6, "corruption_rate": 0.267, "frequency_hz": 2.736, "last_packet_time": "2026-06-05T10:24:51Z", "link_quality": 0.733, "lost_packets": 26, "rejected_packets": 28, "total_packets": 77}
+[2026-06-05T10:24:51Z] CORRUPTED PACKET: 1,TEL$METRY,107,26.75,ASCENT,ASCENT,54.54,1.00,-0.05,1,0,0,0,101318.46,24.75,11.12,26,35.333157,-117.803057,54.54,8,9.86,0.02,Ascent,Ascent,69
+    - Unexpected field count: 26 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:51Z] METRICS: {"checksum_failures": 6, "corruption_rate": 0.274, "frequency_hz": 2.736, "last_packet_time": "2026-06-05T10:24:51Z", "link_quality": 0.726, "lost_packets": 26, "rejected_packets": 29, "total_packets": 77}
+[2026-06-05T10:24:52Z] METRICS: {"checksum_failures": 6, "corruption_rate": 0.271, "frequency_hz": 2.716, "last_packet_time": "2026-06-05T10:24:52Z", "link_quality": 0.729, "lost_packets": 27, "rejected_packets": 29, "total_packets": 78}
+[2026-06-05T10:24:52Z] METRICS: {"checksum_failures": 6, "corruption_rate": 0.269, "frequency_hz": 2.724, "last_packet_time": "2026-06-05T10:24:52Z", "link_quality": 0.731, "lost_packets": 27, "rejected_packets": 29, "total_packets": 79}
+[2026-06-05T10:24:52Z] METRICS: {"checksum_failures": 6, "corruption_rate": 0.266, "frequency_hz": 2.732, "last_packet_time": "2026-06-05T10:24:52Z", "link_quality": 0.734, "lost_packets": 27, "rejected_packets": 29, "total_packets": 80}
+[2026-06-05T10:24:52Z] METRICS: {"checksum_failures": 6, "corruption_rate": 0.264, "frequency_hz": 2.739, "last_packet_time": "2026-06-05T10:24:52Z", "link_quality": 0.736, "lost_packets": 27, "rejected_packets": 29, "total_packets": 81}
+[2026-06-05T10:24:53Z] METRICS: {"checksum_failures": 6, "corruption_rate": 0.261, "frequency_hz": 2.746, "last_packet_time": "2026-06-05T10:24:53Z", "link_quality": 0.739, "lost_packets": 27, "rejected_packets": 29, "total_packets": 82}
+[2026-06-05T10:24:53Z] CORRUPTED PACKET: 1,TELEMETRY,113,28.25,ASCENT,ASCENT,56.02,1.00,-0.d5,1,0,0,0,101318.28,24.74,11.09,28,35.333163,-117.803063,56.02,8,9.87,0.03,Ascent,Ascent,70
+    - Checksum mismatch
+[2026-06-05T10:24:53Z] METRICS: {"checksum_failures": 7, "corruption_rate": 0.268, "frequency_hz": 2.746, "last_packet_time": "2026-06-05T10:24:53Z", "link_quality": 0.732, "lost_packets": 27, "rejected_packets": 30, "total_packets": 82}
+[2026-06-05T10:24:53Z] METRICS: {"checksum_failures": 7, "corruption_rate": 0.265, "frequency_hz": 2.75, "last_packet_time": "2026-06-05T10:24:53Z", "link_quality": 0.735, "lost_packets": 28, "rejected_packets": 30, "total_packets": 83}
+[2026-06-05T10:24:53Z] METRICS: {"checksum_failures": 7, "corruption_rate": 0.263, "frequency_hz": 2.757, "last_packet_time": "2026-06-05T10:24:53Z", "link_quality": 0.737, "lost_packets": 28, "rejected_packets": 30, "total_packets": 84}
+[2026-06-05T10:24:54Z] METRICS: {"checksum_failures": 7, "corruption_rate": 0.261, "frequency_hz": 2.764, "last_packet_time": "2026-06-05T10:24:54Z", "link_quality": 0.739, "lost_packets": 28, "rejected_packets": 30, "total_packets": 85}
+[2026-06-05T10:24:54Z] METRICS: {"checksum_failures": 7, "corruption_rate": 0.259, "frequency_hz": 2.771, "last_packet_time": "2026-06-05T10:24:54Z", "link_quality": 0.741, "lost_packets": 28, "rejected_packets": 30, "total_packets": 86}
+[2026-06-05T10:24:54Z] CORRUPTED PACKET: !!!CORRUPTED_PAYLOAD!!!
+    - Unexpected field count: 1 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:24:54Z] METRICS: {"checksum_failures": 7, "corruption_rate": 0.265, "frequency_hz": 2.771, "last_packet_time": "2026-06-05T10:24:54Z", "link_quality": 0.735, "lost_packets": 28, "rejected_packets": 31, "total_packets": 86}
+[2026-06-05T10:24:54Z] METRICS: {"checksum_failures": 7, "corruption_rate": 0.263, "frequency_hz": 2.754, "last_packet_time": "2026-06-05T10:24:54Z", "link_quality": 0.737, "lost_packets": 29, "rejected_packets": 31, "total_packets": 87}
+[2026-06-05T10:24:55Z] METRICS: {"checksum_failures": 7, "corruption_rate": 0.261, "frequency_hz": 2.761, "last_packet_time": "2026-06-05T10:24:55Z", "link_quality": 0.739, "lost_packets": 29, "rejected_packets": 31, "total_packets": 88}
+[2026-06-05T10:24:57Z] CORRUPTED PACKET: 1,TELEMETRY,121,30.25,ASCENT,ASCENT,58.00,1.00,-0.05,1,0,0,0,101318&04,24.74,11.04,30,35.333171,-117.803071,58.00,8,9.77,0.03,Ascent,Ascent,75
+    - Checksum mismatch
+[2026-06-05T10:24:57Z] METRICS: {"checksum_failures": 8, "corruption_rate": 0.267, "frequency_hz": 2.761, "last_packet_time": "2026-06-05T10:24:55Z", "link_quality": 0.733, "lost_packets": 29, "rejected_packets": 32, "total_packets": 88}
+[2026-06-05T10:24:57Z] CORRUPTED PACKET: 1,TELEMETRY,122,30.50,ASCENT,ASCENT,0.25,1.0?,-0.05,1,0,0,0,101324.97,24.80,11.04,30,35.333172,-117.803072,0.25,8,9.84,0.01,Ascent,Ascent,74
+    - Checksum mismatch
+[2026-06-05T10:24:57Z] METRICS: {"checksum_failures": 9, "corruption_rate": 0.273, "frequency_hz": 2.761, "last_packet_time": "2026-06-05T10:24:55Z", "link_quality": 0.727, "lost_packets": 29, "rejected_packets": 33, "total_packets": 88}
+[2026-06-05T10:24:57Z] METRICS: {"checksum_failures": 9, "corruption_rate": 0.27, "frequency_hz": 2.584, "last_packet_time": "2026-06-05T10:24:57Z", "link_quality": 0.73, "lost_packets": 31, "rejected_packets": 33, "total_packets": 89}
+[2026-06-05T10:24:58Z] CORRUPTED PACKET: 1,TELEMETRY,124,31.00,ASCENT,ASCENT,0.74,1.00,-0.05,1,0,0,0,10j324.91,24.80,11.03,31,35.333174,-117.803074,0.74,8,9.83,0.02,Ascent,Ascent,76
+    - Checksum mismatch
+[2026-06-05T10:24:58Z] METRICS: {"checksum_failures": 10, "corruption_rate": 0.276, "frequency_hz": 2.584, "last_packet_time": "2026-06-05T10:24:57Z", "link_quality": 0.724, "lost_packets": 31, "rejected_packets": 34, "total_packets": 89}
+[2026-06-05T10:24:58Z] CORRUPTED PACKET: 1,TELEMETRY,125,31.25,ASCENT,ASCENT,0.99,1.00,-0.0x,1,0,0,0,101324.88,24.80,11.03,31,35.333175,-117.803075,0.99,8,9.74,0.03,Ascent,Ascent,75
+    - Checksum mismatch
+[2026-06-05T10:24:58Z] METRICS: {"checksum_failures": 11, "corruption_rate": 0.282, "frequency_hz": 2.584, "last_packet_time": "2026-06-05T10:24:57Z", "link_quality": 0.718, "lost_packets": 31, "rejected_packets": 35, "total_packets": 89}
+[2026-06-05T10:24:58Z] CORRUPTED PACKET: 1,TELEMETRY,12d,31.50,ASCENT,ASCENT,1.23,1.00,-0.05,1,0,0,0,101324.85,24.80,11.02,31,35.333176,-117.803076,1.23,8,9.91,0.03,Ascent,Ascent,77
+    - Checksum mismatch
+[2026-06-05T10:24:58Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.288, "frequency_hz": 2.584, "last_packet_time": "2026-06-05T10:24:57Z", "link_quality": 0.712, "lost_packets": 31, "rejected_packets": 36, "total_packets": 89}
+[2026-06-05T10:24:58Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.286, "frequency_hz": 2.529, "last_packet_time": "2026-06-05T10:24:58Z", "link_quality": 0.714, "lost_packets": 34, "rejected_packets": 36, "total_packets": 90}
+[2026-06-05T10:24:59Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.283, "frequency_hz": 2.536, "last_packet_time": "2026-06-05T10:24:59Z", "link_quality": 0.717, "lost_packets": 34, "rejected_packets": 36, "total_packets": 91}
+[2026-06-05T10:24:59Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.281, "frequency_hz": 2.543, "last_packet_time": "2026-06-05T10:24:59Z", "link_quality": 0.719, "lost_packets": 34, "rejected_packets": 36, "total_packets": 92}
+[2026-06-05T10:24:59Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.279, "frequency_hz": 2.569, "last_packet_time": "2026-06-05T10:24:59Z", "link_quality": 0.721, "lost_packets": 34, "rejected_packets": 36, "total_packets": 93}
+[2026-06-05T10:24:59Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.277, "frequency_hz": 2.576, "last_packet_time": "2026-06-05T10:24:59Z", "link_quality": 0.723, "lost_packets": 34, "rejected_packets": 36, "total_packets": 94}
+[2026-06-05T10:25:00Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.275, "frequency_hz": 2.583, "last_packet_time": "2026-06-05T10:25:00Z", "link_quality": 0.725, "lost_packets": 34, "rejected_packets": 36, "total_packets": 95}
+[2026-06-05T10:25:00Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.273, "frequency_hz": 2.59, "last_packet_time": "2026-06-05T10:25:00Z", "link_quality": 0.727, "lost_packets": 34, "rejected_packets": 36, "total_packets": 96}
+[2026-06-05T10:25:00Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.271, "frequency_hz": 2.596, "last_packet_time": "2026-06-05T10:25:00Z", "link_quality": 0.729, "lost_packets": 34, "rejected_packets": 36, "total_packets": 97}
+[2026-06-05T10:25:01Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.269, "frequency_hz": 2.603, "last_packet_time": "2026-06-05T10:25:01Z", "link_quality": 0.731, "lost_packets": 34, "rejected_packets": 36, "total_packets": 98}
+[2026-06-05T10:25:01Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.267, "frequency_hz": 2.61, "last_packet_time": "2026-06-05T10:25:01Z", "link_quality": 0.733, "lost_packets": 34, "rejected_packets": 36, "total_packets": 99}
+[2026-06-05T10:25:01Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.265, "frequency_hz": 2.617, "last_packet_time": "2026-06-05T10:25:01Z", "link_quality": 0.735, "lost_packets": 34, "rejected_packets": 36, "total_packets": 100}
+[2026-06-05T10:25:01Z] CORRUPTED PACKET: 1,TELEMETRY,138,34.50,ASCENT,ASCENT,4.20,1.00I-0.05,1,0,0,0,101324.50,24.80,10.96,34,35.333188,-117.803088,4.20,8,9.73,0.02,Ascent,Ascent,75
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:25:01Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.27, "frequency_hz": 2.617, "last_packet_time": "2026-06-05T10:25:01Z", "link_quality": 0.73, "lost_packets": 34, "rejected_packets": 37, "total_packets": 100}
+[2026-06-05T10:25:01Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.268, "frequency_hz": 2.62, "last_packet_time": "2026-06-05T10:25:01Z", "link_quality": 0.732, "lost_packets": 35, "rejected_packets": 37, "total_packets": 101}
+[2026-06-05T10:25:02Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.266, "frequency_hz": 2.627, "last_packet_time": "2026-06-05T10:25:02Z", "link_quality": 0.734, "lost_packets": 35, "rejected_packets": 37, "total_packets": 102}
+[2026-06-05T10:25:02Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.264, "frequency_hz": 2.634, "last_packet_time": "2026-06-05T10:25:02Z", "link_quality": 0.736, "lost_packets": 35, "rejected_packets": 37, "total_packets": 103}
+[2026-06-05T10:25:02Z] CORRUPTED PACKET: 1,TELEiETRY,142,35.50,ASCENT,ASCENT,5.18,1.00,-0.05,1,0,0,0,101324.38,24.79,10.94,35,35.333192,-117.803092,5.18,8,9.84,0.01,Ascent,Ascent,71
+    - Unexpected field count: 26 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:25:02Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.27, "frequency_hz": 2.634, "last_packet_time": "2026-06-05T10:25:02Z", "link_quality": 0.73, "lost_packets": 35, "rejected_packets": 38, "total_packets": 103}
+[2026-06-05T10:25:03Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.268, "frequency_hz": 2.622, "last_packet_time": "2026-06-05T10:25:03Z", "link_quality": 0.732, "lost_packets": 36, "rejected_packets": 38, "total_packets": 104}
+[2026-06-05T10:25:03Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.266, "frequency_hz": 2.628, "last_packet_time": "2026-06-05T10:25:03Z", "link_quality": 0.734, "lost_packets": 36, "rejected_packets": 38, "total_packets": 105}
+[2026-06-05T10:25:03Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.264, "frequency_hz": 2.634, "last_packet_time": "2026-06-05T10:25:03Z", "link_quality": 0.736, "lost_packets": 36, "rejected_packets": 38, "total_packets": 106}
+[2026-06-05T10:25:03Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.262, "frequency_hz": 2.64, "last_packet_time": "2026-06-05T10:25:03Z", "link_quality": 0.738, "lost_packets": 36, "rejected_packets": 38, "total_packets": 107}
+[2026-06-05T10:25:03Z] CORRUPTED PACKET: !!!CORRUPTED_PAYLOAD!!!
+    - Unexpected field count: 1 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:25:03Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.267, "frequency_hz": 2.64, "last_packet_time": "2026-06-05T10:25:03Z", "link_quality": 0.733, "lost_packets": 36, "rejected_packets": 39, "total_packets": 107}
+[2026-06-05T10:25:04Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.265, "frequency_hz": 2.644, "last_packet_time": "2026-06-05T10:25:04Z", "link_quality": 0.735, "lost_packets": 37, "rejected_packets": 39, "total_packets": 108}
+[2026-06-05T10:25:04Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.264, "frequency_hz": 2.649, "last_packet_time": "2026-06-05T10:25:04Z", "link_quality": 0.736, "lost_packets": 37, "rejected_packets": 39, "total_packets": 109}
+[2026-06-05T10:25:04Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.262, "frequency_hz": 2.655, "last_packet_time": "2026-06-05T10:25:04Z", "link_quality": 0.738, "lost_packets": 37, "rejected_packets": 39, "total_packets": 110}
+[2026-06-05T10:25:05Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.26, "frequency_hz": 2.661, "last_packet_time": "2026-06-05T10:25:05Z", "link_quality": 0.74, "lost_packets": 37, "rejected_packets": 39, "total_packets": 111}
+[2026-06-05T10:25:05Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.258, "frequency_hz": 2.666, "last_packet_time": "2026-06-05T10:25:05Z", "link_quality": 0.742, "lost_packets": 37, "rejected_packets": 39, "total_packets": 112}
+[2026-06-05T10:25:05Z] CORRUPTED PACKET: 1,TELEMETRY,153,38.25,ASCENT4ASCENT,7.90,1.00,-0.05,1,0,0,0,101324.05,24.79,10.88,38,35.333203,-117.803103,7.90,8,9.84,0.03,Ascent,Ascent,70
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:25:05Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.263, "frequency_hz": 2.666, "last_packet_time": "2026-06-05T10:25:05Z", "link_quality": 0.737, "lost_packets": 37, "rejected_packets": 40, "total_packets": 112}
+[2026-06-05T10:25:05Z] METRICS: {"checksum_failures": 12, "corruption_rate": 0.261, "frequency_hz": 2.654, "last_packet_time": "2026-06-05T10:25:05Z", "link_quality": 0.739, "lost_packets": 38, "rejected_packets": 40, "total_packets": 113}
+[2026-06-05T10:25:06Z] CORRUPTED PACKET: 1,TELEMETRY,155,38.75,ASCENT,ASCENT,8.39,1.00,-0.05,1,0,0,0,101323.99,24.79,10.88,38,35.333205,-117.803105,8.39,8,9.72,0.01,Ascent,AsHent,76
+    - Checksum mismatch
+[2026-06-05T10:25:06Z] METRICS: {"checksum_failures": 13, "corruption_rate": 0.266, "frequency_hz": 2.654, "last_packet_time": "2026-06-05T10:25:05Z", "link_quality": 0.734, "lost_packets": 38, "rejected_packets": 41, "total_packets": 113}
+[2026-06-05T10:25:06Z] CORRUPTED PACKET: 1,TELEMETRY,156,39.00,ASCENT,ASCENT,8.64,1.00,-0.05,1,0,0,0,101323.96,24.79,10.87,39,35.333206,-117.803106,8.64,8,9.90,0.03,Ascent,Ascent,196
+    - Checksum mismatch
+[2026-06-05T10:25:06Z] METRICS: {"checksum_failures": 14, "corruption_rate": 0.271, "frequency_hz": 2.654, "last_packet_time": "2026-06-05T10:25:05Z", "link_quality": 0.729, "lost_packets": 38, "rejected_packets": 42, "total_packets": 113}
+[2026-06-05T10:25:06Z] CORRUPTED PACKET: 1,TELEMETRY,157,39.25,ASCENT,ASCENT,8.89,1.00,-0.05,1,0,0,0,101323.93,24.79,10.87,39,35.333207,-117.8/3107,8.89,8,9.83,0.03,Ascent,Ascent,66
+    - Checksum mismatch
+[2026-06-05T10:25:06Z] METRICS: {"checksum_failures": 15, "corruption_rate": 0.276, "frequency_hz": 2.654, "last_packet_time": "2026-06-05T10:25:05Z", "link_quality": 0.724, "lost_packets": 38, "rejected_packets": 43, "total_packets": 113}
+[2026-06-05T10:25:06Z] METRICS: {"checksum_failures": 15, "corruption_rate": 0.274, "frequency_hz": 2.623, "last_packet_time": "2026-06-05T10:25:06Z", "link_quality": 0.726, "lost_packets": 41, "rejected_packets": 43, "total_packets": 114}
+[2026-06-05T10:25:07Z] METRICS: {"checksum_failures": 15, "corruption_rate": 0.272, "frequency_hz": 2.629, "last_packet_time": "2026-06-05T10:25:07Z", "link_quality": 0.728, "lost_packets": 41, "rejected_packets": 43, "total_packets": 115}
+[2026-06-05T10:25:07Z] METRICS: {"checksum_failures": 15, "corruption_rate": 0.27, "frequency_hz": 2.634, "last_packet_time": "2026-06-05T10:25:07Z", "link_quality": 0.73, "lost_packets": 41, "rejected_packets": 43, "total_packets": 116}
+[2026-06-05T10:25:07Z] METRICS: {"checksum_failures": 15, "corruption_rate": 0.269, "frequency_hz": 2.639, "last_packet_time": "2026-06-05T10:25:07Z", "link_quality": 0.731, "lost_packets": 41, "rejected_packets": 43, "total_packets": 117}
+[2026-06-05T10:25:08Z] METRICS: {"checksum_failures": 15, "corruption_rate": 0.267, "frequency_hz": 2.645, "last_packet_time": "2026-06-05T10:25:08Z", "link_quality": 0.733, "lost_packets": 41, "rejected_packets": 43, "total_packets": 118}
+[2026-06-05T10:25:08Z] CORRUPTED PACKET: 1,TELEMETRY,163,40.75,ASCENT,ASCENT,10.37,1.00,-0.05,1,0,0,0,101323.76,24.79,10.84,40,35.333213,-117.803113,10.37,8,9.88,0.02,Ascent,Ascent,58
+    - Checksum mismatch
+[2026-06-05T10:25:08Z] METRICS: {"checksum_failures": 16, "corruption_rate": 0.272, "frequency_hz": 2.645, "last_packet_time": "2026-06-05T10:25:08Z", "link_quality": 0.728, "lost_packets": 41, "rejected_packets": 44, "total_packets": 118}
+[2026-06-05T10:25:08Z] METRICS: {"checksum_failures": 16, "corruption_rate": 0.27, "frequency_hz": 2.648, "last_packet_time": "2026-06-05T10:25:08Z", "link_quality": 0.73, "lost_packets": 42, "rejected_packets": 44, "total_packets": 119}
+[2026-06-05T10:25:08Z] CORRUPTED PACKET: 1,TELEMETRY,165,ASCENT,ASCENT,10.86,1.00,-0.05,1,0,0,0,101323.70,24.79,10.83,41,35.333215,-117.803115,10.86,8,9.78,0.03,Ascent,Ascent,78
+    - Unexpected field count: 25 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:25:08Z] METRICS: {"checksum_failures": 16, "corruption_rate": 0.274, "frequency_hz": 2.648, "last_packet_time": "2026-06-05T10:25:08Z", "link_quality": 0.726, "lost_packets": 42, "rejected_packets": 45, "total_packets": 119}
+[2026-06-05T10:25:08Z] METRICS: {"checksum_failures": 16, "corruption_rate": 0.273, "frequency_hz": 2.637, "last_packet_time": "2026-06-05T10:25:08Z", "link_quality": 0.727, "lost_packets": 43, "rejected_packets": 45, "total_packets": 120}
+[2026-06-05T10:25:09Z] CORRUPTED PACKET: !!!CORRUPTED_PAYLOAD!!!
+    - Unexpected field count: 1 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:25:09Z] METRICS: {"checksum_failures": 16, "corruption_rate": 0.277, "frequency_hz": 2.637, "last_packet_time": "2026-06-05T10:25:08Z", "link_quality": 0.723, "lost_packets": 43, "rejected_packets": 46, "total_packets": 120}
+[2026-06-05T10:25:09Z] CORRUPTED PACKET: 1,TELEMETRY,168,42.00,ASCENT,ASCENT,11.60,1.00,-0.05,1,0,0,0,101323.61,24.79,10.81,42,35.333218,-117.803118,11.60,8,9.80,0.02,Ascent,Ascent,99
+    - Checksum mismatch
+[2026-06-05T10:25:09Z] METRICS: {"checksum_failures": 17, "corruption_rate": 0.281, "frequency_hz": 2.637, "last_packet_time": "2026-06-05T10:25:08Z", "link_quality": 0.719, "lost_packets": 43, "rejected_packets": 47, "total_packets": 120}
+[2026-06-05T10:25:09Z] METRICS: {"checksum_failures": 17, "corruption_rate": 0.28, "frequency_hz": 2.611, "last_packet_time": "2026-06-05T10:25:09Z", "link_quality": 0.72, "lost_packets": 45, "rejected_packets": 47, "total_packets": 121}
+[2026-06-05T10:25:10Z] METRICS: {"checksum_failures": 17, "corruption_rate": 0.278, "frequency_hz": 2.617, "last_packet_time": "2026-06-05T10:25:10Z", "link_quality": 0.722, "lost_packets": 45, "rejected_packets": 47, "total_packets": 122}
+[2026-06-05T10:25:10Z] METRICS: {"checksum_failures": 17, "corruption_rate": 0.276, "frequency_hz": 2.622, "last_packet_time": "2026-06-05T10:25:10Z", "link_quality": 0.724, "lost_packets": 45, "rejected_packets": 47, "total_packets": 123}
+[2026-06-05T10:25:10Z] CORRUPTED PACKET: !!!CORRUPTED_PAYLOAD!!!
+    - Unexpected field count: 1 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:25:10Z] METRICS: {"checksum_failures": 17, "corruption_rate": 0.281, "frequency_hz": 2.622, "last_packet_time": "2026-06-05T10:25:10Z", "link_quality": 0.719, "lost_packets": 45, "rejected_packets": 48, "total_packets": 123}
+[2026-06-05T10:25:10Z] CORRUPTED PACKET: 1,TELEMETRY,173,43.25,ASCENT,ASCENT,12.84,1.00,-0.05,0,0,0,0,101323.46,24.79,10.79,43,35.333223,-117.803123,12.84,8,9.84,0.02,Ascent,Ascent,40
+    - Checksum mismatch
+[2026-06-05T10:25:10Z] METRICS: {"checksum_failures": 18, "corruption_rate": 0.285, "frequency_hz": 2.622, "last_packet_time": "2026-06-05T10:25:10Z", "link_quality": 0.715, "lost_packets": 45, "rejected_packets": 49, "total_packets": 123}
+[2026-06-05T10:25:10Z] CORRUPTED PACKET: !!!CORRUPTED_PAYLOAD!!!
+    - Unexpected field count: 1 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:25:10Z] METRICS: {"checksum_failures": 18, "corruption_rate": 0.289, "frequency_hz": 2.622, "last_packet_time": "2026-06-05T10:25:10Z", "link_quality": 0.711, "lost_packets": 45, "rejected_packets": 50, "total_packets": 123}
+[2026-06-05T10:25:11Z] METRICS: {"checksum_failures": 18, "corruption_rate": 0.287, "frequency_hz": 2.596, "last_packet_time": "2026-06-05T10:25:11Z", "link_quality": 0.713, "lost_packets": 48, "rejected_packets": 50, "total_packets": 124}
+[2026-06-05T10:25:11Z] METRICS: {"checksum_failures": 18, "corruption_rate": 0.286, "frequency_hz": 2.602, "last_packet_time": "2026-06-05T10:25:11Z", "link_quality": 0.714, "lost_packets": 48, "rejected_packets": 50, "total_packets": 125}
+[2026-06-05T10:25:11Z] METRICS: {"checksum_failures": 18, "corruption_rate": 0.284, "frequency_hz": 2.607, "last_packet_time": "2026-06-05T10:25:11Z", "link_quality": 0.716, "lost_packets": 48, "rejected_packets": 50, "total_packets": 126}
+[2026-06-05T10:25:12Z] METRICS: {"checksum_failures": 18, "corruption_rate": 0.282, "frequency_hz": 2.612, "last_packet_time": "2026-06-05T10:25:12Z", "link_quality": 0.718, "lost_packets": 48, "rejected_packets": 50, "total_packets": 127}
+[2026-06-05T10:25:12Z] METRICS: {"checksum_failures": 18, "corruption_rate": 0.281, "frequency_hz": 2.618, "last_packet_time": "2026-06-05T10:25:12Z", "link_quality": 0.719, "lost_packets": 48, "rejected_packets": 50, "total_packets": 128}
+[2026-06-05T10:25:12Z] METRICS: {"checksum_failures": 18, "corruption_rate": 0.279, "frequency_hz": 2.623, "last_packet_time": "2026-06-05T10:25:12Z", "link_quality": 0.721, "lost_packets": 48, "rejected_packets": 50, "total_packets": 129}
+[2026-06-05T10:25:12Z] METRICS: {"checksum_failures": 18, "corruption_rate": 0.278, "frequency_hz": 2.628, "last_packet_time": "2026-06-05T10:25:12Z", "link_quality": 0.722, "lost_packets": 48, "rejected_packets": 50, "total_packets": 130}
+[2026-06-05T10:25:13Z] METRICS: {"checksum_failures": 18, "corruption_rate": 0.276, "frequency_hz": 2.633, "last_packet_time": "2026-06-05T10:25:13Z", "link_quality": 0.724, "lost_packets": 48, "rejected_packets": 50, "total_packets": 131}
+[2026-06-05T10:25:13Z] CORRUPTED PACKET: 1,TELEMETRY,183,45.75,ASCENT,ASCENT,15.31,1.00,-0.05,0,0,0,0,101323.16,24.78,10.73,45,35.333233,-117.803133,15.31,8,9.83,0.02,Ascent,Ascent,36
+    - Checksum mismatch
+[2026-06-05T10:25:13Z] METRICS: {"checksum_failures": 19, "corruption_rate": 0.28, "frequency_hz": 2.633, "last_packet_time": "2026-06-05T10:25:13Z", "link_quality": 0.72, "lost_packets": 48, "rejected_packets": 51, "total_packets": 131}
+[2026-06-05T10:25:13Z] METRICS: {"checksum_failures": 19, "corruption_rate": 0.279, "frequency_hz": 2.636, "last_packet_time": "2026-06-05T10:25:13Z", "link_quality": 0.721, "lost_packets": 49, "rejected_packets": 51, "total_packets": 132}
+[2026-06-05T10:25:13Z] CORRUPTED PACKET: 1,TELEMETRY,185,46.25,ASCENT,ASCENT,15.80,1.00,-0.05,0,0,0,0,101323.10,24.78,10.72,46,35.333235,-117.803135,15.80,8,9.82,0.01,Ascent,Ascent,161
+    - Checksum mismatch
+[2026-06-05T10:25:13Z] METRICS: {"checksum_failures": 20, "corruption_rate": 0.283, "frequency_hz": 2.636, "last_packet_time": "2026-06-05T10:25:13Z", "link_quality": 0.717, "lost_packets": 49, "rejected_packets": 52, "total_packets": 132}
+[2026-06-05T10:25:14Z] CORRUPTED PACKET: 1,TELEMETRY,186,46.50,ASCENT,ASCENT,16.05,1.00,-0.05,0,0,0,0,101323.07,24.78,10.72,46,35.333236,-117.803136,16.05,8,9.83,0.02,Ascent,Ascent,60
+    - Checksum mismatch
+[2026-06-05T10:25:14Z] METRICS: {"checksum_failures": 21, "corruption_rate": 0.286, "frequency_hz": 2.636, "last_packet_time": "2026-06-05T10:25:13Z", "link_quality": 0.714, "lost_packets": 49, "rejected_packets": 53, "total_packets": 132}
+[2026-06-05T10:25:14Z] CORRUPTED PACKET: 1,TELEMETRY,1?7,46.75,ASCENT,ASCENT,16.29,1.00,-0.05,0,0,0,0,101323.04,24.78,10.71,46,35.333237,-117.803137,16.29,8,9.83,0.03,Ascent,Ascent,77
+    - Checksum mismatch
+[2026-06-05T10:25:14Z] METRICS: {"checksum_failures": 22, "corruption_rate": 0.29, "frequency_hz": 2.636, "last_packet_time": "2026-06-05T10:25:13Z", "link_quality": 0.71, "lost_packets": 49, "rejected_packets": 54, "total_packets": 132}
+[2026-06-05T10:25:14Z] METRICS: {"checksum_failures": 22, "corruption_rate": 0.289, "frequency_hz": 2.597, "last_packet_time": "2026-06-05T10:25:14Z", "link_quality": 0.711, "lost_packets": 52, "rejected_packets": 54, "total_packets": 133}
+[2026-06-05T10:25:14Z] METRICS: {"checksum_failures": 22, "corruption_rate": 0.287, "frequency_hz": 2.602, "last_packet_time": "2026-06-05T10:25:14Z", "link_quality": 0.713, "lost_packets": 52, "rejected_packets": 54, "total_packets": 134}
+[2026-06-05T10:25:15Z] METRICS: {"checksum_failures": 22, "corruption_rate": 0.286, "frequency_hz": 2.607, "last_packet_time": "2026-06-05T10:25:15Z", "link_quality": 0.714, "lost_packets": 52, "rejected_packets": 54, "total_packets": 135}
+[2026-06-05T10:25:15Z] CORRUPTED PACKET: 1,T7LEMETRY,191,47.75,ASCENT,ASCENT,17.28,1.00,-0.05,0,0,0,0,101322.93,24.78,10.70,47,35.333241,-117.803141,17.28,8,9.85,0.01,Ascent,Ascent,64
+    - Unexpected field count: 26 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:25:15Z] METRICS: {"checksum_failures": 22, "corruption_rate": 0.289, "frequency_hz": 2.607, "last_packet_time": "2026-06-05T10:25:15Z", "link_quality": 0.711, "lost_packets": 52, "rejected_packets": 55, "total_packets": 135}
+[2026-06-05T10:25:15Z] METRICS: {"checksum_failures": 22, "corruption_rate": 0.288, "frequency_hz": 2.598, "last_packet_time": "2026-06-05T10:25:15Z", "link_quality": 0.712, "lost_packets": 53, "rejected_packets": 55, "total_packets": 136}
+[2026-06-05T10:25:15Z] METRICS: {"checksum_failures": 22, "corruption_rate": 0.286, "frequency_hz": 2.615, "last_packet_time": "2026-06-05T10:25:15Z", "link_quality": 0.714, "lost_packets": 53, "rejected_packets": 55, "total_packets": 137}
+[2026-06-05T10:25:16Z] CORRUPTED PACKET: !!!CORRUPTED_PAYLOAD!!!
+    - Unexpected field count: 1 (expected 26 for v1 or 24 for legacy)
+[2026-06-05T10:25:16Z] METRICS: {"checksum_failures": 22, "corruption_rate": 0.29, "frequency_hz": 2.615, "last_packet_time": "2026-06-05T10:25:15Z", "link_quality": 0.71, "lost_packets": 53, "rejected_packets": 56, "total_packets": 137}
+[2026-06-05T10:25:16Z] METRICS: {"checksum_failures": 22, "corruption_rate": 0.289, "frequency_hz": 2.606, "last_packet_time": "2026-06-05T10:25:16Z", "link_quality": 0.711, "lost_packets": 54, "rejected_packets": 56, "total_packets": 138}
+[2026-06-05T10:25:16Z] METRICS: {"checksum_failures": 22, "corruption_rate": 0.287, "frequency_hz": 2.611, "last_packet_time": "2026-06-05T10:25:16Z", "link_quality": 0.713, "lost_packets": 54, "rejected_packets": 56, "total_packets": 139}
