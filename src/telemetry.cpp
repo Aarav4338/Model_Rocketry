@@ -1,7 +1,9 @@
 #include "telemetry.hpp"
 
+#ifndef ARDUINO
 #include <iostream>
 #include <fstream>
+#endif
 #include <cstdio>
 #include <cstring>
 
@@ -436,13 +438,14 @@ void sendTelemetry(RocketSystem &system)
 {
     TelemetryPacket packet = buildTelemetryPacket(system);
 
+#ifndef ARDUINO
     // POINT 3: Competition-compliant filename: Flight_<TEAM_ID>.csv
     char filename[64];
     std::snprintf(filename, sizeof(filename),
                   "Flight_%s.csv", FlightConfig::TEAM_ID);
 
     std::ios_base::openmode mode = std::ios::app;//keeps on appending the log file
-    if(packet.sequence == 0)//if first packet 
+    if(packet.sequence == 0)//if first packet
     {
         mode = std::ios::trunc; // overwrite at start of new mission
     }
@@ -464,6 +467,7 @@ void sendTelemetry(RocketSystem &system)
                "ACCELEROMETER DATA,GYRO SPIN RATE,"
                "FLIGHT SOFTWARE STATE,ANY OPTIONAL DATA\n";
     }
+#endif
 
     // Telemetry Validation Checks (Task 5.13)
     // Prevent impossible values from being encoded into the RF string.
@@ -499,14 +503,22 @@ void sendTelemetry(RocketSystem &system)
         stateName(static_cast<State>(packet.state)),
         optional_buffer);
 
+#ifndef ARDUINO
     out << buffer << "\n";
     out.close();
+#endif
 
-    // POINT 1: Also transmit the same ASCII CSV row over the LoRa radio.
-    // On desktop this is a no-op stub; on STM32 it calls HAL_UART_Transmit.
+    // POINT 1: Also transmit the same ASCII CSV row over the radio.
+    // Desktop: the SX1262/STM32 bit-banged driver sketched above (no-op,
+    // no hardware attached). ESP8266 HIL build: routed through the HAL so
+    // it goes out over the real 433MHz LoRa module via hal_esp8266.cpp.
     if(len > 0)
     {
+#ifdef ARDUINO
+        Hardware::transmitTelemetry(buffer, static_cast<uint16_t>(len));
+#else
         transmitOverLoRa(buffer, static_cast<unsigned int>(len));
+#endif
     }
 
     // Also write to onboard SD Card (Task 5.12 / IN-SPACe Guidelines)

@@ -1,11 +1,26 @@
 #include "timing.hpp"
 
+#ifdef ARDUINO
+#include <Arduino.h>
+// On the ESP8266 there is no wall clock to snapshot at boot; "now" is just
+// seconds since power-on, read from the same millis() counter every other
+// timestamp in this file uses.
+static MissionTimePoint nowSeconds()
+{
+    return static_cast<float>(millis()) / 1000.0f;
+}
+#endif
+
 // Captures the starting wall-clock references for the desktop mission loop.
 // Every subsystem then consumes time through `RocketSystem` instead of calling
 // the clock independently.
 void initializeTiming(RocketSystem &system)
 {
+#ifdef ARDUINO
+    const auto now = nowSeconds();
+#else
     const auto now = std::chrono::steady_clock::now();
+#endif
 
     system.mission_start_time = now;
     system.previous_update_time = now;
@@ -22,11 +37,30 @@ void initializeTiming(RocketSystem &system)
 void updateTiming(RocketSystem &system)
 {
     system.previous_update_time = system.current_time;
+
+#ifdef ARDUINO
+    // On real hardware, delta time must track real elapsed seconds — every
+    // debounce/timeout window in config.hpp (PRELAUNCH_DEBOUNCE_SECONDS,
+    // LAUNCH_PAD_INHIBIT_SECONDS, etc.) is meaningless unless mission time
+    // actually advances at wall-clock speed. This intentionally differs from
+    // the desktop build below, which fast-forwards physics for fast console
+    // demos and does not need to match real time.
+    system.current_time = nowSeconds();
+    system.delta_time_seconds = system.current_time - system.previous_update_time;
+
+    // Guard against a zero/negative delta on the very first tick or after a
+    // millis() rollover (~49.7 days of continuous uptime).
+    if (system.delta_time_seconds <= 0.0f || system.delta_time_seconds > 1.0f)
+    {
+        system.delta_time_seconds = 0.02f;
+    }
+#else
     system.current_time = std::chrono::steady_clock::now();
 
     // Use a fixed 50Hz time step (0.02s) to decouple physics from wall-clock CPU execution
     // This allows the simulation to run instantly without causing derivative explosions.
     system.delta_time_seconds = 0.02f;
+#endif
 
     system.mission_elapsed_seconds += system.delta_time_seconds;
 }

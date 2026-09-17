@@ -2,8 +2,28 @@
 
 #include <cstdio>
 #include <cstring>
+#ifdef ARDUINO
+#include <EEPROM.h>
+#else
 #include <fstream>
+#endif
 #include "hal.hpp"
+
+// Layout of the crash-recovery blob saved to non-volatile storage. Both the
+// desktop (nvram.bin file) and ESP8266 (emulated EEPROM flash sector) paths
+// save exactly this set of fields, in this order, so the two implementations
+// stay interchangeable.
+namespace
+{
+    struct NvramBlob
+    {
+        State current_state;
+        unsigned int telemetry_sequence;
+        float launch_reference_altitude;
+        bool payload_deployed;
+        float mission_elapsed_seconds;
+    };
+}
 
 // Converts the compact event category enum into readable log text. Keeping this
 // in the logging subsystem means other files record event intent without owning
@@ -99,37 +119,81 @@ void logEvent(RocketSystem &system,
                          line);
 }
 
+#ifdef ARDUINO
+// ESP8266 EEPROM.h emulates byte-addressable EEPROM inside a reserved flash
+// sector. EEPROM.begin(size) copies that sector into a RAM buffer; writes
+// only hit flash once EEPROM.commit() is called, so a genuine mid-flight
+// brownout can still lose the last unsaved write — same real-world caveat a
+// crash-recovery blob would have on any MCU without a battery-backed RTC RAM.
+// A magic byte at offset 0 distinguishes "never written" flash (reads as
+// 0xFF) from a real saved blob, mirroring loadSystemState()'s std::ifstream
+// "file doesn't exist" check on desktop.
+namespace
+{
+    constexpr int NVRAM_EEPROM_SIZE = sizeof(NvramBlob) + 1;
+    constexpr uint8_t NVRAM_MAGIC = 0xA5;
+}
+#endif
+
 // Simulates dumping critical volatile RAM into an EEPROM or Flash sector.
 // Used for telemetry backup and data recovery strategy after a crash.
 bool saveSystemState(const RocketSystem &system)
 {
+    NvramBlob blob;
+    blob.current_state = system.current_state;
+    blob.telemetry_sequence = system.telemetry_sequence;
+    blob.launch_reference_altitude = system.launch_reference_altitude;
+    blob.payload_deployed = system.payload_deployed;
+    blob.mission_elapsed_seconds = system.mission_elapsed_seconds;
+
+#ifdef ARDUINO
+    EEPROM.begin(NVRAM_EEPROM_SIZE);
+    EEPROM.write(0, NVRAM_MAGIC);
+    EEPROM.put(1, blob);
+    bool ok = EEPROM.commit();
+    EEPROM.end();
+    return ok;
+#else
     std::ofstream out("nvram.bin", std::ios::binary | std::ios::trunc);
     if(!out) return false;
 
-    // We save a subset of state required for safe recovery.
-    out.write(reinterpret_cast<const char*>(&system.current_state), sizeof(State));
-    out.write(reinterpret_cast<const char*>(&system.telemetry_sequence), sizeof(unsigned int));
-    out.write(reinterpret_cast<const char*>(&system.launch_reference_altitude), sizeof(float));
-    out.write(reinterpret_cast<const char*>(&system.payload_deployed), sizeof(bool));
-    out.write(reinterpret_cast<const char*>(&system.mission_elapsed_seconds), sizeof(float));
+    out.write(reinterpret_cast<const char*>(&blob), sizeof(NvramBlob));
 
     out.close();
     return true;
+#endif
 }
 
 // Loads the previously saved state from flash memory if available.
 // Used during processor boot to check if this is a cold boot or a crash recovery.
 bool loadSystemState(RocketSystem &system)
 {
+    NvramBlob blob;
+
+#ifdef ARDUINO
+    EEPROM.begin(NVRAM_EEPROM_SIZE);
+    uint8_t magic = EEPROM.read(0);
+    if (magic != NVRAM_MAGIC)
+    {
+        EEPROM.end();
+        return false; // flash sector never written — cold boot
+    }
+    EEPROM.get(1, blob);
+    EEPROM.end();
+#else
     std::ifstream in("nvram.bin", std::ios::binary);
     if(!in) return false;
 
-    in.read(reinterpret_cast<char*>(&system.current_state), sizeof(State));
-    in.read(reinterpret_cast<char*>(&system.telemetry_sequence), sizeof(unsigned int));
-    in.read(reinterpret_cast<char*>(&system.launch_reference_altitude), sizeof(float));
-    in.read(reinterpret_cast<char*>(&system.payload_deployed), sizeof(bool));
-    in.read(reinterpret_cast<char*>(&system.mission_elapsed_seconds), sizeof(float));
+    in.read(reinterpret_cast<char*>(&blob), sizeof(NvramBlob));
 
     in.close();
+#endif
+
+    system.current_state = blob.current_state;
+    system.telemetry_sequence = blob.telemetry_sequence;
+    system.launch_reference_altitude = blob.launch_reference_altitude;
+    system.payload_deployed = blob.payload_deployed;
+    system.mission_elapsed_seconds = blob.mission_elapsed_seconds;
+
     return true;
 }

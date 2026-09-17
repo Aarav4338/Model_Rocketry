@@ -33,6 +33,12 @@ namespace Hardware
     bool readGNSS(uint32_t &time, float &lat, float &lon, float &alt, uint8_t &sats);
     float readBatteryVoltage();
 
+    // --- Ambient Environment (DHT11) ---
+    // Not part of flight-safety decisions — bonus environmental telemetry
+    // (payload-bay temperature/humidity) alongside the IMU/barometer data.
+    bool initAmbientSensor();
+    bool readAmbientConditions(float &humidity_pct, float &ambient_temp_c);
+
     // --- Telemetry & Radio ---
     bool initRadio();
     bool transmitTelemetry(const char* packet, uint16_t length);

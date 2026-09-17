@@ -1,6 +1,6 @@
 #include "states.hpp"
 
-#include <iostream>
+#include "mission_io.hpp"
 
 #include "config.hpp"
 #include "deployment.hpp"
@@ -35,8 +35,8 @@ void runBootState(RocketSystem &system)
     // ---------- State Entry ----------
     if (enterState(system))
     {
-        std::cout << "\n[BOOT]\n";
-        std::cout << "Initializing systems...\n";
+        MISSION_COUT << "\n[BOOT]\n";
+        MISSION_COUT << "Initializing systems...\n";
         // Start boot timer using the current mission time reference.
         system.boot_start_time = system.current_time;
         // Initialize ONCE
@@ -49,10 +49,17 @@ void runBootState(RocketSystem &system)
     }
     // ---------- Timeout Protection ----------
     const uint32_t BOOT_TIMEOUT_MS = 5000;
+#ifdef ARDUINO
+    // current_time/boot_start_time are plain float seconds on this platform
+    // (see MissionTimePoint in system.hpp) rather than chrono time points.
+    uint32_t elapsed_time = static_cast<uint32_t>(
+        (system.current_time - system.boot_start_time) * 1000.0f);
+#else
     uint32_t elapsed_time =
         std::chrono::duration_cast<std::chrono::milliseconds>(
             system.current_time - system.boot_start_time
         ).count();
+#endif
     if (elapsed_time > BOOT_TIMEOUT_MS)
     {
         raiseFault(system,
@@ -87,7 +94,7 @@ void runBootState(RocketSystem &system)
         system.Telemetry_Ready &&
         system.SD_Card_Ready)
     {
-        std::cout
+        MISSION_COUT
             << "All systems initialized.\n";
         logEvent(system,
                  "BOOT: Systems initialized",
@@ -103,14 +110,14 @@ void runTestModeState(RocketSystem &system)
 {
     if(enterState(system))
     {
-        std::cout << "\n[TEST_MODE]\n";
-        std::cout << "Running diagnostics...\n";
+        MISSION_COUT << "\n[TEST_MODE]\n";
+        MISSION_COUT << "Running diagnostics...\n";
     }
 
     if(stateElapsedSeconds(system) >=
        FlightConfig::TEST_MODE_DURATION_SECONDS)
     {
-        std::cout << "Diagnostics complete.\n";
+        MISSION_COUT << "Diagnostics complete.\n";
 
         logEvent(system,
                  "TEST_MODE: Diagnostics complete",
@@ -146,8 +153,8 @@ void runPrelaunchCheckState(RocketSystem &system)
     // ---------- State Entry ----------
     if(enterState(system))
     {
-        std::cout << "\n[PRELAUNCH_CHECK]\n";
-        std::cout << "Checking launch conditions...\n";
+        MISSION_COUT << "\n[PRELAUNCH_CHECK]\n";
+        MISSION_COUT << "Checking launch conditions...\n";
         system.prelaunch_conditions_met_seconds = 0.0f;
     }
 
@@ -194,7 +201,7 @@ void runPrelaunchCheckState(RocketSystem &system)
     if(!isStationary(system))
     {
         system.prelaunch_conditions_met_seconds = 0.0f;
-        std::cout << "[PRELAUNCH] WARNING: rocket not stationary "
+        MISSION_COUT << "[PRELAUNCH] WARNING: rocket not stationary "
                      "-- debounce reset\n";
         return;
     }
@@ -206,7 +213,7 @@ void runPrelaunchCheckState(RocketSystem &system)
     if(!isVertical(system))
     {
         system.prelaunch_conditions_met_seconds = 0.0f;
-        std::cout << "[PRELAUNCH] WARNING: tilt out of range ("
+        MISSION_COUT << "[PRELAUNCH] WARNING: tilt out of range ("
                   << system.tilt_angle_deg
                   << " deg) -- debounce reset\n";
         return;
@@ -231,7 +238,7 @@ void runPrelaunchCheckState(RocketSystem &system)
     system.prelaunch_conditions_met_seconds +=
         system.delta_time_seconds;
 
-    std::cout << "[PRELAUNCH] All checks passing ("
+    MISSION_COUT << "[PRELAUNCH] All checks passing ("
               << system.prelaunch_conditions_met_seconds
               << " / "
               << FlightConfig::PRELAUNCH_DEBOUNCE_SECONDS
@@ -246,7 +253,7 @@ void runPrelaunchCheckState(RocketSystem &system)
     {
         system.system_armed = true;
 
-        std::cout << "System armed.\n";
+        MISSION_COUT << "System armed.\n";
 
         logEvent(system,
                  "PRELAUNCH_CHECK: System armed "
@@ -296,7 +303,7 @@ void runLaunchPadState(RocketSystem &system)
     // If it does, something went badly wrong in Prelaunch_Check; abort now.
     if(enterState(system))
     {
-        std::cout << "\n[LAUNCH_PAD]\n";
+        MISSION_COUT << "\n[LAUNCH_PAD]\n";
 
         if(!system.system_armed)
         {
@@ -306,8 +313,8 @@ void runLaunchPadState(RocketSystem &system)
             return;
         }
 
-        std::cout << "Waiting for launch...\n";
-        std::cout << "[LAUNCH_PAD] Inhibit window active ("
+        MISSION_COUT << "Waiting for launch...\n";
+        MISSION_COUT << "[LAUNCH_PAD] Inhibit window active ("
                   << FlightConfig::LAUNCH_PAD_INHIBIT_SECONDS
                   << " s) -- collecting altitude baseline...\n";
 
@@ -356,7 +363,7 @@ void runLaunchPadState(RocketSystem &system)
                     static_cast<float>(
                         FlightConfig::LAUNCH_PAD_ALTITUDE_AVG_SAMPLES);
 
-                std::cout << "[LAUNCH_PAD] Altitude baseline locked: "
+                MISSION_COUT << "[LAUNCH_PAD] Altitude baseline locked: "
                           << system.launch_reference_altitude
                           << " m (avg of "
                           << FlightConfig::LAUNCH_PAD_ALTITUDE_AVG_SAMPLES
@@ -381,7 +388,7 @@ void runLaunchPadState(RocketSystem &system)
         if(system.launch_detection_seconds >=
            FlightConfig::LAUNCH_PAD_DEBOUNCE_SECONDS)
         {
-            std::cout << "Launch detected!\n";
+            MISSION_COUT << "Launch detected!\n";
 
             logEvent(system,
                      "LAUNCH DETECTED",
@@ -397,7 +404,7 @@ void runLaunchPadState(RocketSystem &system)
         // sustained, not just momentarily present.
         if(system.launch_detection_seconds > 0.0f)
         {
-            std::cout << "[LAUNCH_PAD] Launch evidence lost — "
+            MISSION_COUT << "[LAUNCH_PAD] Launch evidence lost — "
                          "debounce reset\n";
         }
 
@@ -452,7 +459,7 @@ void runAscentState(RocketSystem &system)
     // ---------- Flaw 8: Entry Log ----------
     if(enterState(system))
     {
-        std::cout << "\n[ASCENT]\n";
+        MISSION_COUT << "\n[ASCENT]\n";
 
         logEvent(system,
                  "ASCENT ENTERED",
@@ -468,7 +475,7 @@ void runAscentState(RocketSystem &system)
     // Sample once; every altitude use this tick reads from this local.
     const float altitude = readAltitude(system);
 
-    std::cout << "Altitude: " << altitude << std::endl;
+    MISSION_COUT << "Altitude: " << altitude << MISSION_ENDL;
 
     // Track the highest altitude reached during this ascent.
     // Used for the altitude floor check below.
@@ -519,7 +526,7 @@ void runAscentState(RocketSystem &system)
         if(system.apogee_debounce_seconds >=
            FlightConfig::ASCENT_APOGEE_DEBOUNCE_SECONDS)
         {
-            std::cout << "Apogee detected.\n";
+            MISSION_COUT << "Apogee detected.\n";
 
             logEvent(system,
                      "APOGEE DETECTED: velocity + descent + freefall confirmed",
@@ -535,7 +542,7 @@ void runAscentState(RocketSystem &system)
         // sustained, not just momentarily present.
         if(system.apogee_debounce_seconds > 0.0f)
         {
-            std::cout << "[ASCENT] Apogee candidate lost -- debounce reset\n";
+            MISSION_COUT << "[ASCENT] Apogee candidate lost -- debounce reset\n";
         }
 
         system.apogee_debounce_seconds = 0.0f;
@@ -551,8 +558,8 @@ void runApogeeConfirmState(RocketSystem &system)
 {
     if(enterState(system))
     {
-        std::cout << "\n[APOGEE_CONFIRM]\n";
-        std::cout << "Confirming apogee...\n";
+        MISSION_COUT << "\n[APOGEE_CONFIRM]\n";
+        MISSION_COUT << "Confirming apogee...\n";
         system.apogee_climb_debounce_seconds = 0.0f;
     }
 
@@ -562,7 +569,7 @@ void runApogeeConfirmState(RocketSystem &system)
         system.apogee_climb_debounce_seconds += system.delta_time_seconds;
         if(system.apogee_climb_debounce_seconds >= FlightConfig::APOGEE_CONFIRM_CLIMB_DEBOUNCE_SECONDS)
         {
-            std::cout << "Apogee rejected; climb resumed.\n";
+            MISSION_COUT << "Apogee rejected; climb resumed.\n";
             logEvent(system, "APOGEE REJECTED: climb resumed", Event_Flight);
             system.current_state = Ascent;
             return;
@@ -576,7 +583,7 @@ void runApogeeConfirmState(RocketSystem &system)
     // Flaw 3: Backup deployment trigger if falling too fast
     if(system.vertical_velocity < FlightConfig::APOGEE_CONFIRM_EMERGENCY_DESCENT_VELOCITY_MPS)
     {
-        std::cout << "EMERGENCY: Falling too fast without deployment!\n";
+        MISSION_COUT << "EMERGENCY: Falling too fast without deployment!\n";
         logEvent(system, "EMERGENCY: Descent velocity exceeded threshold", Event_Fault);
         
         // Flaw 4: Deployment authorization safety
@@ -612,8 +619,8 @@ void runPayloadSeparationState(RocketSystem &system)
 {
     if(enterState(system))
     {
-        std::cout << "\n[PAYLOAD_SEPARATION]\n";
-        std::cout << "Deploying payload...\n";
+        MISSION_COUT << "\n[PAYLOAD_SEPARATION]\n";
+        MISSION_COUT << "Deploying payload...\n";
         
         system.deployment_attempts = 0;
         system.last_deployment_attempt_time = 0.0f;
@@ -632,7 +639,7 @@ void runPayloadSeparationState(RocketSystem &system)
         if (system.deployment_attempts == 0 || 
             (stateElapsedSeconds(system) - system.last_deployment_attempt_time >= FlightConfig::DEPLOYMENT_RETRY_INTERVAL_SECONDS))
         {
-            std::cout << "Attempting payload deployment (Try " << (system.deployment_attempts + 1) << ")...\n";
+            MISSION_COUT << "Attempting payload deployment (Try " << (system.deployment_attempts + 1) << ")...\n";
             triggerPayloadDeployment(system);
             system.last_deployment_attempt_time = stateElapsedSeconds(system);
             system.deployment_attempts++;
@@ -642,7 +649,7 @@ void runPayloadSeparationState(RocketSystem &system)
     // Flaw 1: Deployment verification
     if (isPayloadReleased(system))
     {
-        std::cout << "Payload deployment verified.\n";
+        MISSION_COUT << "Payload deployment verified.\n";
         system.current_state = Descent;
         return;
     }
@@ -651,7 +658,7 @@ void runPayloadSeparationState(RocketSystem &system)
     if(stateElapsedSeconds(system) >= FlightConfig::DEPLOYMENT_TIMEOUT_SECONDS)
     {
         raiseCriticalFault(system, "PAYLOAD_SEPARATION: Deployment confirmation timed out!");
-        std::cout << "Deployment timeout! Proceeding to descent anyway.\n";
+        MISSION_COUT << "Deployment timeout! Proceeding to descent anyway.\n";
         // If we exhausted retries and it timed out, assume the worst and try to log descent anyway
         system.current_state = Descent;
     }
@@ -664,22 +671,22 @@ void runDescentState(RocketSystem &system)
 {
     if(enterState(system))
     {
-        std::cout << "\n[DESCENT]\n";
+        MISSION_COUT << "\n[DESCENT]\n";
 
         logEvent(system,
                  "DESCENT CONFIRMED",
                  Event_Flight);
     }
 
-    std::cout << "Altitude: "
+    MISSION_COUT << "Altitude: "
               << readAltitude(system)
-              << std::endl;
+              << MISSION_ENDL;
 
     // Flaw 3: Descent anomaly detection
     if(!system.ballistic_descent_warning_issued && system.vertical_velocity < FlightConfig::DESCENT_BALLISTIC_WARNING_VELOCITY_MPS)
     {
         logEvent(system, "WARNING: Abnormal descent rate (ballistic)", Event_Fault);
-        std::cout << "WARNING: Ballistic descent detected!\n";
+        MISSION_COUT << "WARNING: Ballistic descent detected!\n";
         system.ballistic_descent_warning_issued = true;
     }
 
@@ -692,7 +699,7 @@ void runDescentState(RocketSystem &system)
                  
         // Flaw 4: GPS recovery logging
         updateGPSReadings(system);
-        std::cout << "Landing Coordinates: " << system.gps_latitude << ", " << system.gps_longitude << "\n";
+        MISSION_COUT << "Landing Coordinates: " << system.gps_latitude << ", " << system.gps_longitude << "\n";
 
         system.current_state =
             Landed;
@@ -705,11 +712,11 @@ void runLandedState(RocketSystem &system)
 {
     if(enterState(system))
     {
-        std::cout << "\n[LANDED]\n";
-        std::cout << "Rocket landed safely.\n";
+        MISSION_COUT << "\n[LANDED]\n";
+        MISSION_COUT << "Rocket landed safely.\n";
         
         // Flaw 3: Safe-state verification
-        std::cout << "Safing pyros and deployment mechanisms...\n";
+        MISSION_COUT << "Safing pyros and deployment mechanisms...\n";
 
         powerDownLandedSystems(system);
     }
@@ -733,12 +740,12 @@ void runBeaconState(RocketSystem &system)
 {
     if(enterState(system))
     {
-        std::cout << "\n[BEACON]\n";
-        std::cout << "Beacon active.\n";
+        MISSION_COUT << "\n[BEACON]\n";
+        MISSION_COUT << "Beacon active.\n";
         
-        std::cout << "\n=== MISSION LOG ===\n";
-        std::cout << "(Mission log has been saved to SD Card)\n";
-        std::cout << "Mission Complete.\n";
+        MISSION_COUT << "\n=== MISSION LOG ===\n";
+        MISSION_COUT << "(Mission log has been saved to SD Card)\n";
+        MISSION_COUT << "Mission Complete.\n";
         system.mission_complete = true;
 
         enableRecoveryBeacon(system);
@@ -749,7 +756,7 @@ void runBeaconState(RocketSystem &system)
     // Flaw 2: Adaptive beacon power (fake logic based on time)
     if(stateElapsedSeconds(system) > 600.0f && system.beacon_power_mode == 0) // 10 minutes
     {
-        std::cout << "[BEACON] Entering low power mode.\n";
+        MISSION_COUT << "[BEACON] Entering low power mode.\n";
         system.beacon_power_mode = 1;
     }
 

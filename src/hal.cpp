@@ -75,6 +75,18 @@ namespace Hardware
         return 7.4f; // Simulated 2S LiPo
     }
 
+    // --- Ambient Environment (DHT11) ---
+    bool initAmbientSensor() {
+        // No DHT11 on the desktop build.
+        return false;
+    }
+
+    bool readAmbientConditions(float &humidity_pct, float &ambient_temp_c) {
+        humidity_pct = 45.0f;
+        ambient_temp_c = 25.0f;
+        return false;
+    }
+
     // --- Telemetry & Radio ---
     bool initRadio() {
         // TODO: STM32 HAL_UART_Init() for LoRa / XBEE

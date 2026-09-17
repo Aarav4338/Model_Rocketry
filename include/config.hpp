@@ -2,6 +2,36 @@
 
 namespace FlightConfig
 {
+#ifdef ARDUINO
+// Hardware-in-the-loop switch for the ESP8266 bench build ONLY. Desktop
+// builds are unaffected by this flag (they always use updateSimulation()
+// via main.cpp's runSimulation(), regardless of this constant).
+//
+//   true  -> the FSM runs on a fabricated flight (same physics model as the
+//            desktop sim, see src/simulation.cpp) while every other
+//            subsystem (radio TX, servo actuation, watchdog, EEPROM
+//            crash-recovery) runs for real on the ESP8266. This is the mode
+//            for bench-testing firmware/electronics with the sensors sitting
+//            still on the desk -- see firmware/esp8266_hil/src/main.cpp.
+//   false -> the FSM reads real IMU/barometer/GNSS/battery hardware via
+//            src/real_sensors.cpp. Only flip this once you intend to
+//            actually fly (or physically excite the sensors on a bench).
+constexpr bool HIL_MODE = true;
+
+// Which desktop-style scenario to run in HIL mode. There is no command line
+// on a microcontroller, so this is chosen at compile time instead — edit
+// this and reflash to try a different one. Values match SimulationScenario
+// in simulation.hpp: 0=success, 1=motor failure, 2=sensor failure,
+// 3=parachute failure, 4=MCU reset test.
+constexpr int HIL_SCENARIO = 0;
+
+// Battery ADC divider ratio: real_voltage = adc_reading_volts * this ratio.
+// PLACEHOLDER — calibrate against a multimeter reading of your actual pack
+// before trusting readBatteryVoltage(); see hil_pins.hpp for the A0 caveat.
+constexpr float HIL_BATTERY_DIVIDER_RATIO = 4.2f; // guess for a ~3.3V ADC
+                                                    // range reading a 2S LiPo
+#endif
+
 // Competition Specifics
 constexpr char TEAM_ID[] = "2026 IN-SPACe-PVC";
 

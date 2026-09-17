@@ -1,10 +1,24 @@
 #pragma once
 
+#ifndef ARDUINO
 #include <chrono>
+#endif
 #include <cstddef>
 #include <cstdint>
 
 #include "config.hpp"
+
+// On desktop, mission timestamps are real std::chrono time points captured
+// from the wall clock. On the ESP8266 (or any ARDUINO target) there is no
+// <chrono> steady_clock; timestamps are instead plain float seconds derived
+// from millis() (see src/timing.cpp). Every other subsystem only ever reads
+// timestamps through the seconds-based helpers in timing.hpp, so this is the
+// only place the underlying type needs to change per platform.
+#ifdef ARDUINO
+using MissionTimePoint = float;
+#else
+using MissionTimePoint = std::chrono::steady_clock::time_point;
+#endif
 
 enum State
 {
@@ -186,9 +200,9 @@ struct RocketSystem
     MissionEvent mission_history[FlightConfig::MISSION_HISTORY_CAPACITY];
     std::size_t mission_event_count;
 
-    std::chrono::steady_clock::time_point mission_start_time;
-    std::chrono::steady_clock::time_point previous_update_time;
-    std::chrono::steady_clock::time_point current_time;
-    std::chrono::steady_clock::time_point state_entry_time;
-    std::chrono::steady_clock::time_point boot_start_time;
+    MissionTimePoint mission_start_time;
+    MissionTimePoint previous_update_time;
+    MissionTimePoint current_time;
+    MissionTimePoint state_entry_time;
+    MissionTimePoint boot_start_time;
 };
